@@ -1,0 +1,55 @@
+﻿@model ImouRentACar.Models.Contact
+
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h2>
+        IMOU CONTACT DETAILS
+    </h2>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                <b>Address</b>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+        </div>
+        <div class="col-md-2">
+            <dt>
+                <b>Number 1 </b>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MobileNumberOne)
+            </dd>
+        </div>
+        <div class="col-md-2">
+            <dt>
+                <b>Number 2 </b>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MobileNumberTwo)
+            </dd>
+        </div>
+        <div class="col-md-2">
+            <dt>
+                <b>P.O.Box </b>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.BoxOfficeNumber)
+            </dd>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ImouRentACar.Models.Car>
+@{
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+
+<div class="allcontain">
+    <div class="latestcars">
+        <h1 style="font-family:'OpenSans-Light'; font-size: 41px; 
+            letter-spacing: 10px; padding-top: 6px; 
+            padding-bottom: 7px;
+            color: #020243;" class="text-center">&bullet; ALL THE CARS &bullet;</h1>
+        <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
+            <li role="presentation" class="li-sortby"><span class="sortby">SORT BY: </span></li>
+
+            <li id="hideonmobile">
+        </ul>
+    </div>
+    <div class="grid" style="padding-top: 20px;">
+        <div class="row" id="car-list">
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    var loadBrand = function () {
+        $.ajax({
+            url: '/Car/CarBrand',
+            async: true,
+            method: 'GET',
+            data: {},
+            success: function (data) {
+                var data = data.brands;
+                for (var i = 0; i < data.length; i++) {
+                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' class='alphSort' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR'>" + data[i]['name'] + "</a></li>");
+                    if (i == data.length - 1) {
+                        loadCars(data[0]['carBrandId']);
+                    }
+                }
+            }
+        });
+    };
+
+    var loadCars = function (id) {
+        $.ajax({
+            url: '/Car/GetCarByBrand',
+            async: true,
+            method: 'GET',
+            data: { brand: id },
+            success: function (data) {
+                var data = data.cars;
+                $('#car-list').empty();
+                for (var i = 0; i < data.length; i++) {
+                    $('#car-list').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="txthover">' +
+                        '<img src="/UploadedFiles/Cars/' + data[i]['image'] + '" alt="' + data[i]['name'] + '">' +
+                        '<div class="txtcontent">' +
+                        '<div class="stars">' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '</div>' +
+                        '<div class="simpletxt">' +
+                        '<h3 class="name">' + data[i]['name'] + '</h3><br />' +
+                        '<h3><b style="color: gray; font-size: 13px;">Car Speed:</b>' + data[i]['speed'] + '(km/h)</h3><br />' +
+                        '<h3><b style="color: gray; font-size: 13px;">Engine Type:</b>' + data[i]['engine'] + '</h3><br />' +
+                        '<h3><b style="color: gray; font-size: 13px;">Car Color:</b>' + data[i]['color'] + '</h3><br />' +
+                        '<h3><b style="color: gray; font-size: 13px;">Description:</b>' + data[i]['description'] + '</h3><br />' +
+                        '<a><h3><b style="color: gray; font-size: 13px;" asp-action="Details" asp-route-id="' + data[i]['carId'] + '">Learn More</b></h3></a><br />' +
+                        '<div class="">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="stars2">' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '<div class="glyphicon glyphicon-star"></div>' +
+                        '</div>' +
+                        ' </div>' +
+                        '</div>' +
+                        '</div>');
+                }
+            }
+        });
+    };
+
+    loadBrand();
+</script>

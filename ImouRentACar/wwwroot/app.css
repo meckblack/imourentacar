@@ -1,0 +1,112 @@
+﻿.jumbbotron {
+    padding-top: 0px;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
+}
+
+
+.latestscars > h1 {
+    font-family: "OpenSans-Light";
+    font-size: 41px;
+    letter-spacing: 10px;
+    padding-top: 6px;
+    padding-bottom: 7px;
+    color: red;
+}
+
+
+    .jumbbotron h1,
+    .jumbbotron .h1 {
+        color: inherit;
+    }
+
+    .jumbbotron p {
+        margin-bottom: 15px;
+        font-size: 21px;
+        font-weight: 200;
+    }
+
+    .jumbbotron > hr {
+        border-top-color: #d5d5d5;
+    }
+
+.container .jumbbotron,
+.container-fluid .jumbbotron {
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 6px;
+}
+
+.jumbbotron .container {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .jumbbotron {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .container .jumbbotron,
+    .container-fluid .jumbbotron {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+
+    .jumbbotron h1,
+    .jumbbotron .h1 {
+        font-size: 63px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .jumbbotron .feturedsection > h1 {
+        font-size: 15pt;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+    #note {
+        position: absolute;
+        z-index: 101;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: #fde073;
+        text-align: center;
+        line-height: 2.5;
+        overflow: hidden;
+        -webkit-box-shadow: 0 0 5px black;
+        -moz-box-shadow: 0 0 5px black;
+        box-shadow: 0 0 5px black;
+    }
+
+    @-webkit-keyframes slideDown {
+        0%, 100% {
+            -webkit-transform: translateY(-50px);
+        }
+
+        10%, 90% {
+            -webkit-transform: translateY(0px);
+        }
+    }
+
+    @-moz-keyframes slideDown {
+        0%, 100% {
+            -moz-transform: translateY(-50px);
+        }
+
+        10%, 90% {
+            -moz-transform: translateY(0px);
+        }
+    }
+
+    .cssanimations.csstransforms #note {
+        -webkit-transform: translateY(-50px);
+        -webkit-animation: slideDown 2.5s 1.0s 1 ease forwards;
+        -moz-transform: translateY(-50px);
+        -moz-animation: slideDown 2.5s 1.0s 1 ease forwards;
+    }

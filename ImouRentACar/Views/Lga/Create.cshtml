@@ -1,0 +1,55 @@
+﻿@model ImouRentACar.Models.LGA
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> ADD A LOCAL GOVERNMENT AREA </strong> </h3>
+</div>
+
+<form asp-action="Create">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="control-label col-md-2">
+                    <label>State</label>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId">
+                        <option selected>------------------------------ Select A State ----------------------------</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="control-label col-md-2">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control " />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

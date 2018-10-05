@@ -1,0 +1,25 @@
+﻿@model ImouRentACar.Models.Header
+
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-widget">
+                <div class="box-body">
+                    <img class="img-responsive pad" src="~/UploadedFiles/HeaderImage/@Html.DisplayFor(model => model.Image)" alt="Header" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</div>

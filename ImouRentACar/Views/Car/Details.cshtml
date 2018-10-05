@@ -1,0 +1,123 @@
+﻿@model ImouRentACar.Models.Car
+
+@{
+    ViewData["Title"] = "Detials";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> @Html.DisplayFor(model => model.Name) </strong> </h3>
+</div>
+
+ <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+                <dt style="text-transform:capitalize">
+                    Car @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+            </div>
+            <div class="col-md-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </div>
+            <div class="col-md-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Color)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Color)
+                </dd>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Speed)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Speed)
+                </dd>
+            </div>
+            <div class="col-md-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Engine)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Engine)
+                </dd>
+            </div>
+            <div class="col-md-4">
+                <dt>
+                    Car Brand
+                </dt>
+                <dd>
+                    @ViewData["brandname"]
+                </dd>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-3">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+                <dd>
+                    @ViewData["creatorby"]
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateCreated)
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    Modified By
+                </dt>
+                <dd>
+                    @ViewData["modifiedby"]
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    Date Modified
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateLastModified)
+                </dd>
+            </div>
+        </div>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

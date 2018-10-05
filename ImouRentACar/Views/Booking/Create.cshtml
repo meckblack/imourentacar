@@ -1,0 +1,92 @@
+﻿@*@model ImouRentACar.Models.Reservation
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Organization" class="control-label"></label>
+                <input asp-for="Organization" class="form-control" />
+                <span asp-validation-for="Organization" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PickUpDate" class="control-label"></label>
+                <input asp-for="PickUpDate" class="form-control" />
+                <span asp-validation-for="PickUpDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" class="form-control" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PickUpLocation" class="control-label"></label>
+                <input asp-for="PickUpLocation" class="form-control" />
+                <span asp-validation-for="PickUpLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnLocation" class="control-label"></label>
+                <input asp-for="ReturnLocation" class="form-control" />
+                <span asp-validation-for="ReturnLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Destination" class="control-label"></label>
+                <input asp-for="Destination" class="form-control" />
+                <span asp-validation-for="Destination" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Verification" class="control-label"></label>
+                <select asp-for="Verification" class="form-control"></select>
+                <span asp-validation-for="Verification" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarId" class="control-label"></label>
+                <select asp-for="CarId" class ="form-control" asp-items="ViewBag.CarId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceId" class="control-label"></label>
+                <select asp-for="PriceId" class ="form-control" asp-items="ViewBag.PriceId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="VerifiedBy" class="control-label"></label>
+                <input asp-for="VerifiedBy" class="form-control" />
+                <span asp-validation-for="VerifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateVerified" class="control-label"></label>
+                <input asp-for="DateVerified" class="form-control" />
+                <span asp-validation-for="DateVerified" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateSent" class="control-label"></label>
+                <input asp-for="DateSent" class="form-control" />
+                <span asp-validation-for="DateSent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

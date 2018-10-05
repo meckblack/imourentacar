@@ -1,0 +1,54 @@
+﻿<!-- Header -->
+<div class="allcontain">
+    <div class="header">
+        <ul class="socialicon">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+        </ul>
+        <ul class="givusacall">
+            <li>Give us a call : @ViewData["contactnumber"] </li>
+        </ul>
+        <ul class="logreg">
+            <li><a asp-action="signin" asp-controller="Customer">Login </a> </li>
+            <li><a asp-action="register" asp-controller="Customer"><span class="register">Register</span></a></li>
+        </ul>
+    </div>
+    <!-- Navbar Up -->
+    <nav class="topnavbar navbar-default topnav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed toggle-costume" data-toggle="collapse" data-target="#upmenu" aria-expanded="false">
+                    <span class="sr-only"> Toggle navigaion</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand logo" asp-controller="Home" asp-action="Index"><img style="height: 50px; width: 190px;"  src="~/UploadedFiles/Logo/@ViewData["imageoflogo"]" alt="logo"></a>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="upmenu" style="padding-left: 140px">
+            <ul class="nav navbar-nav" id="navbarontop">
+                <li class="active"><a asp-action="Index" asp-controller="Home">HOME</a> </li>
+                <li>
+                    <a asp-action="ViewAllCars" asp-controller="Car">CARS</a>
+                </li>
+                <li>
+                    <a asp-action="RentalForm" asp-controller="Booking">Rent A Car</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Contact">Contact Us</a>
+                </li>
+                @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DEALERS <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdowncostume">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="3">3</a></li>
+                    </ul>
+                </li>*@
+            </ul>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,118 @@
+﻿@model ImouRentACar.Models.Car
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h2>
+                <strong> Edit Car </strong>
+            </h2>
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!--MODAL BODY-->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label>Car Brand</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="CarBrandId" class="form-control" asp-items="ViewBag.CarBrands">
+                                    <option selected>-------------------- Select A Car Brand -----------------</option>
+                                </select>
+                                <span asp-validation-for="CarBrand" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label asp-for="Name"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="Name" class="form-control " />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label asp-for="Color"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="Color" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.CarColor)))"></select>
+                                <span asp-validation-for="Color" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label>Top Speed(KM/H)</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="Speed" class="form-control " />
+                                <span asp-validation-for="Speed" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label asp-for="Engine"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="Engine" class="form-control " />
+                                <span asp-validation-for="Engine" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label asp-for="Description"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Description" class="form-control "></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="control-label col-md-3">
+                                <label asp-for="Image"></label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="file" name="file" />
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--MODAL FOOTER-->
+                <div class="modal-footer">
+                    <div class="row pull-right">
+                        <div class="col-md-12">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <input type="hidden" value="blank" asp-for="Image" />
+                            <input type="hidden" asp-for="CarId" />
+                            <input type="hidden" asp-for="CarBrandId" />
+                            <a class="btn btn-danger" asp-action="Index">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

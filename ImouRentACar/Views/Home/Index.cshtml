@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+<div class="allcontain">
+    <div id="carousel-up" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner " role="listbox">
+            <div class="item active">
+                <img src="~/UploadedFiles/HeaderImage/@ViewData["imageofheader"]" alt="oldcar">
+                <div class="carousel-caption">
+                    <h2>@ViewData["headofheader"]</h2>
+                    <p>
+                        @ViewData["bodyofheader"]
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="allcontain">
+    <div class="feturedsection">
+        <h1 class="text-center"><span class="bdots">&bullet;</span>A B O U T<span class="carstxt">U S</span>&bullet;</h1>
+    </div>
+    <div class="feturedimage">
+        <div class="row firstrow">
+            <div class="col-lg-6 costumcol colborder1">
+                <div class="row costumrow">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 img1colon">
+                        <img src="~/UploadedFiles/AboutUs/@ViewData["imageofaboutus"]" alt="porsche">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 txt1colon ">
+                        <div class="featurecontant">
+                            <h1>@ViewData["headingofaboutus"]</h1>
+                            <p>
+                                @ViewData["bodyofaboutus"]
+                            </p>
+                            <button asp-controller="Reservation" asp-action="RentalForm">RENT WITH US</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 costumcol colborder2">
+                <div class="row costumrow">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 img1colon">
+                        <img src="~/UploadedFiles/AboutUs/@ViewData["imageofaboutustwo"]" alt="porsche">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 txt1colon ">
+                        <div class="featurecontant">
+                            <h1>@ViewData["headingofaboutustwo"]</h1>
+                            <p>
+                                @ViewData["bodyofaboutustwo"]
+                            </p>
+                            <button asp-controller="Reservation" asp-action="RentalForm">RENT WITH US</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="~/Views/Shared/Enquiry.cshtml" />
+<div class="footer">
+    <div class="copyright">
+        &copy; Copy right 2018 | <a href="#">Privacy </a>| <a href="#">Policy</a>
+    </div>
+    <div class="atisda">
+        Designed by <a href="http://www.webdomus.net/">meckblvck </a>
+    </div>
+</div>
+</div>
+
+
+<script src="~/Admin/bower_components/jquery/dist/jquery.js"></script>
+<script src="~/Modal/Modal.js"></script>
+
+

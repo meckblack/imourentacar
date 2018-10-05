@@ -1,0 +1,70 @@
+﻿@model ImouRentACar.Models.Price
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> EDIT CAR PRICE </strong> </h3>
+</div>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CarId" />
+    <input type="hidden" asp-for="PriceId" />
+    <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="control-label col-md-2">
+                    <label>Car</label>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId">
+                        <option selected>--- Select a car ---</option>
+                    </select>
+                    <span asp-validation-for="CarId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="control-label col-md-2">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control " />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="control-label col-md-2">
+                    <label asp-for="Amount"></label>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Amount" class="form-control " />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

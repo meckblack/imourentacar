@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
+}
+
+    <section class="content-header">
+        <h1>
+            DASHBOARD
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-maroon">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["carbrandcounter"]
+                        </h1>
+                        <p>
+                            Car Brands
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-car"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="CarBrand" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["caravaliablecounter"]
+                        </h1>
+                        <p>
+                            Avaliable Cars
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a asp-action="AvaliableCars" asp-controller="Car" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["carrentedout"]
+                        </h1>
+                        <p>
+                            Rented Cars
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a asp-action="RentedCars" asp-controller="Car" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["enquirycounter"]
+                        </h1>
+                        <p>
+                            Enquiries
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Enquiry" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["carcounter"]
+                        </h1>
+                        <p>
+                            Total Cars
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Car" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["pricecounter"]
+                        </h1>
+                        <p>
+                            Prices
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Price" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["statecounter"]
+                        </h1>
+                        <p>
+                            States
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="State" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["lgacounter"]
+                        </h1>
+                        <p>
+                            Lgas
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Lga" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>

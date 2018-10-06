@@ -2,25 +2,65 @@
 @{
     Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
 }
+<style>
+    .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
 
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+
+</style>
 
 <div class="allcontain">
     <div class="latestcars">
-        <h1 style="font-family:'OpenSans-Light'; font-size: 41px; 
-            letter-spacing: 10px; padding-top: 6px; 
+        <h1 style="font-family:'OpenSans-Light'; font-size: 41px;
+            letter-spacing: 10px; padding-top: 6px;
             padding-bottom: 7px;
-            color: #020243;" class="text-center">&bullet; ALL THE CARS &bullet;</h1>
-        <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
-            <li role="presentation" class="li-sortby"><span class="sortby">SORT BY: </span></li>
+            color: #020243;" class="text-center">
+            &bullet; SELECT A CAR &bullet;
+        </h1>
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
+                    <li role="presentation" class="li-sortby"><span class="sortby">CAR BRAND: </span></li>
 
-            <li id="hideonmobile">
-        </ul>
-    </div>
-    <div class="grid" style="padding-top: 20px;">
-        <div class="row" id="car-list">
+                    <li id="hideonmobile">
+                </ul>
+            </div>
         </div>
     </div>
 </div>
+<div style="padding-top: 20px;">
+    <div class="row" id="car-list">
+        
+
+    </div>
+</div>
+
+
 
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -53,32 +93,19 @@
                 var data = data.cars;
                 $('#car-list').empty();
                 for (var i = 0; i < data.length; i++) {
-                    $('#car-list').append('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="txthover">' +
-                        '<img src="/UploadedFiles/Cars/' + data[i]['image'] + '" alt="' + data[i]['name'] + '">' +
-                        '<div class="txtcontent">' +
-                        '<div class="stars">' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
+                    $('#car-list').append(
+                        '<div class="col-md-3" >' +
+                        '<div class="card">' +
+                        '<img src="/UploadedFiles/Cars/' + data[i]['image'] + '" alt="' + data[i]['name'] + '"style="width:100%; height:280px;">' +
+                        '<h3 class="name">' + data[i]['name'] + '</h3>' +
+                        '<h5 class="pad"><b style="color: gray; font-size: 13px;">Car Speed: </b>' + data[i]['speed'] + '(km/h)</h5>' +
+                        '<p class="pad"><b style="color: gray; font-size: 13px;">Engine Type: </b>' + data[i]['engine'] + '</p>' +
+                        '<p class="pad"><b style="color: gray; font-size: 13px;">Car Color: </b>' + data[i]['color'] + '</p>' +
+                        '<p class="pad"><b style="color: gray; font-size: 13px;">Description: </b>' + data[i]['description'] + '</p>' +
+                        '<p class="pad"><button asp-route-id="' + data[i]['carId'] + '" >Select Car</button></p>' +
                         '</div>' +
-                        '<div class="simpletxt">' +
-                        '<h3 class="name">' + data[i]['name'] + '</h3><br />' +
-                        '<h3><b style="color: gray; font-size: 13px;">Car Speed:</b>' + data[i]['speed'] + '(km/h)</h3><br />' +
-                        '<h3><b style="color: gray; font-size: 13px;">Engine Type:</b>' + data[i]['engine'] + '</h3><br />' +
-                        '<h3><b style="color: gray; font-size: 13px;">Car Color:</b>' + data[i]['color'] + '</h3><br />' +
-                        '<h3><b style="color: gray; font-size: 13px;">Description:</b>' + data[i]['description'] + '</h3><br />' +
-                        '<a><h3><b style="color: gray; font-size: 13px;" asp-action="Details" asp-route-id="' + data[i]['carId'] + '">Learn More</b></h3></a><br />' +
-                        '<div class="">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="stars2">' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
-                        '<div class="glyphicon glyphicon-star"></div>' +
-                        '</div>' +
-                        ' </div>' +
-                        '</div>' +
-                        '</div>');
+                        '</div>'
+                    );
                 }
             }
         });

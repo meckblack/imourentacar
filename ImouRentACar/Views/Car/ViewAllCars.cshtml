@@ -12,11 +12,15 @@
             color: #020243;" class="text-center">
             &bullet; ALL THE CARS &bullet;
         </h1>
-        <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
-            <li role="presentation" class="li-sortby"><span class="sortby">SORT BY: </span></li>
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
+                    <li role="presentation" class="li-sortby"><span class="sortby">CAR BRANDS: </span></li>
 
-            <li id="hideonmobile">
-        </ul>
+                    <li id="hideonmobile">
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="grid" style="padding-top: 20px;">
         <div class="row" id="car-list">
@@ -35,7 +39,7 @@
             success: function (data) {
                 var data = data.brands;
                 for (var i = 0; i < data.length; i++) {
-                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR'>" + data[i]['name'] + "</a></li>");
+                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR  text-capitalize'>" + data[i]['name'] + "</a></li>");
                     if (i === data.length - 1) {
                         loadCars(data[0]['carBrandId']);
                     }

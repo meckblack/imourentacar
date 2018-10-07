@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ImouRentACar.Models.Car>
 @using ImouRentACar.Models.Enums
+@using ImouRentACar.Data
 
 @{
     ViewData["Title"] = "Index";
@@ -75,6 +76,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        
                         <tr>
                             <td>
                                 @(x++)

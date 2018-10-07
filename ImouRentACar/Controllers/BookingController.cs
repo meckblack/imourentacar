@@ -143,6 +143,17 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region ViewPrices
+
+        public async Task<IActionResult> ViewPrices(int id)
+        {
+            var _prices = await _database.Prices.Where(p => p.CarId == id).ToListAsync();
+            ViewData["prices"] = _prices.Count();
+            return PartialView("ViewPrices", _prices);
+        }
+
+        #endregion
+
         #region Get Data
 
         public JsonResult CarBrand()

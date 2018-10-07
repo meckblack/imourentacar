@@ -4,34 +4,44 @@
 }
 <style>
     .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
-}
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
 
-.price {
-  color: grey;
-  font-size: 22px;
-}
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
 
-.card button {
-  border: none;
-  outline: 0;
-  padding: 12px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}
+    .card button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+    .buutton {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
 
-.card button:hover {
-  opacity: 0.7;
-}
-
+        .card button:hover {
+            opacity: 0.7;
+        }
 </style>
 
 <div class="allcontain">
@@ -55,7 +65,7 @@
 </div>
 <div style="padding-top: 20px;">
     <div class="row" id="car-list">
-        
+
 
     </div>
 </div>
@@ -64,6 +74,18 @@
 
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/Modal/Modal.js"></script>
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var loadBrand = function () {
         $.ajax({
@@ -97,12 +119,12 @@
                         '<div class="col-md-3" >' +
                         '<div class="card">' +
                         '<img src="/UploadedFiles/Cars/' + data[i]['image'] + '" alt="' + data[i]['name'] + '"style="width:100%; height:280px;">' +
-                        '<h3 class="name">' + data[i]['name'] + '</h3>' +
+                        '<h4 class="name">' + data[i]['name'] + '</h3>' +
                         '<h5 class="pad"><b style="color: gray; font-size: 13px;">Car Speed: </b>' + data[i]['speed'] + '(km/h)</h5>' +
                         '<p class="pad"><b style="color: gray; font-size: 13px;">Engine Type: </b>' + data[i]['engine'] + '</p>' +
                         '<p class="pad"><b style="color: gray; font-size: 13px;">Car Color: </b>' + data[i]['color'] + '</p>' +
                         '<p class="pad"><b style="color: gray; font-size: 13px;">Description: </b>' + data[i]['description'] + '</p>' +
-                        '<p class="pad"><button asp-route-id="' + data[i]['carId'] + '" >Select Car</button></p>' +
+                        '<p><a class="btn buutton" data-modal="" href="ViewPrices/' + data[i]['carId'] + '">View Prices</a></p>' +
                         '</div>' +
                         '</div>'
                     );

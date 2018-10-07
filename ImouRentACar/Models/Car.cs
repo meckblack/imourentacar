@@ -51,5 +51,11 @@ namespace ImouRentACar.Models
         public CarBrand CarBrand { get; set; }
 
         #endregion
+
+        #region Enumerables
+
+        public IEnumerable<Price> Prices { get; set; }
+
+        #endregion
     }
 }

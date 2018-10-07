@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ImouRentACar.Models.Price>
+
+<div class="modal-body">
+    @foreach (var item in Model)
+    {
+        @if (item.Name != null)
+        {
+            <h4>@item.Name is @item.Amount</h4>
+        }
+        else
+        {
+            <h4>
+                There is no price attached to this car.
+            </h4>
+        }
+    }
+</div>
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != " ")
+            {
+                <a asp-action="" asp-controller="" class="btn btn-primary">Proceed</a>
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            }
+            else
+            {
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>   
+            }
+        </div>
+    </div>
+</div>

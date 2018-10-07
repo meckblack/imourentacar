@@ -55,11 +55,6 @@ namespace ImouRentACar.Models
         public int PriceId { get; set; }
         [ForeignKey("PriceId")]
         public Price Price { get; set; }
-
-        [DisplayName("Customer")]
-        public int CustomerId { get; set; }
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
         
         #endregion
     }

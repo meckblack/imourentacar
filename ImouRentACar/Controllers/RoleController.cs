@@ -90,6 +90,9 @@ namespace ImouRentACar.Controllers
                 {
                     Name = role.Name,
                     CanDoEverything = false,
+                    CanManageCars = role.CanManageCars,
+                    CanManageCustomers = role.CanManageCustomers,
+                    CanManageLandingDetails = role.CanManageLandingDetails,
                     CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuser")),
                     DateCreated = DateTime.Now,
                     LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuser")),

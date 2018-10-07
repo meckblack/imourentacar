@@ -1,0 +1,82 @@
+﻿@model ImouRentACar.Models.Role
+
+@{
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> USER ROLE DETIALS </strong> </h3>
+</div>
+
+<div class="modal-body">
+    <div>
+        <h4>Role</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanManageCustomers)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CanManageCustomers)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanManageLandingDetails)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CanManageLandingDetails)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanManageCars)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CanManageCars)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CanDoEverything)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CanDoEverything)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateLastModified)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateLastModified)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+        </dl>
+    </div>
+</div>
+<!--MODAL FOOTER-->
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</div>

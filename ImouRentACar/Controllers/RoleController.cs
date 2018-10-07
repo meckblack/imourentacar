@@ -33,6 +33,17 @@ namespace ImouRentACar.Controllers
         // GET: Role
         public async Task<IActionResult> Index()
         {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
             return View(await _database.Roles.ToListAsync());
         }
 

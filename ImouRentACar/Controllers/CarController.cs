@@ -116,7 +116,7 @@ namespace ImouRentACar.Areas
                 }
             }
 
-            ViewBag.CarBrands = new SelectList(_database.CarBrands, "CarBrandId", "Name", car.CarBrandId);
+            //ViewBag.CarBrands = new SelectList(_database.CarBrands, "CarBrandId", "Name", car.CarBrandId);
             return View(car);
         }
 

@@ -12,64 +12,120 @@
 
 <div class="modal-body">
     <div>
-        <h4>Role</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CanManageCustomers)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CanManageCustomers)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CanManageLandingDetails)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CanManageLandingDetails)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CanManageCars)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CanManageCars)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CanDoEverything)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CanDoEverything)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CreatedBy)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CreatedBy)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.DateCreated)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.DateLastModified)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.DateLastModified)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.LastModifiedBy)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LastModifiedBy)
-            </dd>
-        </dl>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <b> Name </b>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <b> Can Do Everything </b>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CanDoEverything)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <b> Can Manage Customers </b>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CanManageCustomers)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <b>Can Mange Cars</b>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CanManageCars)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <b> Can Manage Landing Details </b>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CanManageLandingDetails)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <b>Creator</b>
+                    </div>
+                    <div class="col-md-8">
+                        @ViewData["createdby"]
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>
+            Added Information
+        </h3>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Created By </b>
+                    </div>
+                    <div class="col-md-6">
+                        @ViewData["createdby"]
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-5">
+                        <b>Date Created</b>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DisplayFor(model => model.DateCreated)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Modified By </b>
+                    </div>
+                    <div class="col-md-6">
+                        @ViewData["modifiedby"]
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-5">
+                        <b>Date Modified</b>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DisplayFor(model => model.DateLastModified)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!--MODAL FOOTER-->

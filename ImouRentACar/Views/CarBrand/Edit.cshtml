@@ -14,6 +14,8 @@
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="CarBrandId" />
+    <input type="hidden" asp-for="CreatedBy"/>
+    <input type="hidden" asp-for="DateCreated"/>
     <!--MODAL BODY-->
     <div class="modal-body">
         <div class="form-horizontal">

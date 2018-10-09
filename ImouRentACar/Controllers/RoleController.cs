@@ -66,6 +66,14 @@ namespace ImouRentACar.Controllers
                 return NotFound();
             }
 
+            var creatorid = role.CreatedBy;
+            var creator = await _database.ApplicationUsers.FindAsync(creatorid);
+            ViewData["createdby"] = creator.DisplayName;
+
+            var modifierid = role.LastModifiedBy;
+            var modifier = await _database.ApplicationUsers.FindAsync(modifierid);
+            ViewData["modifiedby"] = modifier.DisplayName;
+            
             return PartialView(role);
         }
 
@@ -74,22 +82,20 @@ namespace ImouRentACar.Controllers
         #region Create
 
         // GET: Role/Create
+        [HttpGet]
         public IActionResult Create()
         {
             var role = new Role();
             return PartialView("Create", role);
         }
 
-        // POST: Role/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleId,Name,CanDoEverything,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] Role role)
+        public async Task<IActionResult> Create(Role role)
         {
             if (ModelState.IsValid)
             {
                 var allRoles = await _database.Roles.ToListAsync();
+
                 if(allRoles.Any(r => r.Name == role.Name))
                 {
                     TempData["role"] = "You cannot add " + role.Name + " Role because it already exist!!!";
@@ -97,20 +103,13 @@ namespace ImouRentACar.Controllers
                     return View("Index");
                 }
 
-                var _role = new Role()
-                {
-                    Name = role.Name,
-                    CanDoEverything = false,
-                    CanManageCars = role.CanManageCars,
-                    CanManageCustomers = role.CanManageCustomers,
-                    CanManageLandingDetails = role.CanManageLandingDetails,
-                    CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuser")),
-                    DateCreated = DateTime.Now,
-                    LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuser")),
-                    DateLastModified = DateTime.Now,
-                };
+                role.CanDoEverything = false;
+                role.DateCreated = DateTime.Now;
+                role.DateLastModified = DateTime.Now;
+                role.CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                role.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
 
-                _database.Add(_role);
+                await _database.Roles.AddAsync(role);
                 await _database.SaveChangesAsync();
 
                 TempData["role"] = "You have successfully added " + role.Name + " Role.";
@@ -141,14 +140,10 @@ namespace ImouRentACar.Controllers
             return PartialView("Edit", role);
         }
 
-        // POST: Role/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleId,Name,CanDoEverything,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] Role role)
+        public async Task<IActionResult> Edit(int? id, Role role)
         {
-            if (id != role.RoleId)
+            if(id != role.RoleId)
             {
                 return NotFound();
             }
@@ -157,11 +152,17 @@ namespace ImouRentACar.Controllers
             {
                 try
                 {
-                    role.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuser"));
+                    role.CanDoEverything = false;
+                    role.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
                     role.DateLastModified = DateTime.Now;
 
                     _database.Update(role);
                     await _database.SaveChangesAsync();
+
+                    TempData["role"] = "You have successfully modified " + role.Name + " Role.";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -174,11 +175,8 @@ namespace ImouRentACar.Controllers
                         throw;
                     }
                 }
-                TempData["role"] = "You have successfully modified " + role.Name + " Role.";
-                TempData["notificationType"] = NotificationType.Success.ToString();
-
-                return Json(new { success = true });
             }
+
             return View(role);
         }
 
@@ -230,10 +228,12 @@ namespace ImouRentACar.Controllers
 
         private bool RoleExists(int id)
         {
-            return _database.Roles.Any(e => e.RoleId == id);
+            return _database.Roles.Any(r => r.RoleId == id);
         }
 
         #endregion
-        
+
+
+
     }
 }

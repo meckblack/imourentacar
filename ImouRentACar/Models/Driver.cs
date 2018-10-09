@@ -35,5 +35,7 @@ namespace ImouRentACar.Models
 
         public Avaliability DriverAvaliablity { get; set; }
 
+        public string DisplayName
+            => FirstName + " " + LastName;
     }
 }

@@ -34,6 +34,9 @@ namespace ImouRentACar.Models
         [Display(Name = "Confirm Password")]
         public string ConfrimPassword { get; set; }
 
+        public string DisplayName
+            => FirstName + " " + LastName;
+
         #endregion
     }
 }

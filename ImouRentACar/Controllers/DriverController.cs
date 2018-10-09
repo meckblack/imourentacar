@@ -1,0 +1,244 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ImouRentACar.Data;
+using ImouRentACar.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using ImouRentACar.Models.Enums;
+using System.IO;
+
+namespace ImouRentACar.Controllers
+{
+    public class DriverController : Controller
+    {
+        private readonly ApplicationDbContext _database;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
+        private readonly IHostingEnvironment _environment;
+
+        #region Constructor
+
+        public DriverController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHostingEnvironment environment)
+        {
+            _database = context;
+            _httpContextAccessor = httpContextAccessor;
+            _environment = environment;
+        }
+
+        #endregion
+
+        #region Index
+        
+        public async Task<IActionResult> Index()
+        {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+
+            var _cars = _database.Cars;
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = user.DisplayName;
+
+            return View(await _database.Driver.ToListAsync());
+        }
+
+        #endregion
+
+        #region Details
+
+        // GET: Driver/Details/5
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var driver = await _database.Driver
+                .FirstOrDefaultAsync(m => m.DriverId == id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Details", driver);
+        }
+
+        #endregion
+
+        #region Create
+
+        // GET: Driver/Create
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = user.DisplayName;
+            
+            return View();
+        }
+
+        // POST: Driver/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Driver driver, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                ModelState.AddModelError("null_img", "File not selected");
+            }
+            else
+            {
+                var allDrivers = await _database.Driver.ToListAsync();
+
+                if(allDrivers.Any(d => d.FirstName == driver.FirstName && d.LastName == driver.LastName))
+                {
+                    TempData["driver"] = "You cannot add " + driver.DisplayName + " car brand because it already exist!!!";
+                    TempData["notificationType"] = NotificationType.Error.ToString();
+                    return View("Index");
+                }
+
+                var fileinfo = new FileInfo(file.FileName);
+                var filename = DateTime.Now.ToFileTime() + fileinfo.Extension;
+                var uploads = Path.Combine(_environment.WebRootPath, "UploadedFiles\\Drivers");
+                if (file.Length > 0)
+                {
+                    using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    driver.License = filename;
+                    driver.DriverAvaliablity = Avaliability.Avaliable;
+                    driver.CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    driver.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    driver.DateCreated = DateTime.Now;
+                    driver.DateLastModified = DateTime.Now;
+
+                    await _database.Driver.AddAsync(driver);
+                    await _database.SaveChangesAsync();
+
+                    TempData["driver"] = "You have successfully added " + driver.DisplayName + "!!!";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return View(driver);
+        }
+
+        #endregion
+
+        #region Edit
+
+        // GET: Driver/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var driver = await _database.Driver.FindAsync(id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+            return View(driver);
+        }
+
+        // POST: Driver/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Driver driver)
+        {
+            if (id != driver.DriverId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _database.Update(driver);
+                    await _database.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DriverExists(driver.DriverId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(driver);
+        }
+
+        #endregion
+
+        #region Delete
+
+        // GET: Driver/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var driver = await _database.Driver
+                .FirstOrDefaultAsync(m => m.DriverId == id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+
+            return View(driver);
+        }
+
+        // POST: Driver/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var driver = await _database.Driver.FindAsync(id);
+            _database.Driver.Remove(driver);
+            await _database.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
+        #region Driver Exists
+
+        private bool DriverExists(int id)
+        {
+            return _database.Driver.Any(e => e.DriverId == id);
+        }
+
+        #endregion
+
+    }
+}

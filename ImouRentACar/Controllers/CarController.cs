@@ -38,8 +38,8 @@ namespace ImouRentACar.Areas
         {
             //Counters
             ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Rented).Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
             ViewData["contactcounter"] = _database.Contacts.Count();
             ViewData["enquirycounter"] = _database.Enquiries.Count();
 
@@ -100,7 +100,7 @@ namespace ImouRentACar.Areas
                 if (ModelState.IsValid)
                 {
                     car.Image = filename;
-                    car.CarAvaliability = CarAvaliability.Avaliable;
+                    car.CarAvaliability = Avaliability.Avaliable;
                     car.CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
                     car.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
                     car.DateCreated = DateTime.Now;
@@ -179,7 +179,7 @@ namespace ImouRentACar.Areas
                         car.Image = filename;
                         car.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
                         car.DateLastModified = DateTime.Now;
-                        car.CarAvaliability = CarAvaliability.Avaliable;
+                        car.CarAvaliability = Avaliability.Avaliable;
 
                         TempData["car"] = "You have successfully modified " + car.Name + "!!!";
                         TempData["notificationType"] = NotificationType.Success.ToString();
@@ -292,7 +292,7 @@ namespace ImouRentACar.Areas
         [HttpGet]
         public async Task<IActionResult> AvaliableCars()
         {
-            var avaliableCars = await _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).ToListAsync();
+            var avaliableCars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).ToListAsync();
             return View(avaliableCars);
         }
 
@@ -303,7 +303,7 @@ namespace ImouRentACar.Areas
         [HttpGet]
         public async Task<IActionResult> RentedCars()
         {
-            var rentedCars = await _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Rented).ToListAsync();
+            var rentedCars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).ToListAsync();
             return View(rentedCars);
         }
 

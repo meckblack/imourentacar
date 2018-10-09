@@ -1,40 +1,25 @@
-﻿@*@model ImouRentACar.Models.Reservation
+﻿@model ImouRentACar.Models.Booking
 
-<h4>Reservation</h4>
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Booking</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Organization" class="control-label"></label>
-                <input asp-for="Organization" class="form-control" />
-                <span asp-validation-for="Organization" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PickUpDate" class="control-label"></label>
                 <input asp-for="PickUpDate" class="form-control" />
-                <span asp-validation-for="PickUpDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ReturnDate" class="control-label"></label>
                 <input asp-for="ReturnDate" class="form-control" />
-                <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PickUpLocation" class="control-label"></label>
@@ -42,9 +27,9 @@
                 <span asp-validation-for="PickUpLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReturnLocation" class="control-label"></label>
-                <input asp-for="ReturnLocation" class="form-control" />
-                <span asp-validation-for="ReturnLocation" class="text-danger"></span>
+                <label asp-for="DropOffLocation" class="control-label"></label>
+                <input asp-for="DropOffLocation" class="form-control" />
+                <span asp-validation-for="DropOffLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Destination" class="control-label"></label>
@@ -52,32 +37,24 @@
                 <span asp-validation-for="Destination" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Verification" class="control-label"></label>
-                <select asp-for="Verification" class="form-control"></select>
-                <span asp-validation-for="Verification" class="text-danger"></span>
+                <select style="color: black; font-weight:500; text-align: center" class="form-control subject-form text-center" id="state" asp-items="ViewBag.PickOffStateId">
+                    <option selected>-- State For Pick Up ---</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="CarId" class="control-label"></label>
-                <select asp-for="CarId" class ="form-control" asp-items="ViewBag.CarId"></select>
+                <select asp-for="pickUpLGAId" style="color: black; font-weight:500 " class="form-control subject-form" id="lga">
+                    <option selected> Pick Up Lga</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="PriceId" class="control-label"></label>
-                <select asp-for="PriceId" class ="form-control" asp-items="ViewBag.PriceId"></select>
+                <select style="color: black; font-weight:500; text-align: center" class="form-control subject-form text-center" id="state2" asp-items="ViewBag.DropOffStateId">
+                    <option selected>-- Drop Off State ---</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="VerifiedBy" class="control-label"></label>
-                <input asp-for="VerifiedBy" class="form-control" />
-                <span asp-validation-for="VerifiedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateVerified" class="control-label"></label>
-                <input asp-for="DateVerified" class="form-control" />
-                <span asp-validation-for="DateVerified" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateSent" class="control-label"></label>
-                <input asp-for="DateSent" class="form-control" />
-                <span asp-validation-for="DateSent" class="text-danger"></span>
+                <select style="color: black; font-weight:500 " class="form-control subject-form" id="lga2">
+                    <option selected> Drop Off LGA</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -88,5 +65,111 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>*@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/DatePicker/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "yy / mm / dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(@DateTime.Now.Year, @DateTime.Now.Month - 1, @DateTime.Now.Day),
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $(".datepicker2").datepicker({
+                dateFormat: "yy / mm / dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(@DateTime.Now.Year, @DateTime.Now.Month - 1, @DateTime.Now.Day),
+            });
+        });
+    </script>
+    <script>
+        function validateForm() {
+            var pickuplocation = document.forms["RentalForm"]
+            ["pickUpLocation"].value;
+            if (pickuplocation == "") {
+                $('#pickup').append('<p class="text-danger">Pick up location is required</p>')
+                return false;
+            }
+            var dropofflocation = document.forms["RentalForm"]
+            ["dropOffLocation"].value;
+            if (dropofflocation == "") {
+                $('#dropoff').append('<p class="text-danger">Drop off location is required</p>')
+                return false;
+            }
+            var pickupdate = document.forms["RentalForm"]
+            ["pickUpDate"].value;
+            Console.log(pickupdate);
+            var dropoffdate = document.forms["RentalForm"]
+            ["dropOffDate"].value;
+            Console.log(dropoffdate);
+
+
+
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            if ($('#state').val() != '') {
+                getLGAs();
+            }
+            $('#state').on('input', function () {
+                getLGAs();
+            });
+            function getLGAs() {
+                $('#lga').children("option").remove();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Booking/GetLgasForState',
+                    dataType: 'json',
+                    data: { id: $('#state').val() },
+                    success: function (lga) {
+                        console.log(lga);
+                        $.each(lga, function (i, lga) {
+                            $('#lga').append('<option value="' + lga.LGAId + '">' + lga.name + '</option>');
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+        $(document).ready(function () {
+            if ($('#state2').val() != '') {
+                getLGAs();
+            }
+            $('#state2').on('input', function () {
+                getLGAs();
+            });
+            function getLGAs() {
+                $('#lga2').children("option").remove();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Booking/GetLgasForState',
+                    dataType: 'json',
+                    data: { id: $('#state2').val() },
+                    success: function (lga) {
+                        console.log(lga);
+                        $.each(lga, function (i, lga) {
+                            $('#lga2').append('<option value="' + lga.LGAId + '">' + lga.name + '</option>');
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    </script>
+
+}
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImouRentACar.Models.Enums
 {
-    public enum CarAvaliability
+    public enum Avaliability
     {
         Avaliable, Rented
     }

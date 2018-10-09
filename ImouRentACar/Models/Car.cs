@@ -39,7 +39,7 @@ namespace ImouRentACar.Models
         public string Engine { get; set; }
 
         [Required(ErrorMessage = "Car Avaliablity")]
-        public CarAvaliability CarAvaliability { get; set; }
+        public Avaliability CarAvaliability { get; set; }
 
         #endregion
 

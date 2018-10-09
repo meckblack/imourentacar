@@ -49,7 +49,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" asp-for="ReturnDate" style="color: black; font-weight:500;" class="form-control datepicker2 subject-form" placeholder="Drop Off Date" name="dropOffDate" />
+                                <input type="text" asp-for="ReturnDate" style="color: black; font-weight:500;" class="form-control datepicker subject-form" placeholder="Drop Off Date" name="dropOffDate" />
                             </div>
                         </div>
                         <div class="row">
@@ -83,7 +83,7 @@
     <script>
         $(function () {
             $(".datepicker").datepicker({
-                dateFormat: "yy / mm / dd",
+                dateFormat: "dd/mm/yy",
                 changeMonth: true,
                 changeYear: true,
                 minDate: new Date(@DateTime.Now.Year, @DateTime.Now.Month - 1, @DateTime.Now.Day),
@@ -93,7 +93,7 @@
     <script>
         $(function () {
             $(".datepicker2").datepicker({
-                dateFormat: "yy / mm / dd",
+                dateFormat: "dd/mm/yy",
                 changeMonth: true,
                 changeYear: true,
                 minDate: new Date(@DateTime.Now.Year, @DateTime.Now.Month - 1, @DateTime.Now.Day),

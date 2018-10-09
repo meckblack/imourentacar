@@ -35,8 +35,8 @@ namespace ImouRentACar.Controllers
         {
             //Counters
             ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Rented).Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
             ViewData["contactcounter"] = _database.Contacts.Count();
             ViewData["enquirycounter"] = _database.Enquiries.Count();
             //ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();

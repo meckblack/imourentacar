@@ -37,8 +37,8 @@ namespace ImouRentACar.Controllers
         {
             //Counters
             ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Rented).Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
             ViewData["contactcounter"] = _database.Contacts.Count();
             ViewData["enquirycounter"] = _database.Enquiries.Count();
             ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();
@@ -85,10 +85,21 @@ namespace ImouRentACar.Controllers
             {
                 var _booking = new Booking()
                 {
+                    ReturnDate = Convert.ToDateTime(booking.ReturnDate),
+                    PickUpDate = booking.PickUpDate,
+                    pickUpLGAId = booking.pickUpLGAId,
+                    PickUpLocation = booking.PickUpLocation,
 
+                    
+                    dropOffLGAId = booking.dropOffLGAId,
+                    DropOffLocation = booking.DropOffLocation,
+
+                    Destination = booking.Destination,
+                    Verification = Verification.YetToReply,
+                    DateSent = DateTime.Now,
                 };
 
-                _session.SetString("bookingobject", JsonConvert.SerializeObject(booking));
+                _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
 
                 
                 return RedirectToAction("SelectACar", "Booking");
@@ -99,6 +110,65 @@ namespace ImouRentACar.Controllers
             }
             
 
+        }
+
+        #endregion
+
+        #region Create
+
+        public IActionResult Create()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
+            ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Booking booking)
+        {
+            try
+            {
+                var _booking = new Booking()
+                {
+                    PickUpDate = booking.PickUpDate,
+                    pickUpLGAId = booking.pickUpLGAId,
+                    PickUpLocation = booking.PickUpLocation,
+
+                    ReturnDate = Convert.ToDateTime(booking.ReturnDate),
+                    dropOffLGAId = booking.dropOffLGAId,
+                    DropOffLocation = booking.DropOffLocation,
+
+                    Destination = booking.Destination,
+                    Verification = Verification.YetToReply,
+                    DateSent = DateTime.Now,
+                };
+
+                _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
+
+
+                ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name", booking.dropOffLGAId);
+                ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name", booking.dropOffLGAId);
+                return RedirectToAction("SelectACar", "Booking");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         #endregion
@@ -122,7 +192,7 @@ namespace ImouRentACar.Controllers
                 ViewData["imageoflogo"] = logo.Image;
             }
 
-            var cars = await _database.Cars.Where(c => c.CarAvaliability == CarAvaliability.Avaliable).ToListAsync();
+            var cars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).ToListAsync();
             return View(cars);
         }
 

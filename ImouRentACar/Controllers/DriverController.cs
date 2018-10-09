@@ -160,38 +160,69 @@ namespace ImouRentACar.Controllers
             {
                 return NotFound();
             }
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = user.DisplayName;
+
             return View(driver);
         }
 
         // POST: Driver/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Driver driver)
+        public async Task<IActionResult> Edit(int id, Driver driver, IFormFile file)
         {
             if (id != driver.DriverId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (file == null || file.Length == 0)
             {
-                try
+                ModelState.AddModelError("null_img", "File not selected");
+            }
+            else
+            {
+                var fileinfo = new FileInfo(file.FileName);
+                var filename = DateTime.Now.ToFileTime() + fileinfo.Extension;
+                var uploads = Path.Combine(_environment.WebRootPath, "UploadedFiles\\Cars");
+                if (file.Length > 0)
                 {
-                    _database.Update(driver);
-                    await _database.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DriverExists(driver.DriverId))
+                    using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        await file.CopyToAsync(fileStream);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+
+                        driver.License = filename;
+                        driver.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                        driver.DateLastModified = DateTime.Now;
+
+                        TempData["driver"] = "You have successfully modified " + driver.DisplayName + "!!!";
+                        TempData["notificationType"] = NotificationType.Success.ToString();
+
+                        _database.Update(driver);
+                        await _database.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!DriverExists(driver.DriverId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
             }
             return View(driver);
         }
@@ -215,7 +246,7 @@ namespace ImouRentACar.Controllers
                 return NotFound();
             }
 
-            return View(driver);
+            return PartialView("Delete", driver);
         }
 
         // POST: Driver/Delete/5
@@ -224,9 +255,19 @@ namespace ImouRentACar.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var driver = await _database.Driver.FindAsync(id);
-            _database.Driver.Remove(driver);
-            await _database.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            if (driver != null)
+            {
+                _database.Driver.Remove(driver);
+                await _database.SaveChangesAsync();
+
+                TempData["driver"] = "You have successfully deleted " + driver.DisplayName+ " !!!";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
+
+            return View("Index");
         }
 
         #endregion

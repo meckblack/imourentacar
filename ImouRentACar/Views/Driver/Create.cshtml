@@ -1,0 +1,119 @@
+﻿@model ImouRentACar.Models.Driver
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
+}
+
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h2>
+                <strong> Add A Driver</strong>
+            </h2>
+        </div>
+        <div class="box-body">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--MODAL BODY-->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="control-label col-md-3">
+                                        <label asp-for="FirstName"></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input asp-for="FirstName" class="form-control " />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="control-label col-md-3">
+                                        <label asp-for="LastName"></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input asp-for="LastName" class="form-control " />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="control-label col-md-3">
+                                        <label asp-for="MiddleName"></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input asp-for="MiddleName" class="form-control " />
+                                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="control-label col-md-3">
+                                        <label asp-for="DOB"></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input asp-for="DOB" class="form-control datepicker" />
+                                        <span asp-validation-for="DOB" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="control-label col-md-3">
+                                        <label asp-for="License"></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="file" />
+                                        <span asp-validation-for="License" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--MODAL FOOTER-->
+                <div class="modal-footer">
+                    <div class="row pull-right">
+                        <div class="col-md-12">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="hidden" value="blank" asp-for="License" />
+                            <a class="btn btn-danger" asp-action="Index">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/DatePicker/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1960, 0, 0),
+                maxDate: new Date(@DateTime.Now.Year - 17, 0, 0)
+            });
+        });
+    </script>
+}

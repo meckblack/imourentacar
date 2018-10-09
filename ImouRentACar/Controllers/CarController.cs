@@ -179,7 +179,6 @@ namespace ImouRentACar.Areas
                         car.Image = filename;
                         car.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
                         car.DateLastModified = DateTime.Now;
-                        car.CarAvaliability = Avaliability.Avaliable;
 
                         TempData["car"] = "You have successfully modified " + car.Name + "!!!";
                         TempData["notificationType"] = NotificationType.Success.ToString();
@@ -277,7 +276,7 @@ namespace ImouRentACar.Areas
                 _database.Cars.Remove(car);
                 await _database.SaveChangesAsync();
 
-                TempData["car"] = "You have successfully deleted  " + car.Name + " !!!";
+                TempData["car"] = "You have successfully deleted " + car.Name + " !!!";
                 TempData["notificationType"] = NotificationType.Success.ToString();
 
                 return Json(new { success = true });

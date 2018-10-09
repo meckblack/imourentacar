@@ -27,7 +27,7 @@ namespace ImouRentACar.Models
 
         [DisplayName("Date Of Birth")]
         [Required(ErrorMessage = "Date of birth is required")]
-        public DateTime DOB { get; set; }
+        public String DOB { get; set; }
 
         [DisplayName("Driver License")]
         [Required(ErrorMessage = "Drivers License is required")]

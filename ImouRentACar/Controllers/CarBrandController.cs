@@ -118,6 +118,7 @@ namespace ImouRentACar.Controllers
             return PartialView("Edit", _brand);
         }
 
+        //
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CarBrand brand)
         {
@@ -128,16 +129,6 @@ namespace ImouRentACar.Controllers
 
             if (ModelState.IsValid)
             {
-
-                var allBrands = await _database.CarBrands.ToListAsync();
-                if (allBrands.Any(b => b.Name == brand.Name))
-                {
-                    TempData["carbrand"] = "You cannot add " + brand.Name + " car brand because it already exist!!!";
-                    TempData["notificationType"] = NotificationType.Error.ToString();
-
-                    return View("Index");
-                }
-
                 try
                 {
                     brand.LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));

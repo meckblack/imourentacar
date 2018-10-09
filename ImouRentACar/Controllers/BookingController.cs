@@ -85,14 +85,12 @@ namespace ImouRentACar.Controllers
             {
                 var _booking = new Booking()
                 {
-                    pickUpLGAId = booking.pickUpLGAId,
-                    PickUpDate = booking.PickUpDate,
-                    PickUpLocation = booking.PickUpLocation
+
                 };
 
-                _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
+                _session.SetString("bookingobject", JsonConvert.SerializeObject(booking));
 
-                //ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name", booking.pickUpLGAId);
+                
                 return RedirectToAction("SelectACar", "Booking");
             }
             catch(Exception e)

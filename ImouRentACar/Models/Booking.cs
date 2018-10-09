@@ -14,10 +14,7 @@ namespace ImouRentACar.Models
         #region Data Model
 
         public int BookingId { get; set; }
-
-        [Required(ErrorMessage = "Organization is requried")]
-        public string Organization { get; set; }
-
+        
         [Required(ErrorMessage="Pick up date is required")]
         [DisplayName("Pick Up Date")]
         public DateTime PickUpDate { get; set; }

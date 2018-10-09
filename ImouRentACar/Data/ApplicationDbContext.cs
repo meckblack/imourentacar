@@ -30,6 +30,7 @@ namespace ImouRentACar.Data
         public DbSet<LGA> Lgas { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PassengerInformation> PassengersInformation { get; set; }
+        public DbSet<Driver> Driver { get; set; }
 
     }
 }

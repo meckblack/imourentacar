@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImouRentACar.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImouRentACar.Models
 {
-    public class Driver
+    public class Driver : Transport
     {
         public int DriverId { get; set; }
 
@@ -32,7 +33,7 @@ namespace ImouRentACar.Models
         [Required(ErrorMessage = "Drivers License is required")]
         public string License { get; set; }
 
-        public Avaliablity Avaliablity { get; set; }
+        public Avaliability DriverAvaliablity { get; set; }
 
     }
 }

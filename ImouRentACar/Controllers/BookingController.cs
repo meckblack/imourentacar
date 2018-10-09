@@ -148,6 +148,38 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region SelectedCar
+
+        [HttpPost]
+        public async Task<IActionResult> Proceed()
+        {
+            var bookingObject = _session.GetString("bookingobject");
+            if(bookingObject != null)
+            {
+                var booking = JsonConvert.DeserializeObject<Booking>(bookingObject);
+
+                var saveBooking = new Booking()
+                {
+                    DateSent = booking.DateSent,
+
+                };
+
+                await _database.Bookings.AddAsync(saveBooking);
+                await _database.SaveChangesAsync();
+
+                return RedirectToAction("PassengerInformation", "Form");
+            }
+            else
+            {
+                TempData["booking"] = "Sorry your session has expired. Try booking again";
+                TempData["notificationType"] = NotificationType.Error.ToString();
+
+                return RedirectToAction("Booking", "RentalForm");
+            }
+        }
+
+        #endregion
+        
         #region Get Data
 
         public JsonResult CarBrand()

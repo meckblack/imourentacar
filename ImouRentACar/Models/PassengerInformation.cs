@@ -12,7 +12,7 @@ namespace ImouRentACar.Models
     {
         #region Data Model
 
-        public int PerssengerInformationId { get; set; }
+        public int PassengerInformationId { get; set; }
 
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }

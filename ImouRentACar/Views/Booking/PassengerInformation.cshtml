@@ -1,4 +1,4 @@
-﻿@model ImouRentACar.Models.Booking
+﻿@model ImouRentACar.Models.PassengerInformation
 
 @{
     ViewData["Title"] = "PassengerInformation";
@@ -13,54 +13,7 @@
             </div>
             <div class="row">
                 <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
-                    <form name="RentalForm" onsubmit="validateForm()" asp-action="RentalForm" asp-controller="Booking">
-                        <h5 style="color: whitesmoke; text-align:left; font-weight: 300">PICK UP DETIALS</h5>
-                        <div class="row">
-                            <div class="col-md-4" style="padding-right: 5px">
-                                <select style="color: black; font-weight:500; text-align: center" class="form-control subject-form text-center" id="state" asp-items="ViewBag.PickOffStateId">
-                                    <option selected>----- State For Pick Up -----</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4" style="padding-right: 5px">
-                                <select asp-for="pickUpLGAId" style="color: black; font-weight:500 " class="form-control subject-form" id="lga">
-                                    <option selected> Pick Up Lga</option>
-                                </select>
-
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" asp-for="PickUpDate" style="color: black; font-weight:500;" class="form-control datepicker subject-form" placeholder="Pick Up Date" name="pickUpDate" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <textarea type="text" asp-for="PickUpLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Pick Up Location" name="pickUpLocation"></textarea>
-                                <span id="pickup"></span>
-                            </div>
-                        </div>
-                        @*<h5 style="color: whitesmoke; text-align:left; font-weight: 300">DROP OFF DETIALS</h5>
-                            <div class="row">
-                                <div class="col-md-4" style="padding-right: 5px">
-                                    <select style="color: black; font-weight:500; text-align: center" class="form-control subject-form text-center" id="state2" asp-items="ViewBag.DropOffStateId">
-                                        <option selected>-- Drop Off State ---</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4" style="padding-right: 5px">
-                                    <select style="color: black; font-weight:500 " class="form-control subject-form" id="lga2">
-                                        <option selected> Drop Off LGA</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" asp-for="ReturnDate" style="color: black; font-weight:500;" class="form-control datepicker2 subject-form" placeholder="Drop Off Date" name="dropOffDate" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <textarea type="text" asp-for="DropOffLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Drop Off Location" name="dropOffLocation"></textarea>
-                                    <span id="dropoff"></span>
-                                </div>
-                            </div>*@
-                        <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  Next <i class="fa fa-long-arrow-right"></i></button>
-                    </form>
+                    
                 </div>
             </div>
         </div>

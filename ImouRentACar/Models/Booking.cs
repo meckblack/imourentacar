@@ -17,11 +17,11 @@ namespace ImouRentACar.Models
         
         [Required(ErrorMessage="Pick up date is required")]
         [DisplayName("Pick Up Date")]
-        public DateTime PickUpDate { get; set; }
+        public string PickUpDate { get; set; }
 
         [Required(ErrorMessage = "Return date is required")]
         [DisplayName("Return Date")]
-        public DateTime ReturnDate { get; set; }
+        public string ReturnDate { get; set; }
 
         [Required(ErrorMessage = "Pick up location is required")]
         [DisplayName("Pick Up Location")]

@@ -29,6 +29,7 @@ namespace ImouRentACar.Data
         public DbSet<State> States { get; set; }
         public DbSet<LGA> Lgas { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<PassengerInformation> PassengersInformation { get; set; }
 
     }
 }

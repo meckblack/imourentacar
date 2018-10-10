@@ -12,6 +12,8 @@ using ImouRentACar.Models.Enums;
 using Newtonsoft.Json;
 using System.Dynamic;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace ImouRentACar.Controllers
 {
@@ -560,10 +562,52 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendLink(int? id)
+        public async Task<IActionResult> SendLink(int id)
         {
-            var message = new MimeMessage();
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
 
+            var passengerId = _booking.PassengerInformationId;
+            var _passengerDetails = await _database.PassengersInformation.FindAsync(passengerId);
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("imourentacar", "mecktinum@gmail.com"));
+
+            message.To.Add(new MailboxAddress(_passengerDetails.DisplayName, _passengerDetails.Email));
+            message.Subject = "ImouRentACar Payment Link";
+
+            //var url = Url.Action("", "", new { }, protocol: Request.Url.Scheme)
+
+            //var emailBody = "<div>" +
+            //            "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+            //            "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+            //                "<h4 style='font-size: 18px; text-align:justify;'>You have been added to the Association Information Management System. </h4>" +
+            //                "<p style='font-size: 18px; text-align:justify;'>Your username is " + _passengerDetails.Email + " and your password is Please login and change your password by clicking <a href=\"" + url + "\">here</a></p>" +
+            //            "<footer style='font-size: 18px; text-align:center;'>" +
+            //                "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+            //message.Body = new BodyBuilder()
+            //{
+            //    HtmlBody = message.
+            //};
+
+            message.Body = new TextPart("plain")
+            {
+                Text = "This is the message"
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                await client.AuthenticateAsync("mecktinum@gmail.com", "bluefire2045");
+
+                client.Disconnect(true);
+
+                TempData["booking"] = "You have successfully sent a payment link to " + _passengerDetails.Email + " email address for a booking request made by "  
+                                        + _passengerDetails.DisplayName;
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
         }
 
         #endregion

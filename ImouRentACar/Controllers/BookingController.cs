@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
 using Newtonsoft.Json;
 using System.Dynamic;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace ImouRentACar.Controllers
 {
@@ -556,6 +557,13 @@ namespace ImouRentACar.Controllers
             ViewData["passengeremail"] = _passengerDetails.Email;
 
             return PartialView("SendLink", _booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendLink(int? id)
+        {
+            var message = new MimeMessage();
+
         }
 
         #endregion

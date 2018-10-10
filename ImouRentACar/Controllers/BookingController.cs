@@ -425,7 +425,7 @@ namespace ImouRentACar.Controllers
                 return NotFound();
             }
 
-            ViewBag.DriverId = new SelectList(_database.Driver, "DriverId", "Name");
+            ViewBag.DriverId = new SelectList(_database.Driver, "DriverId", "DisplayName");
             return PartialView("AssignDriver", _booking);
         }
 
@@ -447,7 +447,7 @@ namespace ImouRentACar.Controllers
                     _database.Bookings.Update(booking);
                     await _database.SaveChangesAsync();
 
-                    TempData["booking"] = "You have successfully disappoved a booking request.";
+                    TempData["booking"] = "You have successfully assigned a driver to the a booking request. Next Send Link";
                     TempData["notificationType"] = NotificationType.Success.ToString();
 
                     return Json(new { success = true });
@@ -466,6 +466,96 @@ namespace ImouRentACar.Controllers
             }
             ViewBag.DriverId = new SelectList(_database.Driver, "DriverId", "Name", booking.DriverId);
             return View("Index");
+        }
+
+        #endregion
+
+        #region Remove Driver from Booking Request
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveDriver(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
+
+            if (_booking == null)
+            {
+                return NotFound();
+            }
+            
+            return PartialView("RemoveDriver", _booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveDriver(int id, Booking booking)
+        {
+            if (id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    booking.DriverId = 0;
+                    booking.DateDriverAssigned = DateTime.Now;
+                    booking.DriverAssignedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+
+                    _database.Bookings.Update(booking);
+                    await _database.SaveChangesAsync();
+
+                    TempData["booking"] = "You have successfully removed the driver of a booking request. Next Assign Driver";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookingExists(booking.BookingId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View("Index");
+        }
+
+        #endregion
+
+        #region Send Link to Passenger
+
+        [HttpGet]
+        public async Task<IActionResult> SendLink(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
+
+            if (_booking == null)
+            {
+                return NotFound();
+            }
+
+            var passengerId = _booking.PassengerInformationId;
+            var _passengerDetails = await _database.PassengersInformation.FindAsync(passengerId);
+
+            ViewData["passengername"] = _passengerDetails.DisplayName;
+            ViewData["passengeremail"] = _passengerDetails.Email;
+
+            return PartialView("SendLink", _booking);
         }
 
         #endregion

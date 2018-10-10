@@ -1,18 +1,22 @@
 ﻿@model ImouRentACar.Models.Booking
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Approve";
     Layout = null;
 }
 
 <!--MODAL HEADER-->
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3> <strong> ASSIGN DRIVER </strong> </h3>
+    <h3> <strong> REMOVE DRIVER</strong> </h3>
 </div>
 
-<form asp-action="AssignDriver">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<!--MODAL BODY-->
+<div class="modal-body">
+    <h3 class="text-center"> Are you sure you want to remove the driver from this booking request?</h3>
+</div>
+<form asp-action="RemoveDriver">
     <input type="hidden" asp-for="BookingId" />
     <input type="hidden" asp-for="PriceId" />
     <input type="hidden" asp-for="PickUpLgaId" />
@@ -27,32 +31,14 @@
     <input type="hidden" asp-for="DateVerified" />
     <input type="hidden" asp-for="Verification" />
     <input type="hidden" asp-for="VerifiedBy" />
-    <div class="modal-body">
-        <div class="form-horizontal">
-            <div class="row">
-                <div class="control-label col-md-3">
-                    <label>Driver Name</label>
-                </div>
-                <div class="col-md-9">
-                    <select asp-for="DriverId" class="form-control" asp-items="ViewBag.DriverId">
-                        <option selected>------------------------------ Select A Driver ----------------------------</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!--MODAL FOOTER-->
     <div class="modal-footer">
         <div class="row pull-right">
             <div class="col-md-12">
-                <input type="submit" value="Assign" class="btn btn-primary" />
-                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                <input type="submit" value="Yes" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">No</a>
             </div>
         </div>
     </div>
-
 </form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

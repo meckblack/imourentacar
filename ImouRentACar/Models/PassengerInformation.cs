@@ -38,6 +38,9 @@ namespace ImouRentACar.Models
         [Required(ErrorMessage = "Title is required")]
         public Title Title { get; set; }
 
+        public string DisplayName
+            => FirstName + " " + LastName;
+
         #endregion
 
         #region Foreign Key

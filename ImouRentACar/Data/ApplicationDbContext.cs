@@ -22,7 +22,7 @@ namespace ImouRentACar.Data
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Logo> Logos { get; set; }
         public DbSet<Price> Prices { get; set; }
-        //public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         public DbSet<AboutUsImage> AboutUsImages { get; set; }
         public DbSet<AboutUsImageTwo> AboutUsImageTwos { get; set; }
         public DbSet<Header> Headers { get; set; }

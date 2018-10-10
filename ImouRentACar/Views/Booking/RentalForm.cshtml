@@ -1,4 +1,4 @@
-﻿@*@model ImouRentACar.Models.Booking
+﻿@model ImouRentACar.Models.Booking
 
 @{
     Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
@@ -12,7 +12,8 @@
             </div>
             <div class="row">
                 <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
-                    <form name="RentalForm" onsubmit="validateForm()" asp-action="RentalForm" asp-controller="Booking">
+                    <form asp-action="RentalForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <h5 style="color: whitesmoke; text-align:left; font-weight: 300">PICK UP DETIALS</h5>
                         <div class="row">
                             <div class="col-md-4" style="padding-right: 5px">
@@ -21,42 +22,49 @@
                                 </select>
                             </div>
                             <div class="col-md-4" style="padding-right: 5px">
-                                <select asp-for="pickUpLGAId" style="color: black; font-weight:500 " class="form-control subject-form" id="lga">
+                                <select asp-for="PickUpLgaId" style="color: black; font-weight:500 " class="form-control subject-form" id="lga">
                                     <option selected> Pick Up Lga</option>
                                 </select>
-
+                                <span asp-validation-for="PickUpLgaId" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
-                                <input type="text" asp-for="PickUpDate" style="color: black; font-weight:500;" class="form-control datepicker2 subject-form" placeholder="Pick Up Date" name="pickUpDate" />
+                            <div class="col-md-4" style="padding-right: 5px;">
+                                <input type="text" asp-for="PickUpDate" style="color: black; font-weight:500;" class="form-control datepicker subject-form" placeholder="Pick Up Date"/>
+                                <span asp-validation-for="PickUpDate" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <textarea type="text" asp-for="PickUpLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Pick Up Location" name="pickUpLocation"></textarea>
-                                <span id="pickup"></span>
+                            <div class="col-md-12" style="padding-right: 5px;">
+                                <textarea type="text" asp-for="PickUpLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Pick Up Location"></textarea>
                             </div>
+                            <span asp-validation-for="PickUpLocation" class="text-danger"></span>
                         </div>
                         <h5 style="color: whitesmoke; text-align:left; font-weight: 300">DROP OFF DETIALS</h5>
                         <div class="row">
                             <div class="col-md-4" style="padding-right: 5px">
                                 <select style="color: black; font-weight:500; text-align: center" class="form-control subject-form text-center" id="state2" asp-items="ViewBag.DropOffStateId">
-                                    <option selected>-- Drop Off State ---</option>
+                                    <option selected>-- State For Return---</option>
                                 </select>
                             </div>
                             <div class="col-md-4" style="padding-right: 5px">
-                                <select style="color: black; font-weight:500 " class="form-control subject-form" id="lga2">
-                                    <option selected> Drop Off LGA</option>
-                                </select>
+                                <select asp-for="ReturnLgaId" style="color: black; font-weight:500 " class="form-control subject-form" id="lga2"></select>
+                                <span asp-validation-for="ReturnLgaId" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
-                                <input type="text" asp-for="ReturnDate" style="color: black; font-weight:500;" class="form-control datepicker subject-form" placeholder="Drop Off Date" name="dropOffDate" />
+                            <div class="col-md-4" style="padding-right: 5px;">
+                                <input type="text" asp-for="ReturnDate" style="color: black; font-weight:500;" class="form-control datepicker2 subject-form" placeholder="Return Date"/>
                             </div>
+                            <span asp-validation-for="ReturnDate" class="text-danger"></span>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <textarea type="text" asp-for="DropOffLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Drop Off Location" name="dropOffLocation"></textarea>
-                                <span id="dropoff"></span>
+                            <div class="col-md-12" style="padding-right: 5px;">
+                                <textarea type="text" asp-for="ReturnLocation" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Return Location"></textarea>
                             </div>
+                            <span asp-validation-for="ReturnLocation" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="padding-right: 5px;">
+                                <textarea type="text" asp-for="Destination" style="color: black; font-weight:500;" class="form-control subject-form" placeholder="Destination"></textarea>
+                            </div>
+                            <span asp-validation-for="Destination" class="text-danger"></span>
                         </div>
                         <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  Next <i class="fa fa-long-arrow-right"></i></button>
                     </form>
@@ -100,7 +108,7 @@
             });
         });
     </script>
-    <script>
+    @*<script>
         function validateForm() {
             var pickuplocation = document.forms["RentalForm"]
             ["pickUpLocation"].value;
@@ -120,11 +128,8 @@
             var dropoffdate = document.forms["RentalForm"]
             ["dropOffDate"].value;
             Console.log(dropoffdate);
-
-
-
         }
-    </script>
+    </script>*@
     <script>
         $(document).ready(function () {
             if ($('#state').val() != '') {
@@ -143,7 +148,7 @@
                     success: function (lga) {
                         console.log(lga);
                         $.each(lga, function (i, lga) {
-                            $('#lga').append('<option value="' + lga.LGAId + '">' + lga.name + '</option>');
+                            $('#lga').append('<option value="' + lga.lgaId + '">' + lga.name + '</option>');
                         });
                     },
                     error: function (error) {
@@ -169,7 +174,7 @@
                     success: function (lga) {
                         console.log(lga);
                         $.each(lga, function (i, lga) {
-                            $('#lga2').append('<option value="' + lga.LGAId + '">' + lga.name + '</option>');
+                            $('#lga2').append('<option value="' + lga.lgaId + '">' + lga.name + '</option>');
                         });
                     },
                     error: function (error) {
@@ -180,4 +185,4 @@
         });
     </script>
 
-}*@
+}

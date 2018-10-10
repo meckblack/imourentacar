@@ -18,15 +18,19 @@
 <div class="modal-footer">
     <div class="row pull-right">
         <div class="col-md-12">
-            @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != " ")
+            @foreach (var item in Model)
             {
-                <a asp-action="" asp-controller="" class="btn btn-primary">Proceed</a>
-                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != " ")
+                {
+                    <a asp-action="Proceed" asp-controller="Booking" asp-route-id="@item.PriceId" class="btn btn-primary">Proceed</a>
+                    <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                }
+                else
+                {
+                    <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                }
             }
-            else
-            {
-                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>   
-            }
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
         </div>
     </div>
 </div>

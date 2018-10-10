@@ -11,48 +11,44 @@ namespace ImouRentACar.Models
 {
     public class Booking : RentalTransport
     {
-        #region Data Model
+        #region Model Data
 
         public int BookingId { get; set; }
-        
-        [Required(ErrorMessage="Pick up date is required")]
-        [DisplayName("Pick Up Date")]
-        public string PickUpDate { get; set; }
 
-        [Required(ErrorMessage = "Return date is required")]
-        [DisplayName("Return Date")]
-        public string ReturnDate { get; set; }
-
-        [Required(ErrorMessage = "Pick up location is required")]
-        [DisplayName("Pick Up Location")]
+        [Required(ErrorMessage ="Pick up location is required")]
         public string PickUpLocation { get; set; }
 
-        [Required(ErrorMessage = "Drop off location is requried")]
-        [DisplayName("Drop Off Location")]
-        public string DropOffLocation { get; set; }
+        [Required(ErrorMessage = "Date is required")]
+        public DateTime PickUpDate { get; set; }
 
-        [Required(ErrorMessage = "Destination is requried")]
+        [Required(ErrorMessage = "Return location is required")]
+        public string ReturnLocation { get; set; }
+
+        [Required(ErrorMessage = "Date is required")]
+        public DateTime ReturnDate { get; set; }
+
+        [Required(ErrorMessage = "Destination location is required")]
         public string Destination { get; set; }
 
         public Verification Verification { get; set; }
 
-        [DisplayName("LGA")]
-        [Required(ErrorMessage = "LGA is requried")]
-        public int pickUpLGAId { get; set; }
-
-        [DisplayName("LGA")]
-        [Required(ErrorMessage = "LGA is requried")]
-        public int dropOffLGAId { get; set; }
-        
         #endregion
 
-        #region Foreign Key
-        
+        #region ForeignKey
+
         [DisplayName("Price")]
         public int PriceId { get; set; }
         [ForeignKey("PriceId")]
         public Price Price { get; set; }
-        
+
+        [ForeignKey("ReturnLgaId")]
+        [Required(ErrorMessage ="Lga is required")]
+        public int ReturnLgaId { get; set; }
+
+        [ForeignKey("PickUpLgaId")]
+        [Required(ErrorMessage = "Lga is required")]
+        public int PickUpLgaId { get; set; }
+
         #endregion
     }
-}
+}   

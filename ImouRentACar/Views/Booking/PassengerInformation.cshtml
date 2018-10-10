@@ -13,64 +13,66 @@
             </div>
             <div class="row">
                 <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
-                    <div class="row">
-                        <div class="col-md-2" style="padding-right: 5px">
-                            <label style="color: whitesmoke;">TITLE <b style="color:red;">*</b></label>
-                            <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Title)))"></select>
-                            <span asp-validation-for="Title" class="text-danger"></span>
+                    <form asp-action="PassengerInformation" asp-controller="Booking">
+                        <div class="row">
+                            <div class="col-md-2" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">TITLE <b style="color:red;">*</b></label>
+                                <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Title)))"></select>
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-5" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">FIRST NAME <b style="color:red;">*</b></label>
+                                <input asp-for="FirstName" class="form-control " placeholder="First Name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-5">
+                                <label style="color: whitesmoke;">LAST NAME <b style="color:red;">*</b></label>
+                                <input asp-for="LastName" class="form-control " placeholder="Last Name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="col-md-5" style="padding-right: 5px">
-                            <label style="color: whitesmoke;">FIRST NAME <b style="color:red;">*</b></label>
-                            <input asp-for="FirstName" class="form-control " placeholder="First Name" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">MIDDLE NAME </label>
+                                <input asp-for="MiddleName" class="form-control " placeholder="Middle Name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label style="color: whitesmoke;">EMAIL ADDRESS <b style="color:red;">*</b></label>
+                                <input asp-for="Email" class="form-control " placeholder="Email Address" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="col-md-5">
-                            <label style="color: whitesmoke;">LAST NAME <b style="color:red;">*</b></label>
-                            <input asp-for="LastName" class="form-control " placeholder="Last Name" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">DATE OF BIRTH </label>
+                                <input asp-for="DOB" class="form-control datepicker" placeholder="Date Of Birth" />
+                                <span asp-validation-for="DOB" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">GENDER <b style="color:red;">*</b></label>
+                                <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Gender)))"></select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label style="color: whitesmoke;">PHONE NUNMBER <b style="color:red;">*</b></label>
+                                <input asp-for="PhoneNumber" class="form-control " placeholder="Phone Number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-6" style="padding-right: 5px">
-                            <label style="color: whitesmoke;">MIDDLE NAME </label>
-                            <input asp-for="MiddleName" class="form-control " placeholder="Middle Name" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label style="color: whitesmoke;">MEMBER ID</label>
+                                <input asp-for="MemberId" class="form-control " placeholder="Member ID" />
+                                <span asp-validation-for="MemberId" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label style="color: whitesmoke;">EMAIL ADDRESS <b style="color:red;">*</b></label>
-                            <input asp-for="Email" class="form-control " placeholder="Email Address" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-4" style="padding-right: 5px">
-                            <label style="color: whitesmoke;">DATE OF BIRTH </label>
-                            <input asp-for="DOB" class="form-control datepicker" placeholder="Date Of Birth" />
-                            <span asp-validation-for="DOB" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4" style="padding-right: 5px">
-                            <label style="color: whitesmoke;">GENDER <b style="color:red;">*</b></label>
-                            <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Gender)))"></select>
-                            <span asp-validation-for="Gender" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label style="color: whitesmoke;">PHONE NUNMBER <b style="color:red;">*</b></label>
-                            <input asp-for="PhoneNumber" class="form-control " placeholder="Phone Number" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label style="color: whitesmoke;">MEMBER ID</label>
-                            <input asp-for="MemberId" class="form-control " placeholder="Member ID" />
-                            <span asp-validation-for="MemberId" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <br />
-                    <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
+                        <br />
+                        <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -96,7 +98,7 @@
                 dateFormat: "dd/mm/yy",
                 changeMonth: true,
                 changeYear: true,
-                minDate: new Date(@DateTime.Now.Year, @DateTime.Now.Month - 1, @DateTime.Now.Day),
+                maxDate: new Date(@DateTime.Now.Year - 17, 0, 0),
             });
         });
     </script>

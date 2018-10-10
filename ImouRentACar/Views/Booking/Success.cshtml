@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "PassengerInformation";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+<style>
+    .card {
+        
+        background-color: white;
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
+
+    .card button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .buutton {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .card button:hover {
+        opacity: 0.7;
+    }
+</style>
+
+
+<div class="allcontain" style="background-color: #473454">
+    <div class="container">
+        <div class="feturedsection">
+            <h1 style="font-size:40px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center"><span class="bdots">&bullet;</span>S U C C E S S<span class="carstxt"></span>&bullet;</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="">
+                            <h3 style="color: white">
+                                Thank you for choosing imourentacar rental services. You have successfully requested to book <b style="color: red">@TempData["successrequestedcarname"]</b> car.
+                                Your request will be verified by the system admin and a link for payment will be sent to the <b style="color: red">@TempData["successpassengeremail"]</b> email address previously given.
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

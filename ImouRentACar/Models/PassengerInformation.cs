@@ -42,11 +42,6 @@ namespace ImouRentACar.Models
 
         #region Foreign Key
 
-        [Display(Name ="Booking")]
-        public int BookingId { get; set; }
-        [ForeignKey("BookingId")]
-        public Booking Booking { get; set; }
-
         #endregion
     }
 }

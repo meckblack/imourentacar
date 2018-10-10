@@ -51,7 +51,12 @@ namespace ImouRentACar.Models
         [ForeignKey("PickUpLgaId")]
         [Required(ErrorMessage = "Lga is required")]
         public int PickUpLgaId { get; set; }
-        
+
+        [Display(Name = "PassengerInformation")]
+        public int PassengerInformationId { get; set; }
+        [ForeignKey("PassengerInformationId")]
+        public PassengerInformation PassengerInformation { get; set; }
+
         #endregion
     }
 }   

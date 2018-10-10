@@ -125,28 +125,6 @@
             });
         });
     </script>
-    @*<script>
-        function validateForm() {
-            var pickuplocation = document.forms["RentalForm"]
-            ["pickUpLocation"].value;
-            if (pickuplocation == "") {
-                $('#pickup').append('<p class="text-danger">Pick up location is required</p>')
-                return false;
-            }
-            var dropofflocation = document.forms["RentalForm"]
-            ["dropOffLocation"].value;
-            if (dropofflocation == "") {
-                $('#dropoff').append('<p class="text-danger">Drop off location is required</p>')
-                return false;
-            }
-            var pickupdate = document.forms["RentalForm"]
-            ["pickUpDate"].value;
-            Console.log(pickupdate);
-            var dropoffdate = document.forms["RentalForm"]
-            ["dropOffDate"].value;
-            Console.log(dropoffdate);
-        }
-    </script>*@
     <script>
         $(document).ready(function () {
             if ($('#state').val() != '') {

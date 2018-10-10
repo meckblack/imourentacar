@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181010210644_changes")]
+    partial class changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,58 +107,6 @@ namespace ImouRentACar.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("ApplicationUsers");
-                });
-
-            modelBuilder.Entity("ImouRentACar.Models.Booking", b =>
-                {
-                    b.Property<int>("BookingId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateDriverAssigned");
-
-                    b.Property<DateTime>("DateSent");
-
-                    b.Property<DateTime>("DateVerified");
-
-                    b.Property<string>("Destination")
-                        .IsRequired();
-
-                    b.Property<int>("DriverAssignedBy");
-
-                    b.Property<int>("DriverId");
-
-                    b.Property<int>("PassengerInformationId");
-
-                    b.Property<string>("PickUpDate")
-                        .IsRequired();
-
-                    b.Property<int>("PickUpLgaId");
-
-                    b.Property<string>("PickUpLocation")
-                        .IsRequired();
-
-                    b.Property<int>("PriceId");
-
-                    b.Property<string>("ReturnDate")
-                        .IsRequired();
-
-                    b.Property<int>("ReturnLgaId");
-
-                    b.Property<string>("ReturnLocation")
-                        .IsRequired();
-
-                    b.Property<int>("Verification");
-
-                    b.Property<int>("VerifiedBy");
-
-                    b.HasKey("BookingId");
-
-                    b.HasIndex("PassengerInformationId");
-
-                    b.HasIndex("PriceId");
-
-                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("ImouRentACar.Models.Car", b =>
@@ -424,39 +374,6 @@ namespace ImouRentACar.Data.Migrations
                     b.ToTable("Logos");
                 });
 
-            modelBuilder.Entity("ImouRentACar.Models.PassengerInformation", b =>
-                {
-                    b.Property<int>("PassengerInformationId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DOB");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<int>("Gender");
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("MemberId");
-
-                    b.Property<string>("MiddleName");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
-
-                    b.Property<int>("Title");
-
-                    b.HasKey("PassengerInformationId");
-
-                    b.ToTable("PassengersInformation");
-                });
-
             modelBuilder.Entity("ImouRentACar.Models.Price", b =>
                 {
                     b.Property<int>("PriceId")
@@ -542,19 +459,6 @@ namespace ImouRentACar.Data.Migrations
                     b.HasOne("ImouRentACar.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ImouRentACar.Models.Booking", b =>
-                {
-                    b.HasOne("ImouRentACar.Models.PassengerInformation", "PassengerInformation")
-                        .WithMany()
-                        .HasForeignKey("PassengerInformationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ImouRentACar.Models.Price", "Price")
-                        .WithMany()
-                        .HasForeignKey("PriceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -313,8 +314,19 @@ namespace ImouRentACar.Areas
         [HttpGet]
         public async Task<IActionResult> ViewAllCars()
         {
-            ViewData["imageoflogo"] = _session.GetString("imageoflogo");
-            ViewData["contactnumber"] = _session.GetString("contactnumber");
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
 
             var _allCars = await _database.Cars.ToListAsync();
             return View(_allCars);
@@ -331,6 +343,8 @@ namespace ImouRentACar.Areas
 
         #endregion
 
+        #region Get Data
+
         public JsonResult CarBrand()
         {
             var brand = _database.CarBrands.ToArray();
@@ -342,6 +356,23 @@ namespace ImouRentACar.Areas
             var car = _database.Cars.Where(s => s.CarBrandId == brand).ToArray();
             return Json(new { cars = car });
         }
-        
+
+        private List<Logo> GetLogos()
+        {
+            var _logos = _database.Logos.ToList();
+
+            return _logos;
+        }
+
+        private List<Contact> GetContacts()
+        {
+            var _contact = _database.Contacts.ToList();
+            return _contact;
+        }
+
+        #endregion
+
+
+
     }
 }

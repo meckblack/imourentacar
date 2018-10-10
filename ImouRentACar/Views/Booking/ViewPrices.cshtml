@@ -1,36 +1,39 @@
 ﻿@model IEnumerable<ImouRentACar.Models.Price>
 
 <div class="modal-body">
-    @foreach (var item in Model)
+    @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != "0")
     {
-        @if (item.Name != null)
+        @foreach (var item in Model)
         {
-            <h4>@item.Name is @item.Amount</h4>
-        }
-        else
-        {
-            <h4>
-                There is no price attached to this car.
-            </h4>
+            @if (item.Name != null)
+            {
+                <h4>@item.Name is @item.Amount</h4>
+            }
         }
     }
+    else
+    {
+        <h4>
+            We appologise. There is no price attached to this car, therefore it cannot be rented out
+        </h4>
+    }
+    
 </div>
 <div class="modal-footer">
     <div class="row pull-right">
         <div class="col-md-12">
-            @foreach (var item in Model)
+            @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != "0")
             {
-                @if (ViewData["prices"] != null && Convert.ToString(ViewData["prices"]) != " ")
+                @foreach (var item in Model)
                 {
-                    <a asp-action="Proceed" asp-controller="Booking" asp-route-id="@item.PriceId" class="btn btn-primary">Proceed</a>
-                    <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                }
-                else
-                {
+                    <a asp-action="PassengerInformation" asp-controller="Booking" asp-route-id="@item.PriceId" class="btn btn-primary">Proceed</a>
                     <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
                 }
             }
-            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            else
+            {
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            }
         </div>
     </div>
 </div>

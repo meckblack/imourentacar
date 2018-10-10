@@ -140,19 +140,42 @@ namespace ImouRentACar.Controllers
 
         #region ViewPrices
 
+        [HttpGet]
         public async Task<IActionResult> ViewPrices(int id)
         {
-            var _prices = await _database.Prices.Where(p => p.CarId == id).ToListAsync();
-            ViewData["prices"] = _prices.Count();
-            return PartialView("ViewPrices", _prices);
+            var prices = await _database.Prices.Where(p => p.CarId == id).ToListAsync();
+            ViewData["prices"] = prices.Count();
+            
+            return PartialView("ViewPrices", prices);
         }
 
         #endregion
 
-        #region SelectedCar
+        #region Proceed
+
+        [HttpGet]
+        public IActionResult PassengerInformation(int id)
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            _session.SetInt32("priceid", id);
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Proceed(int id)
+        public async Task<IActionResult> PassengerInformation(int? id)
         {
             var bookingObject = _session.GetString("bookingobject");
             if (bookingObject != null)
@@ -174,7 +197,8 @@ namespace ImouRentACar.Controllers
                     Destination = booking.Destination,
                     Verification = Verification.YetToReply,
 
-                    PriceId = id
+                    PriceId = Convert.ToInt32(_session.GetInt32("priceid"))
+
                 };
 
                 await _database.Bookings.AddAsync(saveBooking);
@@ -192,7 +216,7 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
-
+        
         #region Get Data
 
         public JsonResult CarBrand()

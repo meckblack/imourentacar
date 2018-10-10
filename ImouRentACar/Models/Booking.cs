@@ -19,13 +19,13 @@ namespace ImouRentACar.Models
         public string PickUpLocation { get; set; }
 
         [Required(ErrorMessage = "Date is required")]
-        public DateTime PickUpDate { get; set; }
+        public string PickUpDate { get; set; }
 
         [Required(ErrorMessage = "Return location is required")]
         public string ReturnLocation { get; set; }
 
         [Required(ErrorMessage = "Date is required")]
-        public DateTime ReturnDate { get; set; }
+        public string ReturnDate { get; set; }
 
         [Required(ErrorMessage = "Destination location is required")]
         public string Destination { get; set; }

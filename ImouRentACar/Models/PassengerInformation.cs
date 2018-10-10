@@ -22,7 +22,7 @@ namespace ImouRentACar.Models
 
         public string MiddleName { get; set; }
 
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
 
         public string MemberId { get; set; }
 

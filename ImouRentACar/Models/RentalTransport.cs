@@ -18,7 +18,13 @@ namespace ImouRentACar.Models
 
         [DisplayName("Date Sent")]
         public DateTime DateSent { get; set; }
-        
+
+        [DisplayName("Driver Assigned By")]
+        public int DriverAssignedBy { get; set; }
+
+        [DisplayName("Date Driver Assigned")]
+        public DateTime DateDriverAssigned { get; set; }
+
         #endregion
     }
 }

@@ -49,9 +49,6 @@
     }
     <!-- Default box -->
     <div class="box">
-        <div class="box-header with-border">
-            <a asp-action="Create" data-modal="" class="btn btn-primary btn pull-right"><i style="color: red;" class="fa fa-plus"></i> ADD</a>
-        </div>
         <div class="box-body">
             <table class="table" id="myTable">
                 <thead>
@@ -60,7 +57,10 @@
                             S/N
                         </th>
                         <th>
-                            Date Booked
+                            Request Booking Date
+                        </th>
+                        <th>
+                            Destination
                         </th>
                         <th>
                             Actions
@@ -78,9 +78,21 @@
                                 @item.DateSent
                             </td>
                             <td>
-                                <a class="btn btn-success btn-sm" asp-action="ViewCars" asp-route-id="@item.CarBrandId"><i class="fa fa-check "></i> View Cars</a>
-                                <a class="btn btn-warning btn-sm" data-modal="" asp-action="Edit" asp-route-id="@item.CarBrandId"><i class="fa fa-pencil-square-o "></i> Edit</a>
-                                <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.CarBrandId"><i class="fa fa-trash-o "></i> Delete</a>
+                                @item.Destination
+                            </td>
+                            <td>
+                                @if (item.Verification == Verification.YetToReply || item.Verification == Verification.Disapprove)
+                                {
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.BookingId"><i class="fa fa-check "></i> Approve</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.BookingId"><i class="fa fa-book "></i> Details</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.BookingId"><i class="fa fa-check "></i> Disapprove</a>
+                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="AssignDriver" asp-route-id="@item.BookingId"><i class="fa fa-user "></i> Assign Driver</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.BookingId"><i class="fa fa-book "></i> Details</a>
+                                }
+
                             </td>
                         </tr>
                     }

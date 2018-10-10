@@ -32,6 +32,9 @@ namespace ImouRentACar.Models
 
         public Verification Verification { get; set; }
 
+        [DisplayName("Assigned Driver")]
+        public int DriverId { get; set; }
+
         #endregion
 
         #region ForeignKey
@@ -48,7 +51,7 @@ namespace ImouRentACar.Models
         [ForeignKey("PickUpLgaId")]
         [Required(ErrorMessage = "Lga is required")]
         public int PickUpLgaId { get; set; }
-
+        
         #endregion
     }
 }   

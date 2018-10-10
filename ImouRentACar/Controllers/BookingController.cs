@@ -271,9 +271,199 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
-        #region Index
+        #region Approve Booking Request
 
+        [HttpGet]
+        public async Task<IActionResult> Approve(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
+
+            if (_booking == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Approve", _booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id, Booking booking)
+        {
+            if(id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    booking.DateVerified = DateTime.Now;
+                    booking.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    booking.Verification = Verification.Approve;
+
+                    _database.Bookings.Update(booking);
+                    await _database.SaveChangesAsync();
+
+                    TempData["booking"] = "You have successfully verified a booking request. Next Assign A Driver ";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookingExists(booking.BookingId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View("Index");
+        }
+
+        #endregion
+
+        #region Disapprove Booking Request
+
+        [HttpGet]
+        public async Task<IActionResult> Disapprove(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
+
+            if (_booking == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Disapprove", _booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Disapprove(int id, Booking booking)
+        {
+            if (id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    booking.DateVerified = DateTime.Now;
+                    booking.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    booking.Verification = Verification.Disapprove;
+
+                    _database.Bookings.Update(booking);
+                    await _database.SaveChangesAsync();
+
+                    TempData["booking"] = "You have successfully disappoved a booking request.";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookingExists(booking.BookingId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View("Index");
+        }
+
+        #endregion
+
+        #region Assign Driver to Booking Request
+
+        [HttpGet]
+        public async Task<IActionResult> AssignDriver(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
+
+            if (_booking == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.DriverId = new SelectList(_database.Driver, "DriverId", "Name");
+            return PartialView("AssignDriver", _booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignDriver(int id, Booking booking)
+        {
+            if (id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    booking.DateVerified = DateTime.Now;
+                    booking.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    booking.Verification = Verification.Disapprove;
+
+                    _database.Bookings.Update(booking);
+                    await _database.SaveChangesAsync();
+
+                    TempData["booking"] = "You have successfully disappoved a booking request.";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookingExists(booking.BookingId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            ViewBag.DriverId = new SelectList(_database.Driver, "DriverId", "Name");
+            return View("Index");
+        }
+
+        #endregion
+
+        #region Booking Exists
+
+        private bool BookingExists(int id)
+        {
+            return _database.Bookings.Any(e => e.BookingId == id);
+        }
 
         #endregion
 

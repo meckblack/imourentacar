@@ -37,6 +37,8 @@ namespace ImouRentACar.Models
         public string DisplayName
             => FirstName + " " + LastName;
 
+        public int MemberId { get; set; }
+
         #endregion
     }
 }

@@ -35,14 +35,25 @@ namespace ImouRentACar.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task <IActionResult> Register(Customer customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+        [HttpPost]
+        public async Task<IActionResult> Register(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                var _customer = new Customer()
+                {
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    MobileNumber = customer.MobileNumber,
+                    Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
+                    ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
 
-        //    }
-        //}
+                };
+            }
+
+            return View();
+        }
 
         #endregion
 

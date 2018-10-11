@@ -35,14 +35,16 @@ namespace ImouRentACar.Models
         [DisplayName("Assigned Driver")]
         public int DriverId { get; set; }
 
+        //public Decimal TotalBookingPrice { get; set; }
+
         #endregion
 
         #region ForeignKey
 
-        [DisplayName("Price")]
-        public int PriceId { get; set; }
-        [ForeignKey("PriceId")]
-        public Price Price { get; set; }
+        //[Display(Name = "Car")]
+        //public int CarId { get; set; }
+        //[ForeignKey("CarId")]
+        //public Car Car { get; set; }
 
         [ForeignKey("ReturnLgaId")]
         [Required(ErrorMessage ="Lga is required")]

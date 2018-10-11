@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181011153149_AddedColor")]
+    partial class AddedColor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +138,8 @@ namespace ImouRentACar.Data.Migrations
                     b.Property<string>("PickUpLocation")
                         .IsRequired();
 
+                    b.Property<int>("PriceId");
+
                     b.Property<string>("ReturnDate")
                         .IsRequired();
 
@@ -152,6 +156,8 @@ namespace ImouRentACar.Data.Migrations
 
                     b.HasIndex("PassengerInformationId");
 
+                    b.HasIndex("PriceId");
+
                     b.ToTable("Bookings");
                 });
 
@@ -164,8 +170,6 @@ namespace ImouRentACar.Data.Migrations
                     b.Property<int>("CarAvaliability");
 
                     b.Property<int>("CarBrandId");
-
-                    b.Property<int>("Color");
 
                     b.Property<int>("CreatedBy");
 
@@ -186,7 +190,7 @@ namespace ImouRentACar.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price");
+                    b.Property<string>("Price");
 
                     b.Property<string>("Speed")
                         .IsRequired();
@@ -217,6 +221,20 @@ namespace ImouRentACar.Data.Migrations
                     b.HasKey("CarBrandId");
 
                     b.ToTable("CarBrands");
+                });
+
+            modelBuilder.Entity("ImouRentACar.Models.Color", b =>
+                {
+                    b.Property<int>("ColorId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("ColorId");
+
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("ImouRentACar.Models.Contact", b =>
@@ -465,22 +483,22 @@ namespace ImouRentACar.Data.Migrations
 
                     b.Property<double>("Amount");
 
+                    b.Property<int>("CarId");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateLastModified");
 
-                    b.Property<int>("DestinationLgaId");
-
                     b.Property<int>("LastModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("PickUpLgaId");
-
                     b.HasKey("PriceId");
+
+                    b.HasIndex("CarId");
 
                     b.ToTable("Prices");
                 });
@@ -551,6 +569,11 @@ namespace ImouRentACar.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PassengerInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ImouRentACar.Models.Price", "Price")
+                        .WithMany()
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ImouRentACar.Models.Car", b =>
@@ -566,6 +589,14 @@ namespace ImouRentACar.Data.Migrations
                     b.HasOne("ImouRentACar.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ImouRentACar.Models.Price", b =>
+                {
+                    b.HasOne("ImouRentACar.Models.Car", "Car")
+                        .WithMany("Prices")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

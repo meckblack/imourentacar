@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181011160742_rchangesss")]
+    partial class rchangesss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +138,8 @@ namespace ImouRentACar.Data.Migrations
                     b.Property<string>("PickUpLocation")
                         .IsRequired();
 
+                    b.Property<int>("PriceId");
+
                     b.Property<string>("ReturnDate")
                         .IsRequired();
 
@@ -151,6 +155,8 @@ namespace ImouRentACar.Data.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("PassengerInformationId");
+
+                    b.HasIndex("PriceId");
 
                     b.ToTable("Bookings");
                 });
@@ -185,8 +191,6 @@ namespace ImouRentACar.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<decimal>("Price");
 
                     b.Property<string>("Speed")
                         .IsRequired();
@@ -465,22 +469,22 @@ namespace ImouRentACar.Data.Migrations
 
                     b.Property<double>("Amount");
 
+                    b.Property<int>("CarId");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateLastModified");
 
-                    b.Property<int>("DestinationLgaId");
-
                     b.Property<int>("LastModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("PickUpLgaId");
-
                     b.HasKey("PriceId");
+
+                    b.HasIndex("CarId");
 
                     b.ToTable("Prices");
                 });
@@ -551,6 +555,11 @@ namespace ImouRentACar.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PassengerInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ImouRentACar.Models.Price", "Price")
+                        .WithMany()
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ImouRentACar.Models.Car", b =>
@@ -566,6 +575,14 @@ namespace ImouRentACar.Data.Migrations
                     b.HasOne("ImouRentACar.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ImouRentACar.Models.Price", b =>
+                {
+                    b.HasOne("ImouRentACar.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

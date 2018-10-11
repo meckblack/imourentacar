@@ -23,10 +23,11 @@ namespace ImouRentACar.Models
 
         public string Image { get; set; }
 
-        public string Price { get; set; }
+        [Required(ErrorMessage = "Price is required")]
+        public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Color")]
-        public CarColor Color { get; set; }
+        public Color Color { get; set; }
 
         [Required(ErrorMessage = "Speed KM/H")]
         public string Speed { get; set; }
@@ -45,13 +46,8 @@ namespace ImouRentACar.Models
         public int CarBrandId { get; set; }
         [ForeignKey("CarBrandId")]
         public CarBrand CarBrand { get; set; }
-
+        
         #endregion
-
-        #region Enumerables
-
-        public IEnumerable<Price> Prices { get; set; }
-
-        #endregion
+        
     }
 }

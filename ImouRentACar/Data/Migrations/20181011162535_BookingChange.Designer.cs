@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181011162535_BookingChange")]
+    partial class BookingChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,8 +473,6 @@ namespace ImouRentACar.Data.Migrations
 
                     b.Property<DateTime>("DateLastModified");
 
-                    b.Property<int>("DestinationLgaId");
-
                     b.Property<int>("LastModifiedBy");
 
                     b.Property<string>("Name")
@@ -481,6 +481,8 @@ namespace ImouRentACar.Data.Migrations
                     b.Property<int>("PickUpLgaId");
 
                     b.HasKey("PriceId");
+
+                    b.HasIndex("PickUpLgaId");
 
                     b.ToTable("Prices");
                 });
@@ -566,6 +568,14 @@ namespace ImouRentACar.Data.Migrations
                     b.HasOne("ImouRentACar.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ImouRentACar.Models.Price", b =>
+                {
+                    b.HasOne("ImouRentACar.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("PickUpLgaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

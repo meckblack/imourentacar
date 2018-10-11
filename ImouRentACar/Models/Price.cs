@@ -24,10 +24,13 @@ namespace ImouRentACar.Models
 
         #region ForeignKey
 
-        [DisplayName("Car")]
-        public int CarId { get; set; }
-        [ForeignKey("CarId")]
-        public Car Car { get; set; }
+        [ForeignKey("DestinationLgaId")]
+        [Required(ErrorMessage = "Lga is required")]
+        public int DestinationLgaId { get; set; }
+
+        [ForeignKey("PickUpLgaId")]
+        [Required(ErrorMessage = "Lga is required")]
+        public int PickUpLgaId { get; set; }
 
         #endregion
     }

@@ -15,7 +15,7 @@
                 <strong> Add A Car</strong>
             </h2>
         </div>
-        @if (TempData["car"] != null)
+        @*@if (TempData["car"] != null)
         {
             if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
             {
@@ -39,82 +39,61 @@
                 </div>
             }
 
-        }
+        }*@
         <div class="box-body">
             <form asp-action="Create" enctype="multipart/form-data">
-                <div asp-validation-summary="All" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <!--MODAL BODY-->
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="row">
-                            <div class="control-label col-md-3">
-                                <label>Car Brand</label>
-                            </div>
-                            <div class="col-md-9">
+                            <div class="col-md-4">
+                                <label>CAR BRAND</label>
                                 <select asp-for="CarBrandId" class="form-control" asp-items="ViewBag.CarBrands">
                                     <option selected>--- Select A Car Brand ---</option>
                                 </select>
                                 <span asp-validation-for="CarBrand" class="text-danger"></span>
                             </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="control-label col-md-3">
-                                <label asp-for="Name"></label>
+                            <div class="col-md-4">
+                                <label>NAME</label>
+                                <input asp-for="Name" class="form-control " placeholder="Name" />
+                                <span asp-validation-for="CarBrand" class="text-danger"></span>
                             </div>
-                            <div class="col-md-9">
-                                <input asp-for="Name" class="form-control " />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="control-label col-md-3">
-                                <label asp-for="Color"></label>
-                            </div>
-                            <div class="col-md-9">
-                                <select asp-for="Color" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.CarColor)))"></select>
+                            <div class="col-md-4">
+                                <label>COLOR</label>
+                                <select asp-for="Color" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Color)))"></select>
                                 <span asp-validation-for="Color" class="text-danger"></span>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                            <div class="control-label col-md-3">
-                                <label>Top Speed(KM/H)</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input asp-for="Speed" class="form-control " />
+                            <div class="col-md-4">
+                                <label>SPEED (KM/H)</label>
+                                <input asp-for="Speed" class="form-control " placeholder="Speed (KM/H)" />
                                 <span asp-validation-for="Speed" class="text-danger"></span>
                             </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="control-label col-md-3">
-                                <label asp-for="Engine"></label>
-                            </div>
-                            <div class="col-md-9">
-                                <input asp-for="Engine" class="form-control " />
+                            <div class="col-md-4">
+                                <label>Engine</label>
+                                <input asp-for="Engine" class="form-control " placeholder="Engine" />
                                 <span asp-validation-for="Engine" class="text-danger"></span>
                             </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="control-label col-md-3">
-                                <label asp-for="Description"></label>
-                            </div>
-                            <div class="col-md-9">
-                                <textarea asp-for="Description" class="form-control "></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="control-label col-md-3">
-                                <label asp-for="Image"></label>
-                            </div>
-                            <div class="col-md-9">
+                            <div class="col-md-4">
+                                <label>Picture</label>
                                 <input class="form-control" type="file" name="file" />
                                 <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>QUICK DESCRIPTION</label>
+                                <textarea asp-for="Description" class="form-control" placeholder="Quick Description"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>PRICE (N)</label>
+                                <input asp-for="Price" class="form-control " placeholder="Price (N)" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

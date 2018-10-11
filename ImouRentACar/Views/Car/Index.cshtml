@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<ImouRentACar.Models.Car>
 @using ImouRentACar.Models.Enums
-@using ImouRentACar.Data
 
 @{
     ViewData["Title"] = "Index";
@@ -15,7 +14,6 @@
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li><a asp-controller="CarBrand" asp-action="Index">Car Brand</a></li>
         <li class="active">Car</li>
     </ol>
 
@@ -24,7 +22,7 @@
 
 <!-- Main content -->
 <section class="content">
-    @if (TempData["car"] != null)
+    @*@if (TempData["car"] != null)
     {
         if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
         {
@@ -48,7 +46,7 @@
             </div>
         }
 
-    }
+    }*@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">

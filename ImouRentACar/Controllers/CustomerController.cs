@@ -9,6 +9,7 @@ using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace ImouRentACar.Controllers
 {
@@ -78,22 +79,22 @@ namespace ImouRentACar.Controllers
         #region Signin
 
         [HttpGet]
-        public IActionResult Signin()
+        public IActionResult SignIn()
         {
             var customer = new Customer();
-            return PartialView("Signin", customer);
+            return PartialView("SignIn", customer);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Signin (Customer customer)
+        public async Task<IActionResult> SignIn (Customer customer)
         {
             var _customer = await _database.Customers.FirstOrDefaultAsync(c => c.Email == customer.Email);
 
             if (_customer == null)
             {
                 ViewData["mismatch"] = "Email and Password do not match";
+                return View(customer);
             }
-
             if(_customer != null)
             {
                 var password = BCrypt.Net.BCrypt.Verify(customer.Password, _customer.Password);
@@ -101,6 +102,7 @@ namespace ImouRentACar.Controllers
                 {
                     _session.SetString("imouloggedincustomer", JsonConvert.SerializeObject(_customer));
                     _session.SetInt32("imouloggedincustomerid", _customer.CustomerId);
+                    
                     return RedirectToAction("Dashboard", "Customer");
                 }
                 else
@@ -114,121 +116,64 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
-        // GET: Customer
-        public async Task<IActionResult> Index()
+        #region Dashboard
+
+        [HttpGet]
+        public IActionResult Dashboard()
         {
-            return View(await _database.Customers.ToListAsync());
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+            
+            var customerObject = _session.GetString("imouloggedincustomer");
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+
+            TempData["customername"] = _customer.DisplayName;
+            
+            return View("Dashboard");
         }
 
-        // GET: Customer/Details/5
-        public async Task<IActionResult> Details(int? id)
+        #endregion
+
+        #region SignOut
+        
+        public IActionResult SignOut()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            _database.Dispose();
+            _session.Clear();
+            return RedirectToAction("Index", "Home");
 
-            var customer = await _database.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
         }
 
-        // GET: Customer/Create
-        public IActionResult Create()
+        #endregion
+
+        #region Get Data
+
+        private List<Logo> GetLogos()
         {
-            return View();
+            var _logos = _database.Logos.ToList();
+
+            return _logos;
         }
 
-        // POST: Customer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,MobileNumber,Password,ConfrimPassword")] Customer customer)
+        private List<Contact> GetContacts()
         {
-            if (ModelState.IsValid)
-            {
-                _database.Add(customer);
-                await _database.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
+            var _contact = _database.Contacts.ToList();
+            return _contact;
         }
 
-        // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _database.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
-        }
-
-        // POST: Customer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,MobileNumber,Password,ConfrimPassword")] Customer customer)
-        {
-            if (id != customer.CustomerId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _database.Update(customer);
-                    await _database.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.CustomerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
-        }
-
-        // GET: Customer/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _database.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
+        #endregion
+        
         // POST: Customer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -237,7 +182,7 @@ namespace ImouRentACar.Controllers
             var customer = await _database.Customers.FindAsync(id);
             _database.Customers.Remove(customer);
             await _database.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Dashboard));
         }
 
         private bool CustomerExists(int id)

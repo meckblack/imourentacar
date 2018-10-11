@@ -1,0 +1,58 @@
+﻿@model ImouRentACar.Models.Customer
+
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> SIGN INTO YOUR IMOU ACCOUNT </strong> </h3>
+</div>
+
+<form asp-action="SignIn">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ConfrimPassword" />
+    <input type="hidden" asp-for="FirstName" />
+    <input type="hidden" asp-for="LastName" />
+    <input type="hidden" asp-for="MobileNumber" />
+
+    <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                @if (ViewData["mismatch"] != null && Convert.ToString(ViewData["mismatch"]) != " ")
+                {
+                    <p class="text-danger">@ViewData["mismatch"]</p>
+                }
+
+                <div class="col-md-7" style="padding-right:5px;">
+                    <label> Email Address </label>
+                    <input asp-for="Email" class="form-control" placeholder="Email Address" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label> Password </label>
+                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull">
+            <div class="col-md-12">
+                <a class="btn btn-success pull-left" data-modal="" asp-action="Register">Register</a>
+                <input type="submit" value="SignIn" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

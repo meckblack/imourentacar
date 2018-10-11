@@ -2571,7 +2571,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
     <Folder Include="wwwroot\UploadedFiles\Cars\" />
     <Folder Include="wwwroot\UploadedFiles\Logo\" />
     <Folder Include="wwwroot\UploadedFiles\AboutUs\" />

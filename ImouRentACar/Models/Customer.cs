@@ -22,7 +22,7 @@ namespace ImouRentACar.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Mobile number field is required")]
+        [Required(ErrorMessage = "Number field is required")]
         public string MobileNumber { get; set; }
 
         [Required(ErrorMessage = "Passoword field is required")]

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -32,7 +33,8 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            var customer = new Customer();
+            return PartialView("Register", customer);
         }
 
         [HttpPost]
@@ -40,19 +42,74 @@ namespace ImouRentACar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var _customer = new Customer()
-                {
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Email = customer.Email,
-                    MobileNumber = customer.MobileNumber,
-                    Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
-                    ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
+                var allCustomers = await _database.Customers.ToListAsync();
 
-                };
+                if(allCustomers.Any(c => c.Email == customer.Email))
+                {
+                    TempData["emailexists"] = "Sorry a customer with this email address exists";
+
+                    return View(customer);
+                }
+                else
+                {
+                    var _customer = new Customer()
+                    {
+                        FirstName = customer.FirstName,
+                        LastName = customer.LastName,
+                        Email = customer.Email,
+                        MobileNumber = customer.MobileNumber,
+                        Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
+                        ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
+                    };
+
+                    await _database.Customers.AddAsync(_customer);
+                    await _database.SaveChangesAsync();
+
+                    return Json(new { success = true });
+                }
+                
             }
 
-            return View();
+            return RedirectToAction("Signin", "Customer");
+        }
+
+        #endregion
+
+        #region Signin
+
+        [HttpGet]
+        public IActionResult Signin()
+        {
+            var customer = new Customer();
+            return PartialView("Signin", customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Signin (Customer customer)
+        {
+            var _customer = await _database.Customers.FirstOrDefaultAsync(c => c.Email == customer.Email);
+
+            if (_customer == null)
+            {
+                ViewData["mismatch"] = "Email and Password do not match";
+            }
+
+            if(_customer != null)
+            {
+                var password = BCrypt.Net.BCrypt.Verify(customer.Password, _customer.Password);
+                if(password == true)
+                {
+                    _session.SetString("imouloggedincustomer", JsonConvert.SerializeObject(_customer));
+                    _session.SetInt32("imouloggedincustomerid", _customer.CustomerId);
+                    return RedirectToAction("Dashboard", "Customer");
+                }
+                else
+                {
+                    ViewData["mismatch"] = "Email and Password do not match";
+                }
+            }
+
+            return View(customer);
         }
 
         #endregion

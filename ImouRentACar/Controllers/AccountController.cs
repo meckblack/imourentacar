@@ -48,6 +48,11 @@ namespace ImouRentACar.Controllers
         {
             var _user = await _database.ApplicationUsers.FirstOrDefaultAsync(u => u.Email == user.Email);
 
+            if(_user == null)
+            {
+                ViewData["mismatch"] = "Email and Password do not match";
+            }
+
             if(_user != null)
             {
                 var password = BCrypt.Net.BCrypt.Verify(user.Password, _user.Password);
@@ -55,7 +60,6 @@ namespace ImouRentACar.Controllers
                 {
                     _session.SetString("imouloggedinuser", JsonConvert.SerializeObject(_user));
                     _session.SetInt32("imouloggedinuserid", _user.ApplicationUserId);
-                    var jk = _session.GetInt32("imouloggedinuserid");
                     return RedirectToAction("Dashboard", "Admin");
                 }
                 else

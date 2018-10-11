@@ -28,7 +28,18 @@
 
     @RenderBody()
 
-    
+    <script src="~/Admin/bower_components/jquery/dist/jquery.js"></script>
+    <script src="~/Modal/Modal.js"></script>
+
+    <!-- modal placeholder-->
+    <div id='myModal' class='modal fade in'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <environment include="Development">
         <script type="text/javascript" src="~/Landing/source/bootstrap-3.3.6-dist/js/jquery.js"></script>

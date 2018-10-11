@@ -26,10 +26,7 @@ namespace ImouRentACar.Models
 
         [Required(ErrorMessage = "Date is required")]
         public string ReturnDate { get; set; }
-
-        [Required(ErrorMessage = "Destination location is required")]
-        public string Destination { get; set; }
-
+        
         public Verification Verification { get; set; }
 
         [DisplayName("Assigned Driver")]
@@ -44,7 +41,11 @@ namespace ImouRentACar.Models
         [Display(Name = "Car")]
         [ForeignKey("CarId")]
         public int CarId { get; set; }
-        
+
+        [Display(Name = "Price")]
+        [ForeignKey("PriceId")]
+        public int PriceId { get; set; }
+
         [ForeignKey("ReturnLgaId")]
         [Required(ErrorMessage ="Lga is required")]
         public int ReturnLgaId { get; set; }

@@ -82,31 +82,45 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
-        public IActionResult RentalForm(Booking booking)
+        public async Task<IActionResult> RentalForm(Booking booking)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var _booking = new Booking()
+                try
                 {
-                    ReturnDate = booking.ReturnDate,
-                    ReturnLgaId = booking.ReturnLgaId,
-                    ReturnLocation = booking.ReturnLocation,
-                    PickUpDate = booking.PickUpDate,
-                    PickUpLgaId = booking.PickUpLgaId,
-                    PickUpLocation = booking.PickUpLocation,
-                    Verification = Verification.YetToReply,
-                    DateSent = DateTime.Now
-                };
+                    var price = await _database.Prices.SingleOrDefaultAsync(p => p.PickUpLgaId == booking.PickUpLgaId && p.DestinationLgaId == booking.ReturnLgaId);
+                    if (price == null)
+                    {
+                        TempData["error"] = "Sorry there is no fixed price for your current destination. Can you kindly urtler your distination";
+                        return View(booking);
+                    }
+                    var _priceId = price.PriceId;
+                    var _destinationPrice = price.Amount;
+                    var _booking = new Booking()
+                    {
+                        ReturnDate = booking.ReturnDate,
+                        ReturnLgaId = booking.ReturnLgaId,
+                        ReturnLocation = booking.ReturnLocation,
+                        PickUpDate = booking.PickUpDate,
+                        PickUpLgaId = booking.PickUpLgaId,
+                        PickUpLocation = booking.PickUpLocation,
 
-                _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
-                return RedirectToAction("SelectACar", "Booking");
+                        Verification = Verification.YetToReply,
+                        PriceId = _priceId,
+                        TotalBookingPrice = _destinationPrice,
+                        DateSent = DateTime.Now,
+                    };
+                    
+                    _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
+                    return RedirectToAction("SelectACar", "Booking");
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
 
-
+            return View(booking);
         }
 
         #endregion

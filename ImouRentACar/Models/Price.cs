@@ -18,7 +18,7 @@ namespace ImouRentACar.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage="Amount is required")]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿@*@model ImouRentACar.Models.Price
+﻿@model ImouRentACar.Models.Price
 
 @{
     ViewData["Title"] = "Delete";
@@ -17,7 +17,6 @@
     <h3 class="text-center"> Are you sure you want to delete @Html.DisplayFor(model => model.Name) Car Price?</h3>
 </div>
 <form asp-action="Delete">
-    <input type="hidden" asp-for="CarId" />
     <input type="hidden" asp-for="PriceId" />
 
     <!--MODAL FOOTER-->
@@ -29,4 +28,4 @@
             </div>
         </div>
     </div>
-</form>*@
+</form>

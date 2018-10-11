@@ -1,70 +1,146 @@
-﻿@*@model ImouRentACar.Models.Price
+﻿@model ImouRentACar.Models.Price
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = null;
+    Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
 }
 
-<!--MODAL HEADER-->
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3> <strong> EDIT CAR PRICE </strong> </h3>
-</div>
 
-<form asp-action="Edit">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="CarId" />
-    <input type="hidden" asp-for="PriceId" />
-    <!--MODAL BODY-->
-    <div class="modal-body">
-        <div class="form-horizontal">
-            <div class="row">
-                <div class="control-label col-md-2">
-                    <label>Car</label>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h2>
+                <strong> EDIT PRICE</strong>
+            </h2>
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--MODAL BODY-->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <h4 style=" text-align:left; font-weight: 300; padding-bottom:5px;"><b>PICK UP DETAILS</b></h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>STATE</label>
+                                <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state" asp-items="ViewBag.PickUpStateId">
+                                    <option selected>---------- States--------</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>LGA</label>
+                                <select asp-for="PickUpLgaId" style="color: black; font-weight:500 " class="form-control" id="lga">
+                                    <option selected> Pick Up Lga</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <h4 style=" text-align:left; font-weight: 300; padding-bottom:5px;"><b>DESTINATION DETAILS</b></h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>STATE</label>
+                                <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state2" asp-items="ViewBag.DestinationStateId">
+                                    <option selected>---------- States--------</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>LGA</label>
+                                <select asp-for="DestinationLgaId" style="color: black; font-weight:500 " class="form-control" id="lga2">
+                                    <option selected> Pick Up Lga</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>NAME</label>
+                                <input asp-for="Name" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label>AMOUNT</label>
+                                <input asp-for="Amount" class="form-control" placeholder="Amount" />
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId">
-                        <option selected>--- Select a car ---</option>
-                    </select>
-                    <span asp-validation-for="CarId" class="text-danger"></span>
+
+                <!--MODAL FOOTER-->
+                <div class="modal-footer">
+                    <div class="row pull-right">
+                        <div class="col-md-12">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <input type="hidden" asp-for="PriceId" />
+                            <a class="btn btn-danger" asp-action="Index" asp-controller="Price">Cancel</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="control-label col-md-2">
-                    <label asp-for="Name"></label>
-                </div>
-                <div class="col-md-10">
-                    <input asp-for="Name" class="form-control " />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="control-label col-md-2">
-                    <label asp-for="Amount"></label>
-                </div>
-                <div class="col-md-10">
-                    <input asp-for="Amount" class="form-control " />
-                    <span asp-validation-for="Amount" class="text-danger"></span>
-                </div>
-            </div>
-            <br />
+            </form>
         </div>
     </div>
+</section>
 
-    <!--MODAL FOOTER-->
-    <div class="modal-footer">
-        <div class="row pull-right">
-            <div class="col-md-12">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
-            </div>
-        </div>
-    </div>
-</form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('#state').val() != '') {
+                getLGAs();
+            }
+            $('#state').on('input', function () {
+                getLGAs();
+            });
+            function getLGAs() {
+                $('#lga').children("option").remove();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Price/GetLgasForState',
+                    dataType: 'json',
+                    data: { id: $('#state').val() },
+                    success: function (lga) {
+                        console.log(lga);
+                        $.each(lga, function (i, lga) {
+                            $('#lga').append('<option value="' + lga.lgaId + '">' + lga.name + '</option>');
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            if ($('#state2').val() != '') {
+                getLGAs();
+            }
+            $('#state2').on('input', function () {
+                getLGAs();
+            });
+            function getLGAs() {
+                $('#lga2').children("option").remove();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Price/GetLgasForState',
+                    dataType: 'json',
+                    data: { id: $('#state2').val() },
+                    success: function (lga) {
+                        console.log(lga);
+                        $.each(lga, function (i, lga) {
+                            $('#lga2').append('<option value="' + lga.lgaId + '">' + lga.name + '</option>');
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+
+    </script>
+}
 

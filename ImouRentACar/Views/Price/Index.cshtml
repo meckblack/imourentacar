@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<ImouRentACar.Models.Price>
+﻿@model IEnumerable<ImouRentACar.Models.Price>
 @using ImouRentACar.Models.Enums
 
 @{
@@ -10,7 +10,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        CAR PRICES
+        PRICES
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -50,7 +50,7 @@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <a asp-action="Create" data-modal="" class="btn btn-primary btn pull-right"><i style="color: red;" class="fa fa-plus"></i> ADD</a>
+            <a asp-action="Create" class="btn btn-primary btn pull-right"><i style="color: red;" class="fa fa-plus"></i> ADD</a>
         </div>
         <div class="box-body">
             <table class="table" id="myTable">
@@ -60,12 +60,14 @@
                             S/N
                         </th>
                         <th>
-                            Car 
-                        </th>
-                        <th>
                             Name
                         </th>
-
+                        <th>
+                            From
+                        </th>
+                        <th>
+                            To
+                        </th>
                         <th>
                             Amount
                         </th>
@@ -82,17 +84,20 @@
                             @(x++)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Car.Name)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
+                        <th>
+                            @item.PickUpLgaId
+                        </th>
+                        <th>
+                            @item.DestinationLgaId
+                        </th>
                         <td>
                             &#8358 @Html.DisplayFor(modelItem => item.Amount)
                         </td>
                         <td>
                             <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.PriceId"><i class="fa fa-book "></i> Details</a>
-                            <a class="btn btn-warning btn-sm" data-modal="" asp-action="Edit" asp-route-id="@item.PriceId"><i class="fa fa-pencil-square-o "></i> Edit</a>
+                            <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.PriceId"><i class="fa fa-pencil-square-o "></i> Edit</a>
                             <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.PriceId"><i class="fa fa-trash-o "></i> Delete</a>
                         </td>
                     </tr>
@@ -129,4 +134,4 @@
             ]
         });
     });
-</script>*@
+</script>

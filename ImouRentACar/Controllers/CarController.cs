@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,7 @@ namespace ImouRentACar.Areas
 
         #region Index
 
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -59,6 +61,7 @@ namespace ImouRentACar.Areas
         #region Create
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create()
         {
             var userid = _session.GetInt32("imouloggedinuserid");
@@ -70,6 +73,7 @@ namespace ImouRentACar.Areas
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(Car car, IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -127,6 +131,7 @@ namespace ImouRentACar.Areas
         #region Edit
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -150,6 +155,7 @@ namespace ImouRentACar.Areas
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit (int? id, Car car, IFormFile file)
         {
             if (id != car.CarId)
@@ -313,6 +319,7 @@ namespace ImouRentACar.Areas
         #region View All Cars
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> ViewAllCars()
         {
             dynamic mymodel = new ExpandoObject();

@@ -53,7 +53,6 @@ namespace ImouRentACar.Controllers
         #region Create
 
         [HttpGet]
-        //[SessionExpireFilterAttribute]
         public IActionResult Create()
         {
             var brand = new CarBrand();
@@ -61,7 +60,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
-        //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CarBrand brand)
         {
@@ -101,6 +100,7 @@ namespace ImouRentACar.Controllers
         #region Edit
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -117,9 +117,9 @@ namespace ImouRentACar.Controllers
 
             return PartialView("Edit", _brand);
         }
-
-        //
+        
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int id, CarBrand brand)
         {
             if(id != brand.CarBrandId)
@@ -161,7 +161,6 @@ namespace ImouRentACar.Controllers
         #region Delete
 
         [HttpGet]
-        //[SessionExpireFilterAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
             if ( id == null)
@@ -180,7 +179,6 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
-        //[SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {

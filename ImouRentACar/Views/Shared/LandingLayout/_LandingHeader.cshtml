@@ -13,8 +13,8 @@
         @if (TempData["customername"] == null || Convert.ToString(TempData["customername"]) == " ")
         {
             <ul class="logreg">
-                <li><a data-modal="" asp-action="SignIn" asp-controller="Customer">SignIn </a> </li>
-                <li><a data-modal="" asp-action="Register" asp-controller="Customer"><span class="register">Register</span></a></li>
+                <li><a asp-action="SignIn" asp-controller="Customer">SignIn </a> </li>
+                <li><a asp-action="Register" asp-controller="Customer"><span class="register">Register</span></a></li>
             </ul>
         }
         else

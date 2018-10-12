@@ -1,57 +1,43 @@
 ﻿@model ImouRentACar.Models.Customer
 
 @{
-    ViewData["Title"] = "SignIn";
-    Layout = null;
+    Layout = "~/Views/Shared/AuthenticationLayout/_AuthenticationLayout.cshtml";
 }
 
-<!--MODAL HEADER-->
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3> <strong> SIGN INTO YOUR IMOU ACCOUNT </strong> </h3>
+<div class="login-logo">
+    <a asp-action="Index" asp-controller="Home"><b>Imou</b> Rent A Car</a>
 </div>
-
-<form asp-action="SignIn">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ConfrimPassword" />
-    <input type="hidden" asp-for="FirstName" />
-    <input type="hidden" asp-for="LastName" />
-    <input type="hidden" asp-for="MobileNumber" />
-
-    <!--MODAL BODY-->
-    <div class="modal-body">
-        <div class="form-horizontal">
-            <div class="row">
-                @if (ViewData["mismatch"] != null && Convert.ToString(ViewData["mismatch"]) != " ")
-                {
-                    <p class="text-danger">@ViewData["mismatch"]</p>
-                }
-
-                <div class="col-md-7" style="padding-right:5px;">
-                    <label> Email Address </label>
-                    <input asp-for="Email" class="form-control" placeholder="Email Address" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="col-md-5">
-                    <label> Password </label>
-                    <input asp-for="Password" class="form-control" placeholder="Password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-            </div>
+<!-- /.login-logo -->
+<div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+    <form asp-action="SignIn" asp-controller="Customer">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (ViewData["mismatch"] != null && Convert.ToString(ViewData["mismatch"]) != " ")
+        {
+            <h5 style="padding-left:1em;" class="text-danger">@ViewData["mismatch"]</h5>
+        }
+        <div class="form-group has-feedback">
+            <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
-    </div>
-
-    <!--MODAL FOOTER-->
-    <div class="modal-footer">
-        <div class="row pull">
+        <div class="form-group has-feedback">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter Password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
             <div class="col-md-12">
-                <a class="btn btn-success pull-left" data-modal="" asp-action="Register">Register</a>
-                <input type="submit" value="SignIn" class="btn btn-primary" />
-                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                <div class="checkbox icheck">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+    <!-- /.social-auth-links -->
+    <a asp-action="PasswordRecovery" asp-controller="Account">I forgot my password</a><br>
+</div>
+<!-- /.login-box-body -->
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

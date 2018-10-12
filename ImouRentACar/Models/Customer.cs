@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImouRentACar.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,6 +34,12 @@ namespace ImouRentACar.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfrimPassword { get; set; }
+
+        [Required(ErrorMessage = "Gender is required")]
+        public Gender Gender { get; set; }
+
+        [Required(ErrorMessage = "Title is required")]
+        public Title Title { get; set; }
 
         public string DisplayName
             => FirstName + " " + LastName;

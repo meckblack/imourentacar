@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Areas
 {
@@ -327,8 +328,18 @@ namespace ImouRentACar.Areas
             {
                 ViewData["imageoflogo"] = logo.Image;
             }
-
+            
             var _allCars = await _database.Cars.ToListAsync();
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                return View(_allCars);
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
             return View(_allCars);
         }
 

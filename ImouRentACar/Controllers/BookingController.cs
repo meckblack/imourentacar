@@ -74,6 +74,16 @@ namespace ImouRentACar.Controllers
             {
                 ViewData["imageoflogo"] = logo.Image;
             }
+            
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                return View();
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
 
             ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
             ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
@@ -152,6 +162,16 @@ namespace ImouRentACar.Controllers
             }
 
             var cars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).ToListAsync();
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                return View(cars);
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
             return View(cars);
         }
 
@@ -181,6 +201,15 @@ namespace ImouRentACar.Controllers
 
             if (allCars.Any(c => c.CarId == id))
             {
+                var customerObject = _session.GetString("imouloggedincustomer");
+                if (customerObject == null)
+                {
+                    return View();
+                }
+
+                var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+                TempData["customername"] = _customer.DisplayName;
+                
                 var bookingObject = _session.GetString("bookingobject");
 
                 if(bookingObject == null)
@@ -217,8 +246,67 @@ namespace ImouRentACar.Controllers
         [HttpPost]
         public async Task<IActionResult> PassengerInformation(int? id, PassengerInformation passengerInformation)
         {
-            if (ModelState.IsValid)
+          try
             {
+                var customerObject = _session.GetString("imouloggedincustomer");
+                if (customerObject != null)
+                {
+                    var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+
+                    var _passengerInformations = new PassengerInformation()
+                    {
+                        FirstName = _customer.FirstName,
+                        LastName = _customer.LastName,
+                        Email = _customer.Email,
+                        Title = _customer.Title,
+                        Gender = _customer.Gender,
+                        PhoneNumber = _customer.MobileNumber,
+                        MemberId = Convert.ToString(_customer.MemberId),
+                    };
+
+                    await _database.PassengersInformation.AddAsync(_passengerInformations);
+                    await _database.SaveChangesAsync();
+
+                    var bookingObjects = _session.GetString("bookingobject");
+
+                    if (bookingObjects != null)
+                    {
+                        var booking = JsonConvert.DeserializeObject<Booking>(bookingObjects);
+                        var car = await _database.Cars.FindAsync(id);
+                        var carPrice = car.Price;
+
+                        var saveBooking = new Booking()
+                        {
+                            DateSent = booking.DateSent,
+                            ReturnDate = booking.ReturnDate,
+                            ReturnLgaId = booking.ReturnLgaId,
+                            ReturnLocation = booking.ReturnLocation,
+                            PickUpDate = booking.PickUpDate,
+                            PickUpLgaId = booking.PickUpLgaId,
+                            PickUpLocation = booking.PickUpLocation,
+                            Verification = Verification.YetToReply,
+                            CarId = Convert.ToInt32(id),
+                            TotalBookingPrice = booking.TotalBookingPrice + carPrice,
+                            PriceId = booking.PriceId,
+                            PassengerInformationId = _passengerInformations.PassengerInformationId,
+                            PassengerInformation = _passengerInformations
+                        };
+
+                        await _database.Bookings.AddAsync(saveBooking);
+                        await _database.SaveChangesAsync();
+
+                        return RedirectToAction("Success", "Booking");
+                    }
+                    else
+                    {
+                        TempData["bookingerror"] = "Sorry your session has expired.";
+                        return RedirectToAction("Error", "Home");
+                    }
+                }
+
+                
+                
+
                 var _passengerInformation = new PassengerInformation()
                 {
                     FirstName = passengerInformation.FirstName,
@@ -226,6 +314,7 @@ namespace ImouRentACar.Controllers
                     MiddleName = passengerInformation.MiddleName,
                     Email = passengerInformation.Email,
                     DOB = passengerInformation.DOB,
+                    Title = passengerInformation.Title,
                     Gender = passengerInformation.Gender,
                     PhoneNumber = passengerInformation.PhoneNumber,
                     MemberId = passengerInformation.MemberId,
@@ -269,9 +358,11 @@ namespace ImouRentACar.Controllers
                     TempData["bookingerror"] = "Sorry your session has expired.";
                     return RedirectToAction("Error", "Home");
                 }
+            }catch(Exception e)
+            {
+                return View(e);
             }
-
-            return View("PassengerInformation", passengerInformation);
+            
         }
 
         #endregion

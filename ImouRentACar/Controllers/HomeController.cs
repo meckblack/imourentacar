@@ -8,6 +8,7 @@ using ImouRentACar.Models;
 using ImouRentACar.Data;
 using System.Dynamic;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -73,6 +74,15 @@ namespace ImouRentACar.Controllers
 
                 ViewData["imageoflogo"] = logo.Image;
             }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if(customerObject == null)
+            {
+                return View();
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
 
 
             return View();

@@ -100,8 +100,8 @@ namespace ImouRentACar.Controllers
                 {
                     _session.SetString("imouloggedincustomer", JsonConvert.SerializeObject(_customer));
                     _session.SetInt32("imouloggedincustomerid", _customer.CustomerId);
-                    
-                    return RedirectToAction("Dashboard", "Customer");
+
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -138,7 +138,7 @@ namespace ImouRentACar.Controllers
 
             TempData["customername"] = _customer.DisplayName;
             
-            return View("Dashboard");
+            return RedirectToAction("Home", "Index");
         }
 
         #endregion

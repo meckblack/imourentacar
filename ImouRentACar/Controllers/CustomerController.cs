@@ -34,8 +34,7 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var customer = new Customer();
-            return PartialView("Register", customer);
+            return View();
         }
 
         [HttpPost]
@@ -66,7 +65,7 @@ namespace ImouRentACar.Controllers
                     await _database.Customers.AddAsync(_customer);
                     await _database.SaveChangesAsync();
 
-                    return Json(new { success = true });
+                    return RedirectToAction("Signin", "Customer");
                 }
                 
             }
@@ -81,8 +80,7 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
-            var customer = new Customer();
-            return PartialView("SignIn", customer);
+            return View();
         }
 
         [HttpPost]

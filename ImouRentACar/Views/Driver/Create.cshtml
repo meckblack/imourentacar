@@ -20,65 +20,33 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="row">
-                                    <div class="control-label col-md-3">
-                                        <label asp-for="FirstName"></label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input asp-for="FirstName" class="form-control " />
-                                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                                    </div>
-                                </div>
+                                <label>FIRST NAME</label>
+                                <input class="form-control" asp-for="FirstName" placeholder="First Name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
-                                <div class="row">
-                                    <div class="control-label col-md-3">
-                                        <label asp-for="LastName"></label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input asp-for="LastName" class="form-control " />
-                                        <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
-                                </div>
+                                <label> LAST NAME</label>
+                                    
+                                <input asp-for="LastName" class="form-control " />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="control-label col-md-3">
-                                        <label asp-for="MiddleName"></label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input asp-for="MiddleName" class="form-control " />
-                                        <span asp-validation-for="MiddleName" class="text-danger"></span>
-                                    </div>
-                                </div>
+                            <div class="col-md-5">
+                                <label>MIDDLE NAME</label>
+                                <input asp-for="MiddleName" class="form-control " placeholder="Middle Name" />
+                                <span asp-validation-for="MiddleName" class="text-danger"></span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="control-label col-md-3">
-                                        <label asp-for="DOB"></label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input asp-for="DOB" class="form-control datepicker" />
-                                        <span asp-validation-for="DOB" class="text-danger"></span>
-                                    </div>
-                                </div>
+                            <div class="col-md-3">
+                                <label asp-for="DOB"></label>
+                                <input asp-for="DOB" class="form-control datepicker"  placeholder="Date Of Birth"/>
+                                <span asp-validation-for="DOB" class="text-danger"></span>
                             </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="control-label col-md-3">
-                                        <label asp-for="License"></label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input class="form-control" type="file" name="file" />
-                                        <span asp-validation-for="License" class="text-danger"></span>
-                                    </div>
-                                </div>
+                            <div class="col-md-4">
+                                <label asp-for="License"></label>
+                                <input class="form-control" type="file" name="file" />
+                                <span asp-validation-for="License" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

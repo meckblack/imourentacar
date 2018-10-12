@@ -14,7 +14,7 @@
 <form asp-action="AssignDriver">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="BookingId" />
-    @*<input type="hidden" asp-for="CarId" />*@
+    <input type="hidden" asp-for="CarId" />
     <input type="hidden" asp-for="PickUpLgaId" />
     <input type="hidden" asp-for="ReturnLgaId" />
     <input type="hidden" asp-for="PassengerInformationId" />
@@ -29,12 +29,10 @@
     <div class="modal-body">
         <div class="form-horizontal">
             <div class="row">
-                <div class="control-label col-md-3">
-                    <label>Driver Name</label>
-                </div>
-                <div class="col-md-9">
+                <div class="col-md-12">
+                    <label>DRIVER</label>
                     <select asp-for="DriverId" class="form-control" asp-items="ViewBag.DriverId">
-                        <option selected>------------------------------ Select A Driver ----------------------------</option>
+                        <option selected>----------------------------------------- Select A Driver --------------------------------------------</option>
                     </select>
                 </div>
             </div>

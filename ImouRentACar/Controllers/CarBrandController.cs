@@ -30,7 +30,7 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
-        //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters

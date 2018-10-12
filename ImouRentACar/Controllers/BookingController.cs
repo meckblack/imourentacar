@@ -79,6 +79,8 @@ namespace ImouRentACar.Controllers
             var customerObject = _session.GetString("imouloggedincustomer");
             if (customerObject == null)
             {
+                ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
+                ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
                 return View();
             }
 
@@ -98,14 +100,37 @@ namespace ImouRentACar.Controllers
             {
                 try
                 {
-                    var price = await _database.Prices.SingleOrDefaultAsync(p => p.PickUpLgaId == booking.PickUpLgaId && p.DestinationLgaId == booking.ReturnLgaId);
+                    //Checks if there is a fixed price rate for the choosen destination
+                    var price = await _database.Prices
+                        .SingleOrDefaultAsync(p => p.PickUpLgaId == booking.PickUpLgaId && p.DestinationLgaId == booking.ReturnLgaId 
+                                           || p.PickUpLgaId == booking.ReturnLgaId && p.DestinationLgaId == booking.PickUpLgaId);
                     if (price == null)
                     {
                         TempData["error"] = "Sorry there is no fixed price for your current destination. Can you kindly urtler your distination";
+                        dynamic mymodel = new ExpandoObject();
+                        mymodel.Logos = GetLogos();
+                        mymodel.Contacts = GetContacts();
+
+                        foreach (Contact contact in mymodel.Contacts)
+                        {
+                            ViewData["contactnumber"] = contact.MobileNumberOne;
+                        }
+
+                        foreach (Logo logo in mymodel.Logos)
+                        {
+                            ViewData["imageoflogo"] = logo.Image;
+                        }
+
+                        ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
+                        ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
+
                         return View(booking);
                     }
+                    
                     var _priceId = price.PriceId;
+                    
                     var _destinationPrice = price.Amount;
+                    
                     var _booking = new Booking()
                     {
                         ReturnDate = booking.ReturnDate,
@@ -304,8 +329,12 @@ namespace ImouRentACar.Controllers
                     }
                 }
 
-                
-                
+                var checkMemberId = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == Convert.ToInt32(passengerInformation.MemberId));
+                if(checkMemberId == null)
+                {
+                    TempData["error"] = "Sorry the MemberId you entered is invalid";
+                    return View(passengerInformation);
+                }
 
                 var _passengerInformation = new PassengerInformation()
                 {

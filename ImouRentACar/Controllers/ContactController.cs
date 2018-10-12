@@ -9,6 +9,7 @@ using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -30,6 +31,7 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -60,6 +62,7 @@ namespace ImouRentACar.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(Contact contact)
         {
             if (ModelState.IsValid)
@@ -111,6 +114,7 @@ namespace ImouRentACar.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ContactId,Address,MobileNumberOne,MobileNumberTwo,BoxOfficeNumber,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] Contact contact)
         {

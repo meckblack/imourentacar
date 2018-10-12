@@ -9,6 +9,7 @@ using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -31,6 +32,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         // GET: Price
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -68,6 +70,7 @@ namespace ImouRentACar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(Price price)
         {
             if (ModelState.IsValid)
@@ -164,6 +167,7 @@ namespace ImouRentACar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int id, Price price)
         {
             if (id != price.PriceId)

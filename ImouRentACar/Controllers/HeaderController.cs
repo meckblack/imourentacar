@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> AddHeader(Header header, IFormFile file)
         {
             if (file == null || file.Length == 0)

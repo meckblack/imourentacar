@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
+        [SessionExpireFilterAttribute]
         public IActionResult Index()
         {
             //Counters

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(State state)
         {
             if (ModelState.IsValid)
@@ -113,6 +115,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int id, State state)
         {
             if(id != state.StateId)

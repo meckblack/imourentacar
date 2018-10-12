@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using ImouRentACar.Models.Enums;
 using System.IO;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -33,7 +34,8 @@ namespace ImouRentACar.Controllers
         #endregion
 
         #region Index
-        
+
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -81,6 +83,7 @@ namespace ImouRentACar.Controllers
 
         // GET: Driver/Create
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create()
         {
             var userid = _session.GetInt32("imouloggedinuserid");
@@ -93,6 +96,7 @@ namespace ImouRentACar.Controllers
         // POST: Driver/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(Driver driver, IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -148,6 +152,8 @@ namespace ImouRentACar.Controllers
         #region Edit
 
         // GET: Driver/Edit/5
+        [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -170,6 +176,7 @@ namespace ImouRentACar.Controllers
 
         // POST: Driver/Edit/5
         [HttpPost]
+        [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Driver driver, IFormFile file)
         {

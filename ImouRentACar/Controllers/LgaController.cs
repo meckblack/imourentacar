@@ -9,6 +9,7 @@ using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -64,6 +65,7 @@ namespace ImouRentACar.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LGAId,Name,StateId,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] LGA lga)
         {
@@ -126,6 +128,7 @@ namespace ImouRentACar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int id, [Bind("LGAId,Name,StateId,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] LGA lga)
         {
             if (id != lga.LGAId)

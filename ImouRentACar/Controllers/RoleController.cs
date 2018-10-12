@@ -9,6 +9,7 @@ using ImouRentACar.Data;
 using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -31,6 +32,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         // GET: Role
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -90,6 +92,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(Role role)
         {
             if (ModelState.IsValid)
@@ -141,6 +144,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id, Role role)
         {
             if(id != role.RoleId)

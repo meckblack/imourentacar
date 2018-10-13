@@ -81,7 +81,7 @@ namespace ImouRentACar.Controllers
             {
                 ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
                 ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
-                return RedirectToAction("RentalForm", "Booking");
+                return View();
             }
 
             var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
@@ -106,7 +106,8 @@ namespace ImouRentACar.Controllers
                                            || p.PickUpLgaId == booking.ReturnLgaId && p.DestinationLgaId == booking.PickUpLgaId);
                     if (price == null)
                     {
-                        TempData["error"] = "Sorry there is no fixed price for your current destination. Can you kindly urtler your distination";
+                        TempData["error"] = "Sorry there is no fixed price for your desired destination. Can you kindly urtler your " +
+                            "distination before you continue the booking process";
                         dynamic mymodel = new ExpandoObject();
                         mymodel.Logos = GetLogos();
                         mymodel.Contacts = GetContacts();
@@ -735,10 +736,10 @@ namespace ImouRentACar.Controllers
             //{
             //    HtmlBody = message.
             //};
-
+            var url = Url.Action("Payment", "Booking/{id}");
             message.Body = new TextPart("plain")
             {
-                Text = "This is the message"
+                Text = "This is the link for payment www.imourentacar.com/"+ Url.Action("Payment", "Booking")+ id + " Kindly click it"
             };
 
             try

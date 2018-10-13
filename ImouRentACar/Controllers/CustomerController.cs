@@ -198,14 +198,14 @@ namespace ImouRentACar.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var customer = await _database.Customers.SingleOrDefaultAsync(b => b.CustomerId == id);
 
             if (customer == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("Delete", customer);
@@ -272,7 +272,7 @@ namespace ImouRentACar.Controllers
 
             if(customer == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
             
             return View("ViewProfile", customer);
@@ -296,7 +296,7 @@ namespace ImouRentACar.Controllers
 
             if (customer == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("EditProfile", customer);
@@ -313,7 +313,7 @@ namespace ImouRentACar.Controllers
             }
             if (id != customer.CustomerId)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             try
@@ -406,7 +406,50 @@ namespace ImouRentACar.Controllers
 
         #region Veiw Bookings
 
-        
+        [HttpGet]
+        public async Task<IActionResult> ViewBookings()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if (id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var customer = await _database.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+
+            if (customer == null)
+            {
+                return RedirectToAction("Index","Error");
+            }
+
+            return View("ViewProfile", customer);
+        }
+
 
         #endregion
 

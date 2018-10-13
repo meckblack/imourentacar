@@ -36,6 +36,8 @@ namespace ImouRentACar.Models
 
         public string BookingNumber { get; set; }
 
+        public int CustomerId { get; set; }
+
         #endregion
 
         #region ForeignKey

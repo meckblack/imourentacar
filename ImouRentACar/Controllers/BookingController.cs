@@ -287,7 +287,7 @@ namespace ImouRentACar.Controllers
                         Title = _customer.Title,
                         Gender = _customer.Gender,
                         PhoneNumber = _customer.MobileNumber,
-                        MemberId = Convert.ToString(_customer.MemberId),
+                        MemberId = _customer.MemberId
                     };
 
                     await _database.PassengersInformation.AddAsync(_passengerInformations);
@@ -315,7 +315,8 @@ namespace ImouRentACar.Controllers
                             TotalBookingPrice = booking.TotalBookingPrice + carPrice,
                             PriceId = booking.PriceId,
                             PassengerInformationId = _passengerInformations.PassengerInformationId,
-                            PassengerInformation = _passengerInformations
+                            PassengerInformation = _passengerInformations,
+                            CustomerId = _customer.CustomerId
                         };
 
                         await _database.Bookings.AddAsync(saveBooking);

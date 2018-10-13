@@ -1,8 +1,69 @@
-﻿
+﻿@model ImouRentACar.Models.Booking
 
 @{
-    ViewData["Title"] = "ViewBookings";
+    ViewData["Title"] = "View Bookings";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
 }
 
-<h2>ViewBookings</h2>
+@*<div class="allcontain" style="background-color: #473454">
+    <div class="container" style="padding-bottom: 146px">
+        <div class="" style="padding-bottom: 50px"></div>
+        <div class="feturedsection">
+            <h1 style="font-size:40px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;"
+                class="text-center">
+                <span class="bdots">&bullet;</span>C U S T O M E R' S<span class="carstxt">B O O K I N G S</span>&bullet;
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3">
+                <div class="row">
+                    <div class="col-md-2" style="padding-right:5px;">
+                        <label style="color: whitesmoke;">TITLE</label>
+                        <input asp-for="Title" style="color: black; font-weight:500;" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-5" style="padding-right:5px;">
+                        <label style="color: whitesmoke;">FIRST NAME</label>
+                        <input asp-for="FirstName" style="color: black; font-weight:500;" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-5">
+                        <label style="color: whitesmoke;">LAST NAME</label>
+                        <input asp-for="LastName" style="color: black; font-weight:500;" class="form-control" readonly />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6" style="padding-right:5px;">
+                        <label style="color: whitesmoke;">EMAIL ADDRESS</label>
+                        <input asp-for="Email" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-6" style="padding-right:5px;">
+                        <label style="color: whitesmoke;">PHONE NUMBER</label>
+                        <input asp-for="MobileNumber" class="form-control" readonly />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <label style="color: whitesmoke;">GENDER</label>
+                        <input asp-for="Gender" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label style="color: whitesmoke;">MEMBER ID</label>
+                        <input asp-for="MemberId" class="form-control" readonly />
+                    </div>
+                </div>
+                <br />
+                <a style="background-color: #020243; color: white;" data-modal="" asp-action="EditProfile" class="btn pull-right btn-submit">  EDIT PROFILE </a>
+            </div>
+        </div>
+    </div>
+</div>*@
 
+<div class="footer">
+    <div class="copyright">
+        &copy; Copy right @DateTime.Now.Year | <a href="#">Privacy </a>| <a href="#">Policy</a>
+    </div>
+    <div class="atisda">
+        Designed by <a href="#">meckblvck </a>
+    </div>
+</div>

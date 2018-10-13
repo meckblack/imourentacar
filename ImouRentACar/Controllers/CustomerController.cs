@@ -440,14 +440,19 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Signin", "Customer");
             }
 
-            var customer = await _database.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+            //var allBookings = _database.PassengersInformation.Any(pi => pi.MemberId == _customer.MemberId);
 
-            if (customer == null)
+
+            var allBookings = await _database.Bookings.ToListAsync();
+            
+
+
+            if (allBookings.Any(b => b.PassengerInformation.MemberId == _customer.MemberId))
             {
-                return RedirectToAction("Index","Error");
+                
             }
-
-            return View("ViewProfile", customer);
+            
+            return View("ViewBookings");
         }
 
 

@@ -7,6 +7,10 @@
 <div class="login-logo">
     <a asp-action="Index" asp-controller="Home"><b>Imou</b> Rent A Car</a>
 </div>
+@if (TempData["error"] != null && Convert.ToString(TempData["error"]) != " ")
+{
+    <h5 style="padding-left:1em;" class="text-danger text-left">@TempData["error"]</h5>
+}
 <!-- /.login-logo -->
 <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>

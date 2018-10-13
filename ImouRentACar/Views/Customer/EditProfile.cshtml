@@ -1,0 +1,75 @@
+﻿@model ImouRentACar.Models.Customer
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> EDIT YOUR PROFILE </strong> </h3>
+</div>
+
+<form asp-action="EditProfile">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="Password" />
+    <input type="hidden" asp-for="ConfrimPassword" />
+
+    <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-2" style="padding-right: 5px;">
+                    <label>TITLE</label>
+                    <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Title)))"></select>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-md-5" style="padding-right: 5px;">
+                    <label>FIRST NAME</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="First Name">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-5" style="padding-right: 5px;">
+                    <label>LAST NAME</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Last Name">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-6" style="padding-right:5px;">
+                        <label>EMAIL ADDRESS</label>
+                        <input asp-for="Email" class="form-control" placeholder="Email Address" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3" style="padding-right:5px;">
+                        <label>PHONE NUMBER</label>
+                        <input asp-for="MobileNumber" class="form-control" placeholder="Phone Number" />
+                        <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label>GENDER</label>
+                        <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Gender)))"></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

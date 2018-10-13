@@ -157,23 +157,6 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
-        #region Get Data
-
-        private List<Logo> GetLogos()
-        {
-            var _logos = _database.Logos.ToList();
-
-            return _logos;
-        }
-
-        private List<Contact> GetContacts()
-        {
-            var _contact = _database.Contacts.ToList();
-            return _contact;
-        }
-
-        #endregion
-
         #region Index
 
         [SessionExpireFilterAttribute]
@@ -231,7 +214,7 @@ namespace ImouRentACar.Controllers
                 _database.Customers.Remove(customer);
                 await _database.SaveChangesAsync();
 
-                TempData["customer"] = "You have successfully deleted " + customer.DisplayName + " !!!";
+                TempData["customer"] = "You has successfully deleted " + customer.DisplayName + " !!!";
                 TempData["notificationType"] = NotificationType.Success.ToString();
 
                 return Json(new { success = true });
@@ -240,5 +223,201 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
+
+        #region View Profile
+
+        public async Task<IActionResult> ViewProfile()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
+
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if(id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var customer = await _database.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+
+            if(customer == null)
+            {
+                return NotFound();
+            }
+            
+            return View("ViewProfile", customer);
+        }
+
+        #endregion
+
+        #region Edit Profile
+
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if(id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var customer = await _database.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("EditProfile", customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(Customer customer)
+        {
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if (id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+            if (id != customer.CustomerId)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _database.Customers.Update(customer);
+                    await _database.SaveChangesAsync();
+
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return View(customer);
+        }
+
+        #endregion
+
+        #region Change Password
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+            
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(Customer customer)
+        {
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if (id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    customer.Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
+                    customer.ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword);
+
+                    _database.Customers.Update(customer);
+                    await _database.SaveChangesAsync();
+
+                    TempData["customer"] = "You have successfully changed your password";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return View(customer);
+        }
+
+        #endregion
+
+        #region Veiw Bookings
+
+        
+
+        #endregion
+
+        #region Get Data
+
+        private List<Logo> GetLogos()
+        {
+            var _logos = _database.Logos.ToList();
+
+            return _logos;
+        }
+
+        private List<Contact> GetContacts()
+        {
+            var _contact = _database.Contacts.ToList();
+            return _contact;
+        }
+
+        #endregion
+
     }
 }

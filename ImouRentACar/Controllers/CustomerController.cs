@@ -192,10 +192,51 @@ namespace ImouRentACar.Controllers
             var role = await _database.Roles.SingleOrDefaultAsync(r => r.RoleId == roleid && r.CanManageCustomers == true);
 
             ViewData["loggedinuserfullname"] = _user.DisplayName;
-            ViewData["canmanagecustomer"] = "Allow to view";
+            ViewData["canmanagecustomer"] = role;
 
             var customers = await _database.Customers.ToListAsync();
             return View(customers);
+        }
+
+        #endregion
+
+        #region Delete
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _database.Customers.SingleOrDefaultAsync(b => b.CustomerId == id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Delete", customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var customer = await _database.Customers.SingleOrDefaultAsync(b => b.CustomerId == id);
+
+            if (customer != null)
+            {
+                _database.Customers.Remove(customer);
+                await _database.SaveChangesAsync();
+
+                TempData["customer"] = "You have successfully deleted " + customer.DisplayName + " !!!";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
+            return View("Index");
         }
 
         #endregion

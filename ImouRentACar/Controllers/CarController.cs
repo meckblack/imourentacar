@@ -254,7 +254,6 @@ namespace ImouRentACar.Areas
         #region Delete
 
         [HttpGet]
-        //[SessionExpireFilterAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -273,7 +272,6 @@ namespace ImouRentACar.Areas
         }
 
         [HttpPost]
-        //[SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {

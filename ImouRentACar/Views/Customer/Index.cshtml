@@ -85,7 +85,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-warning btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.CustomerId"><i class="fa fa-pencil-square-o"></i> Details</a>
-                                @if (ViewData["canmanagecustomer"] != null)
+                                @if (ViewData["canmanagecustomer"] != null && Convert.ToString(ViewData["canmangecustomer"]) != " ")
                                 {
                                     <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa fa-trash-o"></i> Delete</a>
                                 }

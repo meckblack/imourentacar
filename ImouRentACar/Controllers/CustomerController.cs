@@ -10,6 +10,8 @@ using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Dynamic;
+using ImouRentACar.Services;
+using ImouRentACar.Models.Enums;
 
 namespace ImouRentACar.Controllers
 {
@@ -171,21 +173,31 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
-        
-        // POST: Customer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+
+        #region Index
+
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> Index()
         {
-            var customer = await _database.Customers.FindAsync(id);
-            _database.Customers.Remove(customer);
-            await _database.SaveChangesAsync();
-            return RedirectToAction(nameof(Dashboard));
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = await _database.Roles.SingleOrDefaultAsync(r => r.RoleId == roleid && r.CanManageCustomers == true);
+
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+            ViewData["canmanagecustomer"] = "Allow to view";
+
+            var customers = await _database.Customers.ToListAsync();
+            return View(customers);
         }
 
-        private bool CustomerExists(int id)
-        {
-            return _database.Customers.Any(e => e.CustomerId == id);
-        }
+        #endregion
     }
 }

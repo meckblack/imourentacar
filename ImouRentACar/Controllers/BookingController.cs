@@ -703,8 +703,13 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendLink(int id)
+        public async Task<IActionResult> SendLink(int id, Booking booking)
         {
+            if (id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
             var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
 
             var passengerId = _booking.PassengerInformationId;
@@ -736,18 +741,32 @@ namespace ImouRentACar.Controllers
                 Text = "This is the message"
             };
 
-            using (var client = new SmtpClient())
+            try
             {
-                client.Connect("smtp.gmail.com", 587, false);
-                await client.AuthenticateAsync("mecktinum@gmail.com", "bluefire2045");
+                
 
-                client.Disconnect(true);
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+                    await client.AuthenticateAsync("mecktinum@gmail.com", "bluefire2045");
+
+                    client.Disconnect(true);
+                }
+
+                booking.Verification = Verification.LinkSent;
+
+                _database.Bookings.Update(booking);
+                await _database.SaveChangesAsync();
 
                 TempData["booking"] = "You have successfully sent a payment link to " + _passengerDetails.Email + " email address for a booking request made by "
-                                        + _passengerDetails.DisplayName;
+                                            + _passengerDetails.DisplayName;
                 TempData["notificationType"] = NotificationType.Success.ToString();
 
                 return Json(new { success = true });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
             }
         }
 

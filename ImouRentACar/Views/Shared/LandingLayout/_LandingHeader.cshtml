@@ -90,9 +90,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WELCOME @TempData["customername"] <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdowncostume">
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="3">3</a></li>
+                            <li><a asp-action="ViewProfile" asp-controller="Customer">View Profile</a></li>
+                            <li><a asp-action="ViewBookings" asp-controller="Customer">View Bookings</a></li>
                         </ul>
                     </li>
                 </ul>

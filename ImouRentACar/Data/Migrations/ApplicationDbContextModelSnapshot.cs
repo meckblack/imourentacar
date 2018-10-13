@@ -113,6 +113,8 @@ namespace ImouRentACar.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BookingNumber");
+
                     b.Property<int>("CarId");
 
                     b.Property<DateTime>("DateDriverAssigned");
@@ -271,7 +273,7 @@ namespace ImouRentACar.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
-                    b.Property<int>("MemberId");
+                    b.Property<string>("MemberId");
 
                     b.Property<string>("MobileNumber")
                         .IsRequired();

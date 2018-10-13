@@ -54,6 +54,12 @@ namespace ImouRentACar.Controllers
                 }
                 else
                 {
+                    //var generator = new Random();
+                    //var number = generator.Next(0, 100000000).ToString();
+
+                    var stringGenerator = new RandomStringGenerator();
+                    var memberid = stringGenerator.RandomString(8);
+
                     var _customer = new Customer()
                     {
                         FirstName = customer.FirstName,
@@ -61,7 +67,9 @@ namespace ImouRentACar.Controllers
                         Email = customer.Email,
                         MobileNumber = customer.MobileNumber,
                         Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
-                        ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
+                        ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword),
+                        MemberId = memberid
+                        
                     };
 
                     await _database.Customers.AddAsync(_customer);

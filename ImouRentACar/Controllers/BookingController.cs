@@ -81,7 +81,7 @@ namespace ImouRentACar.Controllers
             {
                 ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
                 ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
-                return View();
+                return RedirectToAction("RentalForm", "Booking");
             }
 
             var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
@@ -329,7 +329,7 @@ namespace ImouRentACar.Controllers
                     }
                 }
 
-                var checkMemberId = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == Convert.ToInt32(passengerInformation.MemberId));
+                var checkMemberId = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == passengerInformation.MemberId);
                 if(checkMemberId == null)
                 {
                     TempData["error"] = "Sorry the MemberId you entered is invalid";

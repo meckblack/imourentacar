@@ -60,7 +60,7 @@ namespace ImouRentACar.Controllers
             
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageApplicationUsers == false)
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -137,10 +137,45 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
+        
+        #region Delete
 
-        #region Edit
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
 
+            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == id);
 
+            if (_user == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return PartialView("Delete", _user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == id);
+
+            if (_user == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            _database.ApplicationUsers.Remove(_user);
+            await _database.SaveChangesAsync();
+
+            TempData["appuser"] = "You have successfully deleted  " + _user.DisplayName + "  as an application user!!!";
+            TempData["notificationType"] = NotificationType.Success.ToString();
+
+            return Json(new { success = true });
+        }
 
         #endregion
 

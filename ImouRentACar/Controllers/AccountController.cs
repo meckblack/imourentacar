@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
+using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -120,6 +122,139 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region SignOut
+
+        public IActionResult SignOut()
+        {
+            _session.Clear();
+            _database.Dispose();
+            return RedirectToAction("SignIn", "Account");
+        }
+
+        #endregion
+
+        #region View Profile
+
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> ViewProfile()
+        {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+            
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+            
+            ViewData["userrole"] = role.Name;
+
+            if (role.RoleId != roleid)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true && r.RoleId == roleid);
+            
+            return View(_user);
+        }
+
+        #endregion
+
+        #region Edit Profile
+
+        [HttpGet]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> EditProfile()
+        {
+            var userid = _session.GetInt32("imouloggedinuserid");
+
+            if (userid == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Try signin again";
+                return RedirectToAction("Signin", "Account");
+            }
+
+            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == userid);
+
+            if (_user == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return PartialView("EditProfile", _user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> EditProfile(ApplicationUser applicationUser)
+        {
+            var userid = _session.GetInt32("imouloggedinuserid");
+
+            if(userid != applicationUser.ApplicationUserId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    TempData["user"] = "You have successfully modified "+ applicationUser.DisplayName +" profile!!!";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    applicationUser.LastModifiedBy = Convert.ToInt32(_session.Get("imouloggedinuserid"));
+                    applicationUser.DateLastModified = DateTime.Now;
+                    _database.ApplicationUsers.Update(applicationUser);
+                    await _database.SaveChangesAsync();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ApplicationUserExists(applicationUser.ApplicationUserId))
+                    {
+                        return RedirectToAction("Index", "Error");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction("ViewProfile", "Account");
+        }
+
+        #endregion
+
+        #region Application User Exist
+
+        private bool ApplicationUserExists(int id)
+        {
+            return _database.ApplicationUsers.Any(e => e.ApplicationUserId == id);
+        }
+
+        #endregion
 
     }
 }

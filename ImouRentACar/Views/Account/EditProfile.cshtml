@@ -1,0 +1,68 @@
+﻿@model ImouRentACar.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = null;
+}
+
+<!-- Content Header (Page header) -->
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> EDIT PROFILE </strong> </h3>
+</div>
+
+<form asp-action="EditProfile">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="ApplicationUserId" type="hidden" />
+    <input asp-for="Password" type="hidden" />
+    <input asp-for="ConfirmPassword" type="hidden" />
+    <input asp-for="RoleId" type="hidden" />
+    <input asp-for="DateCreated" type="hidden" />
+    <input asp-for="CreatedBy" type="hidden" />
+    <input asp-for="LastModifiedBy" type="hidden" />
+    <input asp-for="DateLastModified" type="hidden" />
+
+
+    <!--MODAL BODY-->
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>FIRST NAME</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label>LAST NAME</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label>EMAIL ADDRESS</label>
+                    <input asp-for="Email" class="form-control" placeholder="EMAIL ADDRESS" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

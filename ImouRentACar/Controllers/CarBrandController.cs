@@ -50,7 +50,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageCarBrand == false)
+            if (role.CanManageApplicationUsers == false || role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }

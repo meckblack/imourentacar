@@ -38,6 +38,8 @@ namespace ImouRentACar.Models
 
         public int CustomerId { get; set; }
 
+        public PaymentStatus PaymentStatus { get; set; }
+
         #endregion
 
         #region ForeignKey

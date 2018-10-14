@@ -338,7 +338,8 @@ namespace ImouRentACar.Controllers
                             PassengerInformationId = _passengerInformations.PassengerInformationId,
                             PassengerInformation = _passengerInformations,
                             CustomerId = _customer.CustomerId,
-                            BookingNumber = bookingNumber
+                            BookingNumber = bookingNumber,
+                            PaymentStatus = PaymentStatus.Unpaid
                         };
 
                         await _database.Bookings.AddAsync(saveBooking);
@@ -403,7 +404,8 @@ namespace ImouRentACar.Controllers
                         PriceId = booking.PriceId,
                         PassengerInformationId = _passengerInformation.PassengerInformationId,
                         PassengerInformation = _passengerInformation,
-                        BookingNumber = bookingNumber
+                        BookingNumber = bookingNumber,
+                        PaymentStatus = PaymentStatus.Unpaid
                     };
 
                     await _database.Bookings.AddAsync(saveBooking);

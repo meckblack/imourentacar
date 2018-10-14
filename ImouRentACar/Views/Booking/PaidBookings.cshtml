@@ -10,11 +10,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        UNPAID BOOKINGS
+        PAID BOOKINGS
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Upaid Bookings</li>
+        <li class="active">Paid Bookings</li>
     </ol>
 
 
@@ -99,7 +99,7 @@
                                     <a class="btn btn-warning btn-sm" data-modal="" asp-action="SendLink" asp-route-id="@item.BookingId"><i class="fa fa-user "></i> Send Link</a>
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.BookingId"><i class="fa fa-book "></i> Details</a>
                                 }
-                                @if(item.Verification == Verification.LinkSent)
+                                @if (item.Verification == Verification.LinkSent)
                                 {
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.BookingId"><i class="fa fa-book "></i> Details</a>
                                 }

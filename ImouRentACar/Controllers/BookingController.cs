@@ -34,11 +34,11 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
-        #region Index
+        #region Index For Proccessing Bookings
 
         [HttpGet]
         [SessionExpireFilterAttribute]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Processing()
         {
             //Counters
             ViewData["carbrandcounter"] = _database.CarBrands.Count();
@@ -68,7 +68,127 @@ namespace ImouRentACar.Controllers
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
             ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
 
-            var bookings = _database.Bookings;
+            var bookings = _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Processing);
+            return View(await bookings.ToListAsync());
+        }
+
+        #endregion
+
+        #region Index For Paid Bookings
+
+        [HttpGet]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> PaidBookings()
+        {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+            ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
+
+            var bookings = _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Paid);
+            return View(await bookings.ToListAsync());
+        }
+
+        #endregion
+
+        #region Index For Unpaid Bookings
+
+        [HttpGet]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> UnPaidBookings()
+        {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+            ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
+
+            var bookings = _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Unpaid);
+            return View(await bookings.ToListAsync());
+        }
+
+        #endregion
+
+        #region Index For Expired Bookings
+
+        [HttpGet]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> ExpiredBookings()
+        {
+            //Counters
+            ViewData["carbrandcounter"] = _database.CarBrands.Count();
+            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
+            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
+            ViewData["contactcounter"] = _database.Contacts.Count();
+            ViewData["enquirycounter"] = _database.Enquiries.Count();
+            ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();
+
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
+
+            var bookings = _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Expired);
             return View(await bookings.ToListAsync());
         }
 
@@ -339,7 +459,7 @@ namespace ImouRentACar.Controllers
                             PassengerInformation = _passengerInformations,
                             CustomerId = _customer.CustomerId,
                             BookingNumber = bookingNumber,
-                            PaymentStatus = PaymentStatus.Unpaid
+                            PaymentStatus = PaymentStatus.Processing
                         };
 
                         await _database.Bookings.AddAsync(saveBooking);
@@ -405,7 +525,7 @@ namespace ImouRentACar.Controllers
                         PassengerInformationId = _passengerInformation.PassengerInformationId,
                         PassengerInformation = _passengerInformation,
                         BookingNumber = bookingNumber,
-                        PaymentStatus = PaymentStatus.Unpaid
+                        PaymentStatus = PaymentStatus.Processing
                     };
 
                     await _database.Bookings.AddAsync(saveBooking);
@@ -789,6 +909,7 @@ namespace ImouRentACar.Controllers
                 }
 
                 booking.Verification = Verification.LinkSent;
+                booking.PaymentStatus = PaymentStatus.Processing;
 
                 _database.Bookings.Update(booking);
                 await _database.SaveChangesAsync();
@@ -803,6 +924,44 @@ namespace ImouRentACar.Controllers
             {
                 throw;
             }
+        }
+
+        #endregion
+
+        #region Payment
+
+        public async Task<IActionResult> Payment(string bookingNumber)
+        {
+            var booking = await _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Processing).ToListAsync();
+            
+            var _booking = booking.SingleOrDefault(b => b.BookingNumber == bookingNumber);
+
+            if (booking == null)
+            {
+                TempData["expiredbooking"] = "Dear customer your pickup time has passed and so there your booking has expired.";
+                return RedirectToAction("Index", "Error");
+            }
+
+            
+            //Get Car
+            var carid = _booking.CarId;
+            var _car = await _database.Cars.FindAsync(carid);
+
+            //Get Car Brand
+            var brandid = _car.CarBrandId;
+            var _brand = await _database.CarBrands.FindAsync(brandid);
+
+
+            TempData["carimage"] = _car.Image;
+            TempData["carbrand"] = _brand.Name;
+            TempData["carname"] = _car.Name;
+            TempData["carprice"] = _car.Price;
+            TempData["pickuplocation"] = _booking.PickUpLocation;
+            TempData["returnlocation"] = _booking.ReturnLocation;
+            TempData["destinationprice"] = _booking.TotalBookingPrice;
+            TempData["totalprice"] = _booking.TotalBookingPrice + _car.Price;
+
+            return View();
         }
 
         #endregion

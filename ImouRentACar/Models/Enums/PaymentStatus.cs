@@ -8,6 +8,8 @@ namespace ImouRentACar.Models.Enums
     public enum PaymentStatus
     {
         Paid,
-        Unpaid
+        Unpaid,
+        Processing,
+        Expired
     }
 }

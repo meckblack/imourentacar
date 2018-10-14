@@ -105,10 +105,18 @@
             }
             @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
             {
-                <li>
-                    <a asp-action="Index" asp-controller="Booking">
+                <li class="treeview">
+                    <a>
                         <i class="fa fa-th"></i> <span>Bookings</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="Processing" asp-controller="Booking"><i class="fa fa-circle-o"></i>Process Bookings</a></li>
+                        <li><a asp-action="Index" asp-controller="Booking"><i class="fa fa-circle-o"></i>UnPaid Bookings</a></li>
+                        <li><a asp-action="PaidBookings" asp-controller="Booking"><i class="fa fa-circle-o"></i>Paid Bookings</a></li>
+                    </ul>
                 </li>
             }
             @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)

@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181013234736_ModidifiedRole")]
+    partial class ModidifiedRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -504,8 +506,6 @@ namespace ImouRentACar.Migrations
 
                     b.Property<bool>("CanDoEverything");
 
-                    b.Property<bool>("CanManageApplicationUsers");
-
                     b.Property<bool>("CanManageBookings");
 
                     b.Property<bool>("CanManageCars");
@@ -520,7 +520,7 @@ namespace ImouRentACar.Migrations
 
                     b.Property<bool>("CanManageLgas");
 
-                    b.Property<bool>("CanManagePassengersInformation");
+                    b.Property<bool>("CanManagePassengerInformation");
 
                     b.Property<bool>("CanManagePrices");
 

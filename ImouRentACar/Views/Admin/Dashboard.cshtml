@@ -11,7 +11,8 @@
     </section>
 
     <section class="content">
-        <div class="row">
+        @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-maroon">
                     <div class="inner">
@@ -30,6 +31,9 @@
                     </a>
                 </div>
             </div>
+        }
+        @if (ViewData["canmangecars"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
@@ -48,6 +52,9 @@
                     </a>
                 </div>
             </div>
+        }
+        @if (ViewData["canmangecars"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -66,6 +73,9 @@
                     </a>
                 </div>
             </div>
+        }
+        @if (ViewData["canmangeenquries"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-red">
                     <div class="inner">
@@ -84,9 +94,10 @@
                     </a>
                 </div>
             </div>
-        </div>
+        }
 
-        <div class="row">
+        @if (ViewData["canmangecars"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -105,6 +116,9 @@
                     </a>
                 </div>
             </div>
+        }
+        @if (ViewData["canmangeprices"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -123,6 +137,10 @@
                     </a>
                 </div>
             </div>
+        }
+
+        @if (ViewData["canmangestates"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -141,6 +159,10 @@
                     </a>
                 </div>
             </div>
+        }
+
+        @if (ViewData["canmangelgas"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -159,8 +181,9 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        }
+        @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+        {
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -179,5 +202,48 @@
                     </a>
                 </div>
             </div>
-        </div>
+        }
+        @if (ViewData["canmangecustomers"] != null || ViewData["candoeverything"] != null)
+        {
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["customercounter"]
+                        </h1>
+                        <p>
+                            Customers
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Customer" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        }
+        @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
+        {
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["applicationusercounter"]
+                        </h1>
+                        <p>
+                            Application Users
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="ApplicationUser" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        }
+
     </section>

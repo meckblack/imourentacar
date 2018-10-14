@@ -13,22 +13,37 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a asp-action="Index" asp-controller="CarBrand">
-                    <i class="fa fa-car"></i> <span>Car Brands</span>
-                    <span class="pull-right-container">
-                        <small class="label pull-right bg-blue">@ViewData["carbrandcounter"]</small>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Car">
-                    <i class="fa fa-car"></i> <span>Cars</span>
-                    <span class="pull-right-container">
-                        <small class="label pull-right bg-blue">@ViewData["carcounter"]</small>
-                    </span>
-                </a>
-            </li>
+            @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="CarBrand">
+                        <i class="fa fa-car"></i> <span>Car Brands</span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right bg-blue">@ViewData["carbrandcounter"]</small>
+                        </span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangecars"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Car">
+                        <i class="fa fa-car"></i> <span>Cars</span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right bg-blue">@ViewData["carcounter"]</small>
+                        </span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangeroles"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Role">
+                        <i class="fa fa-th"></i> <span>Roles</span>
+                    </a>
+                </li>
+            }
+
             <li>
                 <a asp-action="Index" asp-controller="Role">
                     <i class="fa fa-th"></i> <span>Roles</span>
@@ -39,46 +54,72 @@
                     <i class="fa fa-th"></i> <span>Roles</span>
                 </a>
             </li>
-            <li>
-                <a asp-action="Index" asp-controller="Landing">
-                    <i class="fa fa-th"></i> <span>Landing Details</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Enquiry">
-                    <i class="fa fa-th"></i> <span>Enquiries</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Price">
-                    <i class="fa fa-th"></i> <span>Prices</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="State">
-                    <i class="fa fa-th"></i> <span>States</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Lga">
-                    <i class="fa fa-th"></i> <span>Lgas</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Customer">
-                    <i class="fa fa-th"></i> <span>Customers</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Booking">
-                    <i class="fa fa-th"></i> <span>Bookings</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="ApplicationUser">
-                    <i class="fa fa-th"></i> <span>Application Users</span>
-                </a>
-            </li>
+
+            @if (ViewData["canmangelandingdetails"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Landing">
+                        <i class="fa fa-th"></i> <span>Landing Details</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangeenquries"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Enquiry">
+                        <i class="fa fa-th"></i> <span>Enquiries</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangeprices"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Price">
+                        <i class="fa fa-th"></i> <span>Fixed Rates</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangestates"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="State">
+                        <i class="fa fa-th"></i> <span>States</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangelgas"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Lga">
+                        <i class="fa fa-th"></i> <span>Lgas</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangecustomers"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Customer">
+                        <i class="fa fa-th"></i> <span>Customers</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="Booking">
+                        <i class="fa fa-th"></i> <span>Bookings</span>
+                    </a>
+                </li>
+            }
+            @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="ApplicationUser">
+                        <i class="fa fa-th"></i> <span>Application Users</span>
+                    </a>
+                </li>
+            }
+
         </ul>
     </section>
     <!-- /.sidebar -->

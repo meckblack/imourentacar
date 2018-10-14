@@ -443,16 +443,9 @@ namespace ImouRentACar.Controllers
             //var allBookings = _database.PassengersInformation.Any(pi => pi.MemberId == _customer.MemberId);
 
 
-            var allBookings = await _database.Bookings.ToListAsync();
+            var customerBookings = _database.Bookings.Where(b => b.CustomerId == id);
             
-
-
-            if (allBookings.Any(b => b.PassengerInformation.MemberId == _customer.MemberId))
-            {
-                
-            }
-            
-            return View("ViewBookings");
+            return View("ViewBookings", customerBookings);
         }
 
 

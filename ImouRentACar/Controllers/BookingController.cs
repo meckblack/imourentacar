@@ -14,6 +14,7 @@ using System.Dynamic;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using MimeKit;
 using MailKit.Net.Smtp;
+using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
 {
@@ -301,6 +302,9 @@ namespace ImouRentACar.Controllers
                         var car = await _database.Cars.FindAsync(id);
                         var carPrice = car.Price;
 
+                        var stringGenerator = new RandomStringGenerator();
+                        var bookingNumber = stringGenerator.RandomString(8);
+
                         var saveBooking = new Booking()
                         {
                             DateSent = booking.DateSent,
@@ -316,7 +320,8 @@ namespace ImouRentACar.Controllers
                             PriceId = booking.PriceId,
                             PassengerInformationId = _passengerInformations.PassengerInformationId,
                             PassengerInformation = _passengerInformations,
-                            CustomerId = _customer.CustomerId
+                            CustomerId = _customer.CustomerId,
+                            BookingNumber = bookingNumber
                         };
 
                         await _database.Bookings.AddAsync(saveBooking);
@@ -326,8 +331,8 @@ namespace ImouRentACar.Controllers
                     }
                     else
                     {
-                        TempData["bookingerror"] = "Sorry your session has expired.";
-                        return RedirectToAction("Error", "Home");
+                        TempData["error"] = "Sorry your session has expired.";
+                        return RedirectToAction("Signin", "Customer");
                     }
                 }
 
@@ -362,6 +367,10 @@ namespace ImouRentACar.Controllers
                     var car = await _database.Cars.FindAsync(id);
                     var carPrice = car.Price;
 
+                    //Randomly generate booking number
+                    var stringGenerator = new RandomStringGenerator();
+                    var bookingNumber = stringGenerator.RandomString(8);
+
                     var saveBooking = new Booking()
                     {
                         DateSent = booking.DateSent,
@@ -376,7 +385,8 @@ namespace ImouRentACar.Controllers
                         TotalBookingPrice = booking.TotalBookingPrice + carPrice,
                         PriceId = booking.PriceId,
                         PassengerInformationId = _passengerInformation.PassengerInformationId,
-                        PassengerInformation = _passengerInformation
+                        PassengerInformation = _passengerInformation,
+                        BookingNumber = bookingNumber
                     };
 
                     await _database.Bookings.AddAsync(saveBooking);
@@ -387,7 +397,7 @@ namespace ImouRentACar.Controllers
                 else
                 {
                     TempData["bookingerror"] = "Sorry your session has expired.";
-                    return RedirectToAction("Error", "Home");
+                    return RedirectToAction("Index", "Error");
                 }
             }catch(Exception e)
             {

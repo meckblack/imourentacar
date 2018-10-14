@@ -37,6 +37,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -50,6 +51,22 @@ namespace ImouRentACar.Controllers
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
             ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
 
             var bookings = _database.Bookings;
             return View(await bookings.ToListAsync());
@@ -461,6 +478,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Approve(int id, Booking booking)
         {
             if (id != booking.BookingId)
@@ -523,6 +541,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Disapprove(int id, Booking booking)
         {
             if (id != booking.BookingId)
@@ -586,6 +605,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> AssignDriver(int id, Booking booking)
         {
             if (id != booking.BookingId)
@@ -647,6 +667,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> RemoveDriver(int id, Booking booking)
         {
             if (id != booking.BookingId)

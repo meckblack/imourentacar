@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -32,6 +33,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -52,8 +54,21 @@ namespace ImouRentACar.Controllers
             var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
 
             ViewData["loggedinuserfullname"] = _user.DisplayName;
-            ViewData["loggedinuseremail"] = _user.Email;
+            var roleid = _user.RoleId;
 
+            ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
+            ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
+            ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true);
+            ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true);
+            ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
+            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true);
+            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true);
+            ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true);
+            ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true);
+            ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true);
+            ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true);
             var appUser = _database.ApplicationUsers;
             return View(await appUser.ToListAsync());
         }
@@ -71,6 +86,7 @@ namespace ImouRentACar.Controllers
         }
 
         [HttpPost]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Create(ApplicationUser user)
         {
             if (ModelState.IsValid)
@@ -88,8 +104,8 @@ namespace ImouRentACar.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
-                    Password = user.Password,
-                    ConfirmPassword = user.Password,
+                    Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
+                    ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(user.ConfirmPassword),
                     RoleId = user.RoleId,
                     CreatedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
                     DateCreated = DateTime.Now,

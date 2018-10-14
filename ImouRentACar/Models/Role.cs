@@ -42,6 +42,9 @@ namespace ImouRentACar.Models
         [Display(Name = "Can Manage Driver")]
         public bool CanManageDrivers{ get; set; }
 
+        [Display(Name = "Can Manage Car Brand")]
+        public bool CanManageCarBrand { get; set; }
+
         [Display(Name = "Can Manage ApplicationUsers")]
         public bool CanManageApplicationUsers { get; set; }
 

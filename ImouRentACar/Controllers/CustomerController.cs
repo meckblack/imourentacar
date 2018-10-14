@@ -463,11 +463,9 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Signin", "Customer");
             }
 
-            //var allBookings = _database.PassengersInformation.Any(pi => pi.MemberId == _customer.MemberId);
-
-
-            var customerBookings = _database.Bookings.Where(b => b.CustomerId == id);
             
+            var customerBookings = await _database.Bookings.Where(b => b.CustomerId == id).ToListAsync();
+
             return View("ViewBookings", customerBookings);
         }
 

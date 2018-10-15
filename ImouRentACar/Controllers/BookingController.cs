@@ -54,6 +54,15 @@ namespace ImouRentACar.Controllers
 
             var roleid = _user.RoleId;
 
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
@@ -93,6 +102,15 @@ namespace ImouRentACar.Controllers
             ViewData["loggedinuserfullname"] = _user.DisplayName;
 
             var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
 
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
@@ -134,6 +152,15 @@ namespace ImouRentACar.Controllers
 
             var roleid = _user.RoleId;
 
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true);
@@ -173,6 +200,15 @@ namespace ImouRentACar.Controllers
             ViewData["loggedinuserfullname"] = _user.DisplayName;
 
             var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
 
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true);

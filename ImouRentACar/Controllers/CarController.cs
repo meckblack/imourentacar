@@ -58,7 +58,7 @@ namespace ImouRentACar.Areas
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false || role.CanDoEverything == false)
+            if (role.CanManageStates == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -100,7 +100,7 @@ namespace ImouRentACar.Areas
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false || role.CanDoEverything == false)
+            if (role.CanManageStates == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -194,7 +194,7 @@ namespace ImouRentACar.Areas
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false || role.CanDoEverything == false)
+            if (role.CanManageStates == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -346,8 +346,24 @@ namespace ImouRentACar.Areas
         #region Avaliable Cars
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> AvaliableCars()
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             var avaliableCars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).ToListAsync();
             return View(avaliableCars);
         }
@@ -357,8 +373,24 @@ namespace ImouRentACar.Areas
         #region Rented Cars
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> RentedCars()
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             var rentedCars = await _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).ToListAsync();
             return View(rentedCars);
         }
@@ -368,7 +400,6 @@ namespace ImouRentACar.Areas
         #region View All Cars
 
         [HttpGet]
-        [SessionExpireFilterAttribute]
         public async Task<IActionResult> ViewAllCars()
         {
             dynamic mymodel = new ExpandoObject();

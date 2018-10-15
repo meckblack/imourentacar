@@ -212,7 +212,7 @@ namespace ImouRentACar.Controllers
             {
                 ViewData["imageoflogo"] = logo.Image;
             }
-            
+
 
             var customerObject = _session.GetString("imouloggedincustomer");
             if (customerObject == null)
@@ -240,7 +240,7 @@ namespace ImouRentACar.Controllers
                 {
                     //Checks if there is a fixed price rate for the choosen destination
                     var price = await _database.Prices
-                        .SingleOrDefaultAsync(p => p.PickUpLgaId == booking.PickUpLgaId && p.DestinationLgaId == booking.ReturnLgaId 
+                        .SingleOrDefaultAsync(p => p.PickUpLgaId == booking.PickUpLgaId && p.DestinationLgaId == booking.ReturnLgaId
                                            || p.PickUpLgaId == booking.ReturnLgaId && p.DestinationLgaId == booking.PickUpLgaId);
                     if (price == null)
                     {
@@ -265,11 +265,11 @@ namespace ImouRentACar.Controllers
 
                         return View(booking);
                     }
-                    
+
                     var _priceId = price.PriceId;
-                    
+
                     var _destinationPrice = price.Amount;
-                    
+
                     var _booking = new Booking()
                     {
                         ReturnDate = booking.ReturnDate,
@@ -284,7 +284,7 @@ namespace ImouRentACar.Controllers
                         TotalBookingPrice = _destinationPrice,
                         DateSent = DateTime.Now,
                     };
-                    
+
                     _session.SetString("bookingobject", JsonConvert.SerializeObject(_booking));
                     return RedirectToAction("SelectACar", "Booking");
                 }
@@ -339,9 +339,9 @@ namespace ImouRentACar.Controllers
             return View(cars);
         }
 
-        
+
         #endregion
-        
+
         #region PassengerInformation
 
         [HttpGet]
@@ -360,7 +360,7 @@ namespace ImouRentACar.Controllers
             {
                 ViewData["imageoflogo"] = logo.Image;
             }
-            
+
             var allCars = await _database.Cars.ToListAsync();
 
             if (allCars.Any(c => c.CarId == id))
@@ -373,7 +373,7 @@ namespace ImouRentACar.Controllers
 
                 var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
                 TempData["customername"] = _customer.DisplayName;
-                
+
                 var bookingObject = _session.GetString("bookingobject");
 
                 if(bookingObject == null)
@@ -389,7 +389,7 @@ namespace ImouRentACar.Controllers
                 //Get Car Brand
                 var brandid = _car.CarBrandId;
                 var _brand = await _database.CarBrands.FindAsync(brandid);
-                
+
 
                 TempData["carimage"] = _car.Image;
                 TempData["carbrand"] = _brand.Name;
@@ -397,7 +397,7 @@ namespace ImouRentACar.Controllers
                 TempData["carprice"] = _car.Price;
                 TempData["pickuplocation"] = booking.PickUpLocation;
                 TempData["returnlocation"] = booking.ReturnLocation;
-                TempData["destinationprice"] = booking.TotalBookingPrice; 
+                TempData["destinationprice"] = booking.TotalBookingPrice;
                 TempData["totalprice"] = booking.TotalBookingPrice + _car.Price;
 
 
@@ -410,7 +410,7 @@ namespace ImouRentACar.Controllers
         [HttpPost]
         public async Task<IActionResult> PassengerInformation(int? id, PassengerInformation passengerInformation)
         {
-          try
+            try
             {
                 var customerObject = _session.GetString("imouloggedincustomer");
                 if (customerObject != null)
@@ -530,7 +530,7 @@ namespace ImouRentACar.Controllers
 
                     await _database.Bookings.AddAsync(saveBooking);
                     await _database.SaveChangesAsync();
-                    
+
                     return RedirectToAction("Success", "Booking");
                 }
                 else
@@ -542,7 +542,7 @@ namespace ImouRentACar.Controllers
             {
                 return View(e);
             }
-            
+
         }
 
         #endregion
@@ -898,7 +898,7 @@ namespace ImouRentACar.Controllers
 
             try
             {
-                
+
 
                 using (var client = new SmtpClient())
                 {
@@ -933,7 +933,7 @@ namespace ImouRentACar.Controllers
         public async Task<IActionResult> Payment(string bookingNumber)
         {
             var booking = await _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Processing).ToListAsync();
-            
+
             var _booking = booking.SingleOrDefault(b => b.BookingNumber == bookingNumber);
 
             if (booking == null)
@@ -942,7 +942,7 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
-            
+
             //Get Car
             var carid = _booking.CarId;
             var _car = await _database.Cars.FindAsync(carid);

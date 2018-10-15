@@ -46,5 +46,7 @@ namespace ImouRentACar.Models
         #region Foreign Key
 
         #endregion
+
+        public IEnumerable<Booking> Booking { get; set; }
     }
 }

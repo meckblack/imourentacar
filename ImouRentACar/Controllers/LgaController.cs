@@ -114,7 +114,7 @@ namespace ImouRentACar.Controllers
                 {
                     TempData["lga"] = "You cannot add " + lga.Name + " as a local government area because it already exist!!!";
                     TempData["notificationType"] = NotificationType.Error.ToString();
-                    return View("Index");
+                    return Json(new { success = true });
                 }
 
                 var _lga = new LGA()

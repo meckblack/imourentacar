@@ -99,7 +99,7 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
-            ViewBag.Roles = new SelectList(_database.Roles.Where(r => r.CanDoEverything == false), "RoleId", "Name");
+            ViewBag.Roles = new SelectList(_database.Roles, "RoleId", "Name");
             var appUser = new ApplicationUser();
             return PartialView("Create", appUser);
         }
@@ -111,11 +111,17 @@ namespace ImouRentACar.Controllers
             if (ModelState.IsValid)
             {
                 var allUsers = await _database.ApplicationUsers.ToListAsync();
-                if(allUsers.Any(au => au.Email == user.Email))
+                if(allUsers.Any(au => au.Email == user.Email ))
                 {
                     TempData["appuser"] = "You cannot add " + user.Email + " as an application user because it already exist!!!";
                     TempData["notificationType"] = NotificationType.Error.ToString();
-                    return View("Index");
+                    return Json(new { success = true });
+                }
+                if(user.RoleId == 1)
+                {
+                    TempData["appuser"] = "You cannot add " + user.Email + " as an application user because only one Supper User can exist!!!";
+                    TempData["notificationType"] = NotificationType.Error.ToString();
+                    return Json(new { success = true });
                 }
 
                 var _user = new ApplicationUser()
@@ -142,7 +148,7 @@ namespace ImouRentACar.Controllers
             }
 
             ViewBag.Roles = new SelectList(_database.Roles, "RoleId", "Name", user.RoleId);
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         #endregion
@@ -194,6 +200,51 @@ namespace ImouRentACar.Controllers
             TempData["notificationType"] = NotificationType.Success.ToString();
 
             return Json(new { success = true });
+        }
+
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Details(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            ViewData["rolename"] = role.Name;
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _appUser = await _database.ApplicationUsers.SingleOrDefaultAsync(c => c.ApplicationUserId == id);
+
+            if (_appUser == null)
+            {
+                return NotFound();
+            }
+
+            var _roleid = _appUser.RoleId;
+            var _role = await _database.Roles.FindAsync(_roleid);
+            ViewData["rolename"] = _role.Name;
+
+            var creatorid = _appUser.CreatedBy;
+            var creator = await _database.ApplicationUsers.FindAsync(creatorid);
+            ViewData["creatorby"] = creator.DisplayName;
+
+            var modifierid = _appUser.LastModifiedBy;
+            var modifier = await _database.ApplicationUsers.FindAsync(modifierid);
+            ViewData["modifiedby"] = modifier.DisplayName;
+
+            return PartialView(_appUser);
         }
 
         #endregion

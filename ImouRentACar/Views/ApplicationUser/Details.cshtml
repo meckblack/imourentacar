@@ -1,0 +1,101 @@
+﻿@model ImouRentACar.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Detials";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> APPLICATION USER DETAILS </strong> </h3>
+</div>
+
+<!--MODAL BODY-->
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3">
+            <dt style="text-transform:capitalize">
+                FIRST NAME
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt style="text-transform:capitalize">
+                LAST NAME
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt style="text-transform:capitalize">
+                EMAIL ADDRESS
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt style="text-transform:capitalize">
+                ROLE
+            </dt>
+            <dd>
+                @ViewData["rolename"]
+            </dd>
+        </div>
+    </div>
+    <br />
+    @if (Convert.ToString(ViewData["rolename"]) == "SuperUser")
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+                <dd>
+                    @ViewData["creatorby"]
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateCreated)
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    Modified By
+                </dt>
+                <dd>
+                    @ViewData["modifiedby"]
+                </dd>
+            </div>
+            <div class="col-md-3">
+                <dt>
+                    Date Modified
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateLastModified)
+                </dd>
+            </div>
+        </div>
+    }
+</div>
+
+<!--MODAL FOOTER-->
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

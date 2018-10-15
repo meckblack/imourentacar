@@ -146,7 +146,7 @@ namespace ImouRentACar.Controllers
                 {
                     TempData["role"] = "You cannot add " + role.Name + " Role because it already exist!!!";
                     TempData["notificationType"] = NotificationType.Error.ToString();
-                    return View("Index");
+                    return Json(new { success = true });
                 }
 
                 role.CanDoEverything = false;

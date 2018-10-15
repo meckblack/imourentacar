@@ -9,6 +9,7 @@ using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -177,6 +178,47 @@ namespace ImouRentACar.Controllers
                 return Json(new { success = true });
             }
             return View(state);
+        }
+
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            ViewData["rolename"] = role.Name;
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _state = await _database.States.SingleOrDefaultAsync(c => c.StateId == id);
+
+            if (_state == null)
+            {
+                return NotFound();
+            }
+
+            
+            var creatorid = _state.CreatedBy;
+            var creator = await _database.ApplicationUsers.FindAsync(creatorid);
+            ViewData["creatorby"] = creator.DisplayName;
+
+            var modifierid = _state.LastModifiedBy;
+            var modifier = await _database.ApplicationUsers.FindAsync(modifierid);
+            ViewData["modifiedby"] = modifier.DisplayName;
+            
+            return PartialView(_state);
         }
 
         #endregion

@@ -10,6 +10,7 @@ using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
 using ImouRentACar.Services;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -178,7 +179,7 @@ namespace ImouRentACar.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionExpireFilterAttribute]
-        public async Task<IActionResult> Edit(int id, [Bind("LGAId,Name,StateId,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] LGA lga)
+        public async Task<IActionResult> Edit(int id, LGA lga)
         {
             if (id != lga.LGAId)
             {
@@ -215,6 +216,52 @@ namespace ImouRentACar.Controllers
             ViewBag.StateId = new SelectList(_database.States, "StateId", "Name", lga.StateId);
             return View(lga);
         }
+
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Details(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            ViewData["rolename"] = role.Name;
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _lga = await _database.Lgas.SingleOrDefaultAsync(c => c.LGAId == id);
+
+            if (_lga == null)
+            {
+                return NotFound();
+            }
+
+            var stateid = _lga.StateId;
+            var state = await _database.States.FindAsync(stateid);
+            ViewData["statename"] = state.Name;
+
+            var creatorid = _lga.CreatedBy;
+            var creator = await _database.ApplicationUsers.FindAsync(creatorid);
+            ViewData["creatorby"] = creator.DisplayName;
+
+            var modifierid = _lga.LastModifiedBy;
+            var modifier = await _database.ApplicationUsers.FindAsync(modifierid);
+            ViewData["modifiedby"] = modifier.DisplayName;
+
+            return PartialView(_lga);
+        }
+
 
         #endregion
 

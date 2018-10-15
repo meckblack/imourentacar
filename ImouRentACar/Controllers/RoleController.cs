@@ -10,6 +10,7 @@ using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
 using ImouRentACar.Services;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -79,29 +80,35 @@ namespace ImouRentACar.Controllers
         #region Details
 
         // GET: Role/Details/5
+        [SessionExpireFilter]
         public async Task<IActionResult> Details(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            ViewData["rolename"] = role.Name;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var role = await _database.Roles
+            var _role = await _database.Roles
                 .FirstOrDefaultAsync(m => m.RoleId == id);
-            if (role == null)
+            if (_role == null)
             {
                 return NotFound();
             }
 
-            var creatorid = role.CreatedBy;
+            var creatorid = _role.CreatedBy;
             var creator = await _database.ApplicationUsers.FindAsync(creatorid);
             ViewData["createdby"] = creator.DisplayName;
 
-            var modifierid = role.LastModifiedBy;
+            var modifierid = _role.LastModifiedBy;
             var modifier = await _database.ApplicationUsers.FindAsync(modifierid);
             ViewData["modifiedby"] = modifier.DisplayName;
             
-            return PartialView(role);
+            return PartialView(_role);
         }
 
         #endregion

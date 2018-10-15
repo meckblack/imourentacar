@@ -268,6 +268,7 @@ namespace ImouRentACar.Areas
 
         #region Details
 
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             var userObject = _session.GetString("imouloggedinuser");

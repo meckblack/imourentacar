@@ -51,7 +51,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageLgas == false)
+            if (role.CanManageStates == false || role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }

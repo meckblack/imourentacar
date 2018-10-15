@@ -909,7 +909,7 @@ namespace ImouRentACar.Controllers
                 }
 
                 booking.Verification = Verification.LinkSent;
-                booking.PaymentStatus = PaymentStatus.Processing;
+                booking.PaymentStatus = PaymentStatus.Unpaid;
 
                 _database.Bookings.Update(booking);
                 await _database.SaveChangesAsync();
@@ -932,7 +932,7 @@ namespace ImouRentACar.Controllers
 
         public async Task<IActionResult> Payment(string bookingNumber)
         {
-            var booking = await _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Processing).ToListAsync();
+            var booking = await _database.Bookings.Where(b => b.PaymentStatus == PaymentStatus.Unpaid).ToListAsync();
 
             var _booking = booking.SingleOrDefault(b => b.BookingNumber == bookingNumber);
 
@@ -942,6 +942,7 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
+            
 
             //Get Car
             var carid = _booking.CarId;

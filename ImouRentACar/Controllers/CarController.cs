@@ -58,7 +58,7 @@ namespace ImouRentACar.Areas
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageCars == false)
+            if (role.CanManageStates == false || role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -91,8 +91,20 @@ namespace ImouRentACar.Areas
         public async Task<IActionResult> Create()
         {
             var userid = _session.GetInt32("imouloggedinuserid");
-            var user = await _database.ApplicationUsers.FindAsync(userid);
-            ViewData["loggedinuserfullname"] = user.DisplayName;
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageStates == false || role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
 
             ViewBag.CarBrands = new SelectList(_database.CarBrands, "CarBrandId", "Name");
             return View();
@@ -173,8 +185,21 @@ namespace ImouRentACar.Areas
             }
 
             var userid = _session.GetInt32("imouloggedinuserid");
-            var user = await _database.ApplicationUsers.FindAsync(userid);
-            ViewData["loggedinuserfullname"] = user.DisplayName;
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageStates == false || role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+
 
             ViewBag.CarBrands = new SelectList(_database.CarBrands, "CarBrandId", "Name");
             return View(car);

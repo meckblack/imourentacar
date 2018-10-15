@@ -113,7 +113,10 @@
                                         <h5 style="color:#000; font-weight:bold"><b style="color:white">TOTAL COST: </b> &#8358 @TempData["totalprice"]</h5>
                                     </div>
                                 </div>
-                                <p><a class="btn utton" asp-action="Cancel" asp-controller="Booking">PROCEED TO PAYMENT</a></p>
+                                <form>
+                                    <script src="https://js.paystack.co/v1/inline.js"></script>
+                                    <button class="btn utton" type="button" onclick="payWithPaystack()"> Pay </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -131,5 +134,33 @@
         Designed by <a href="#">meckblvck </a>
     </div>
 </div>
+
+
+
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: 'pk_test_86d32aa1nV4l1da7120ce530f0b221c3cb97cbcc',
+      email: 'customer@email.com',
+      amount: 10000,
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: "+2348012345678"
+            }
+         ]
+      },
+      callback: function(response){
+          alert('success. transaction ref is ' + response.reference);
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
 
 

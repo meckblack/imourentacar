@@ -58,7 +58,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageDrivers == false)
+            if (role.CanManageStates == false || role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }

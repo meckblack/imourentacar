@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -135,8 +136,18 @@ namespace ImouRentACar.Controllers
         #region Delete Header
 
         [HttpGet]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -175,8 +186,18 @@ namespace ImouRentACar.Controllers
         #region View Header Image
 
         [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> View(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -197,8 +218,18 @@ namespace ImouRentACar.Controllers
         #region View Header WriteUp
 
         [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> WriteUp(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();

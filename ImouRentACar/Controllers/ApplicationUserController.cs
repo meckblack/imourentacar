@@ -90,6 +90,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             ViewBag.Roles = new SelectList(_database.Roles.Where(r => r.CanDoEverything == false), "RoleId", "Name");
             var appUser = new ApplicationUser();
             return PartialView("Create", appUser);
@@ -143,19 +152,29 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+
             if (id == null)
             {
                 return RedirectToAction("Index", "Error");
             }
 
-            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == id);
+            var user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == id);
 
             if (_user == null)
             {
                 return RedirectToAction("Index", "Error");
             }
 
-            return PartialView("Delete", _user);
+            return PartialView("Delete", user);
         }
 
         [HttpPost]

@@ -82,8 +82,20 @@ namespace ImouRentACar.Controllers
         #region Create
 
         // GET: Price/Create
-        public IActionResult Create()
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Create()
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             ViewBag.DestinationStateId = new SelectList(_database.States, "StateId", "Name");
             ViewBag.PickUpStateId = new SelectList(_database.States, "StateId", "Name");
             
@@ -146,8 +158,20 @@ namespace ImouRentACar.Controllers
         #region Details
 
         // GET: Price/Details/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Details(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -168,8 +192,20 @@ namespace ImouRentACar.Controllers
         #region Edit
 
         // GET: Price/Edit/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Edit(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -246,8 +282,20 @@ namespace ImouRentACar.Controllers
         #region Delete
 
         // GET: Price/Delete/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();

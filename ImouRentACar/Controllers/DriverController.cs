@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using ImouRentACar.Models.Enums;
 using System.IO;
 using ImouRentACar.Services;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -87,6 +88,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -109,11 +119,21 @@ namespace ImouRentACar.Controllers
         // GET: Driver/Create
         [HttpGet]
         [SessionExpireFilterAttribute]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var userid = _session.GetInt32("imouloggedinuserid");
-            var user = await _database.ApplicationUsers.FindAsync(userid);
-            ViewData["loggedinuserfullname"] = user.DisplayName;
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            ViewData["loggedinuserfullname"] = _user.DisplayName;
+
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
             
             return View();
         }
@@ -181,6 +201,19 @@ namespace ImouRentACar.Controllers
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+
+            var role = _database.Roles.Find(roleid);
+
+            ViewData["userrole"] = role.Name;
+
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -191,11 +224,7 @@ namespace ImouRentACar.Controllers
             {
                 return NotFound();
             }
-
-            var userid = _session.GetInt32("imouloggedinuserid");
-            var user = await _database.ApplicationUsers.FindAsync(userid);
-            ViewData["loggedinuserfullname"] = user.DisplayName;
-
+            
             return View(driver);
         }
 
@@ -266,6 +295,15 @@ namespace ImouRentACar.Controllers
         // GET: Driver/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();

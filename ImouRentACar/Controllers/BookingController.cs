@@ -620,6 +620,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Approve(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -683,6 +692,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Disapprove(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -746,6 +764,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> AssignDriver(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -809,6 +836,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveDriver(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -872,6 +908,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> SendLink(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -901,65 +946,42 @@ namespace ImouRentACar.Controllers
                 return NotFound();
             }
 
+            
             var _booking = await _database.Bookings.SingleOrDefaultAsync(b => b.BookingId == id);
 
             var passengerId = _booking.PassengerInformationId;
-            var _passengerDetails = await _database.PassengersInformation.FindAsync(passengerId);
+            var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("imourentacar", "mecktinum@gmail.com"));
+            booking.Verification = Verification.LinkSent;
+            booking.PaymentStatus = PaymentStatus.Unpaid;
 
-            message.To.Add(new MailboxAddress(_passengerDetails.DisplayName, _passengerDetails.Email));
-            message.Subject = "ImouRentACar Payment Link";
+            _database.Bookings.Update(booking);
+            await _database.SaveChangesAsync();
 
-            //var url = Url.Action("", "", new { }, protocol: Request.Url.Scheme)
+            var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == _booking.CarId);
 
-            //var emailBody = "<div>" +
-            //            "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
-            //            "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
-            //                "<h4 style='font-size: 18px; text-align:justify;'>You have been added to the Association Information Management System. </h4>" +
-            //                "<p style='font-size: 18px; text-align:justify;'>Your username is " + _passengerDetails.Email + " and your password is Please login and change your password by clicking <a href=\"" + url + "\">here</a></p>" +
-            //            "<footer style='font-size: 18px; text-align:center;'>" +
-            //                "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
-
-            //message.Body = new BodyBuilder()
-            //{
-            //    HtmlBody = message.
-            //};
-            var url = Url.Action("Payment", "Booking/{id}");
-            message.Body = new TextPart("plain")
+            var _car = new Car()
             {
-                Text = "This is the link for payment www.imourentacar.com/"+ Url.Action("Payment", "Booking")+ id + " Kindly click it"
+                CarId = car.CarId,
+                Name = car.Name,
+                Price = car.Price,
+                Speed = car.Speed,
+                CarBrandId = car.CarBrandId,
+                Color = car.Color,
+                CreatedBy = car.CreatedBy,
+                DateCreated =car.DateCreated,
+                Description = car.Description,
+                Engine = car.Engine,
+                Image = car.Image,
+                CarAvaliability = Avaliability.Rented,
+                LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                DateLastModified = DateTime.Now,
             };
 
-            try
-            {
+            _database.Cars.Update(_car);
+            await _database.SaveChangesAsync();
 
-
-                using (var client = new SmtpClient())
-                {
-                    client.Connect("smtp.gmail.com", 587, false);
-                    await client.AuthenticateAsync("mecktinum@gmail.com", "bluefire2045");
-
-                    client.Disconnect(true);
-                }
-
-                booking.Verification = Verification.LinkSent;
-                booking.PaymentStatus = PaymentStatus.Unpaid;
-
-                _database.Bookings.Update(booking);
-                await _database.SaveChangesAsync();
-
-                TempData["booking"] = "You have successfully sent a payment link to " + _passengerDetails.Email + " email address for a booking request made by "
-                                            + _passengerDetails.DisplayName;
-                TempData["notificationType"] = NotificationType.Success.ToString();
-
-                return Json(new { success = true });
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
+            return View();
         }
 
         #endregion

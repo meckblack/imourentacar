@@ -79,8 +79,20 @@ namespace ImouRentACar.Controllers
         #region Create
 
         // GET: Lga/Create
-        public IActionResult Create()
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Create()
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             var lga = new LGA();
             ViewBag.StateId = new SelectList(_database.States, "StateId", "Name");
             return PartialView("Create", lga);
@@ -131,8 +143,20 @@ namespace ImouRentACar.Controllers
         #region Edit
 
         // GET: Lga/Edit/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Edit(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -197,8 +221,20 @@ namespace ImouRentACar.Controllers
         #region Delete
 
         // GET: Lga/Delete/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();

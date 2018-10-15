@@ -135,8 +135,19 @@ namespace ImouRentACar.Controllers
         #region Delete Logo
 
         [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -175,9 +186,20 @@ namespace ImouRentACar.Controllers
         #region View Logo
 
         [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> View(int? id)
         {
-            if(id == null)
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
             {
                 return NotFound();
             }

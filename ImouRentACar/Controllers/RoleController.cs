@@ -110,10 +110,21 @@ namespace ImouRentACar.Controllers
 
         // GET: Role/Create
         [HttpGet]
-        public IActionResult Create()
+        [SessionExpireFilter]
+        public async Task<IActionResult> Create()
         {
-            var role = new Role();
-            return PartialView("Create", role);
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var _role = new Role();
+            return PartialView("Create", _role);
         }
 
         [HttpPost]
@@ -153,19 +164,31 @@ namespace ImouRentACar.Controllers
         #region Edit
 
         // GET: Role/Edit/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Edit(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var role = await _database.Roles.FindAsync(id);
-            if (role == null)
+            var _role = await _database.Roles.FindAsync(id);
+            if (_role == null)
             {
                 return NotFound();
             }
-            return PartialView("Edit", role);
+            return PartialView("Edit", _role);
         }
 
         [HttpPost]
@@ -214,21 +237,33 @@ namespace ImouRentACar.Controllers
         #region Delete
 
         // GET: Role/Delete/5
+        [HttpGet]
+        [SessionExpireFilter]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userid = _session.GetInt32("imouloggedinuserid");
+            var _user = await _database.ApplicationUsers.FindAsync(userid);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+
+            if (role.CanManageStates == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var role = await _database.Roles
+            var _role = await _database.Roles
                 .FirstOrDefaultAsync(m => m.RoleId == id);
             if (role == null)
             {
                 return NotFound();
             }
 
-            return PartialView("Delete", role);
+            return PartialView("Delete", _role);
         }
 
         // POST: Role/Delete/5

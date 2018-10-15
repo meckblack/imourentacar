@@ -13,48 +13,38 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-            @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null)
+            @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null || ViewData["canmangecars"] != null) 
             {
-                <li>
-                    <a asp-action="Index" asp-controller="CarBrand">
-                        <i class="fa fa-car"></i> <span>Car Brands</span>
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-car"></i> <span>Vechiles</span>
                         <span class="pull-right-container">
-                            <small class="label pull-right bg-blue">@ViewData["carbrandcounter"]</small>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="Index" asp-controller="CarBrand"><i class="fa fa-circle-o"></i>Car Brands</a></li>
+                        <li><a asp-action="Index" asp-controller="Car"><i class="fa fa-circle-o"></i>Cars</a></li>
+                        <li><a asp-action="AvaliableCars" asp-controller="Car"><i class="fa fa-circle-o"></i>Avaliable Cars</a></li>
+                        <li><a asp-action="RentedCars" asp-controller="Car"><i class="fa fa-circle-o"></i>Booked Cars</a></li>
+                    </ul>
                 </li>
             }
-            @if (ViewData["canmangecars"] != null || ViewData["candoeverything"] != null)
+            @if (ViewData["canmangeroles"] != null || ViewData["candoeverything"] != null || ViewData["canmangeapplicationusers"] != null)
             {
-                <li>
-                    <a asp-action="Index" asp-controller="Car">
-                        <i class="fa fa-car"></i> <span>Cars</span>
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-user"></i> <span>Manage Users</span>
                         <span class="pull-right-container">
-                            <small class="label pull-right bg-blue">@ViewData["carcounter"]</small>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="Index" asp-controller="Role"><i class="fa fa-circle-o"></i>Roles</a></li>
+                        <li><a asp-action="Index" asp-controller="ApplicationUser"><i class="fa fa-circle-o"></i>Application Users</a></li>
+                    </ul>
                 </li>
             }
-            @if (ViewData["canmangeroles"] != null || ViewData["candoeverything"] != null)
-            {
-                <li>
-                    <a asp-action="Index" asp-controller="Role">
-                        <i class="fa fa-th"></i> <span>Roles</span>
-                    </a>
-                </li>
-            }
-
-            <li>
-                <a asp-action="Index" asp-controller="Role">
-                    <i class="fa fa-th"></i> <span>Roles</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Role">
-                    <i class="fa fa-th"></i> <span>Roles</span>
-                </a>
-            </li>
-
             @if (ViewData["canmangelandingdetails"] != null || ViewData["candoeverything"] != null)
             {
                 <li>
@@ -67,7 +57,7 @@
             {
                 <li>
                     <a asp-action="Index" asp-controller="Enquiry">
-                        <i class="fa fa-th"></i> <span>Enquiries</span>
+                        <i class="fa fa-book"></i> <span>Enquiries</span>
                     </a>
                 </li>
             }
@@ -75,31 +65,30 @@
             {
                 <li>
                     <a asp-action="Index" asp-controller="Price">
-                        <i class="fa fa-th"></i> <span>Fixed Rates</span>
+                        <i class="fa fa-money"></i> <span>Fixed Rates</span>
                     </a>
                 </li>
             }
-            @if (ViewData["canmangestates"] != null || ViewData["candoeverything"] != null)
+            @if (ViewData["canmangestates"] != null || ViewData["candoeverything"] != null || ViewData["canmangelgas"] != null)
             {
-                <li>
-                    <a asp-action="Index" asp-controller="State">
-                        <i class="fa fa-th"></i> <span>States</span>
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-map-marker"></i> <span>Location</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
-                </li>
-            }
-            @if (ViewData["canmangelgas"] != null || ViewData["candoeverything"] != null)
-            {
-                <li>
-                    <a asp-action="Index" asp-controller="Lga">
-                        <i class="fa fa-th"></i> <span>Lgas</span>
-                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="Index" asp-controller="State"><i class="fa fa-circle-o"></i>States</a></li>
+                        <li><a asp-action="Index" asp-controller="Lga"><i class="fa fa-circle-o"></i>LGAs</a></li>
+                    </ul>
                 </li>
             }
             @if (ViewData["canmangecustomers"] != null || ViewData["candoeverything"] != null)
             {
                 <li>
                     <a asp-action="Index" asp-controller="Customer">
-                        <i class="fa fa-th"></i> <span>Customers</span>
+                        <i class="fa fa-users"></i> <span>Customers</span>
                     </a>
                 </li>
             }
@@ -107,7 +96,7 @@
             {
                 <li class="treeview">
                     <a>
-                        <i class="fa fa-th"></i> <span>Bookings</span>
+                        <i class="fa fa-bookmark"></i> <span>Bookings</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
@@ -119,15 +108,6 @@
                     </ul>
                 </li>
             }
-            @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
-            {
-                <li>
-                    <a asp-action="Index" asp-controller="ApplicationUser">
-                        <i class="fa fa-th"></i> <span>Application Users</span>
-                    </a>
-                </li>
-            }
-
         </ul>
     </section>
     <!-- /.sidebar -->

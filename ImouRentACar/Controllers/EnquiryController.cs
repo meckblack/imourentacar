@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
+using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -108,8 +109,18 @@ namespace ImouRentACar.Controllers
 
         #region Details
 
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Details(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -129,9 +140,18 @@ namespace ImouRentACar.Controllers
         #region Delete
 
         [HttpGet]
-        //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();

@@ -189,7 +189,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false || role.CanDoEverything == false)
+            if (role.CanManageStates == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -219,6 +219,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return RedirectToAction("Index", "Error");

@@ -9,6 +9,7 @@ using ImouRentACar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -79,6 +80,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             var brand = new CarBrand();
             return PartialView("Create", brand);
         }
@@ -127,6 +137,15 @@ namespace ImouRentACar.Controllers
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -187,6 +206,15 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             if ( id == null)
             {
                 return NotFound();
@@ -228,11 +256,19 @@ namespace ImouRentACar.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewCars(int? id)
         {
-            if(id == null)
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
             {
                 return NotFound();
             }
-
             
             var _cars = await _database.Cars.Where(c => c.CarBrandId == id).ToListAsync();
 

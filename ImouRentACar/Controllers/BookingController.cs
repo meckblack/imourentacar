@@ -308,10 +308,11 @@ namespace ImouRentACar.Controllers
 
                     var _booking = new Booking()
                     {
-                        ReturnDate = booking.ReturnDate,
+                        ReturnTime = booking.ReturnTime,
                         ReturnLgaId = booking.ReturnLgaId,
                         ReturnLocation = booking.ReturnLocation,
-                        PickUpDate = booking.PickUpDate,
+                        PickDate = booking.PickDate,
+                        PickUpTime = booking.PickUpTime,
                         PickUpLgaId = booking.PickUpLgaId,
                         PickUpLocation = booking.PickUpLocation,
 
@@ -404,6 +405,31 @@ namespace ImouRentACar.Controllers
                 var customerObject = _session.GetString("imouloggedincustomer");
                 if (customerObject == null)
                 {
+                    var _bookingObject = _session.GetString("bookingobject");
+
+                    if (_bookingObject == null)
+                    {
+                        return RedirectToAction("Error", "Home");
+                    }
+                    var _booking = JsonConvert.DeserializeObject<Booking>(_bookingObject);
+
+                    //Get Car
+                    var _carid = id;
+                    var car = await _database.Cars.FindAsync(_carid);
+
+                    //Get Car Brand
+                    var _brandid = car.CarBrandId;
+                    var brand = await _database.CarBrands.FindAsync(_brandid);
+
+
+                    TempData["carimage"] = car.Image;
+                    TempData["carbrand"] = brand.Name;
+                    TempData["carname"] = car.Name;
+                    TempData["carprice"] = car.Price;
+                    TempData["pickuplocation"] = _booking.PickUpLocation;
+                    TempData["returnlocation"] = _booking.ReturnLocation;
+                    TempData["destinationprice"] = _booking.TotalBookingPrice;
+                    TempData["totalprice"] = _booking.TotalBookingPrice + car.Price;
                     return View();
                 }
 
@@ -448,6 +474,7 @@ namespace ImouRentACar.Controllers
         {
             try
             {
+                //This function is called when a customer is signed in
                 var customerObject = _session.GetString("imouloggedincustomer");
                 if (customerObject != null)
                 {
@@ -481,10 +508,11 @@ namespace ImouRentACar.Controllers
                         var saveBooking = new Booking()
                         {
                             DateSent = booking.DateSent,
-                            ReturnDate = booking.ReturnDate,
+                            ReturnTime = booking.ReturnTime,
                             ReturnLgaId = booking.ReturnLgaId,
                             ReturnLocation = booking.ReturnLocation,
-                            PickUpDate = booking.PickUpDate,
+                            PickDate = booking.PickDate,
+                            PickUpTime = booking.PickUpTime,
                             PickUpLgaId = booking.PickUpLgaId,
                             PickUpLocation = booking.PickUpLocation,
                             Verification = Verification.YetToReply,
@@ -498,6 +526,11 @@ namespace ImouRentACar.Controllers
                             PaymentStatus = PaymentStatus.Processing
                         };
 
+                        var getcarname = await _database.Cars.FindAsync(saveBooking.CarId);
+
+                        _session.SetString("successrequestedcarname", getcarname.Name);
+                        _session.SetString("successpassengeremail", _passengerInformations.Email);
+
                         await _database.Bookings.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
@@ -510,13 +543,85 @@ namespace ImouRentACar.Controllers
                     }
                 }
 
-                var checkMemberId = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == passengerInformation.MemberId);
-                if(checkMemberId == null)
+                //Thus function is called when the customer is not signed in buh has
+                // an account and enters his memberid
+                if (passengerInformation.MemberId != null)
                 {
-                    TempData["error"] = "Sorry the MemberId you entered is invalid";
-                    return View(passengerInformation);
-                }
+                    var checkMemberId = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == passengerInformation.MemberId);
+                    if (checkMemberId == null)
+                    {
+                        TempData["error"] = "Sorry the MemberId you entered is invalid";
+                        return View(passengerInformation);
+                    }
 
+                    var passenger = new PassengerInformation()
+                    {
+                        FirstName = passengerInformation.FirstName,
+                        LastName = passengerInformation.LastName,
+                        MiddleName = passengerInformation.MiddleName,
+                        Email = passengerInformation.Email,
+                        DOB = passengerInformation.DOB,
+                        Title = passengerInformation.Title,
+                        Gender = passengerInformation.Gender,
+                        PhoneNumber = passengerInformation.PhoneNumber,
+                        MemberId = passengerInformation.MemberId,
+                    };
+
+                    await _database.PassengersInformation.AddAsync(passenger);
+                    await _database.SaveChangesAsync();
+
+                    var _bookingObject = _session.GetString("bookingobject");
+
+                    if (_bookingObject != null)
+                    {
+                        var booking = JsonConvert.DeserializeObject<Booking>(_bookingObject);
+                        var car = await _database.Cars.FindAsync(id);
+                        var carPrice = car.Price;
+
+                        //Randomly generate booking number
+                        var stringGenerator = new RandomStringGenerator();
+                        var bookingNumber = stringGenerator.RandomString(8);
+
+                        var saveBooking = new Booking()
+                        {
+                            DateSent = booking.DateSent,
+                            ReturnTime = booking.ReturnTime,
+                            ReturnLgaId = booking.ReturnLgaId,
+                            ReturnLocation = booking.ReturnLocation,
+                            PickDate = booking.PickDate,
+                            PickUpTime = booking.PickUpTime,
+                            PickUpLgaId = booking.PickUpLgaId,
+                            PickUpLocation = booking.PickUpLocation,
+                            Verification = Verification.YetToReply,
+                            CarId = Convert.ToInt32(id),
+                            TotalBookingPrice = booking.TotalBookingPrice + carPrice,
+                            PriceId = booking.PriceId,
+                            PassengerInformationId = passenger.PassengerInformationId,
+                            PassengerInformation = passenger,
+                            BookingNumber = bookingNumber,
+                            PaymentStatus = PaymentStatus.Processing
+                        };
+                        
+                        var getcarname = await _database.Cars.FindAsync(saveBooking.CarId);
+
+                        _session.SetString("successrequestedcarname", getcarname.Name);
+                        _session.SetString("successpassengeremail", passenger.Email);
+
+
+                        await _database.Bookings.AddAsync(saveBooking);
+                        await _database.SaveChangesAsync();
+
+                        return RedirectToAction("Success", "Booking");
+                    }
+                    else
+                    {
+                        TempData["bookingerror"] = "Sorry your session has expired.";
+                        return RedirectToAction("Index", "Error");
+                    }
+                }
+                
+                //This function is called when the customer is not signed in and does not have an account.
+                //Therefore the memberid is left un entered.
                 var _passengerInformation = new PassengerInformation()
                 {
                     FirstName = passengerInformation.FirstName,
@@ -527,7 +632,7 @@ namespace ImouRentACar.Controllers
                     Title = passengerInformation.Title,
                     Gender = passengerInformation.Gender,
                     PhoneNumber = passengerInformation.PhoneNumber,
-                    MemberId = passengerInformation.MemberId,
+                    MemberId = "unregisteredcustomer",
                 };
 
                 await _database.PassengersInformation.AddAsync(_passengerInformation);
@@ -548,10 +653,11 @@ namespace ImouRentACar.Controllers
                     var saveBooking = new Booking()
                     {
                         DateSent = booking.DateSent,
-                        ReturnDate = booking.ReturnDate,
+                        ReturnTime = booking.ReturnTime,
                         ReturnLgaId = booking.ReturnLgaId,
                         ReturnLocation = booking.ReturnLocation,
-                        PickUpDate = booking.PickUpDate,
+                        PickUpTime = booking.PickUpTime,
+                        PickDate = booking.PickDate,
                         PickUpLgaId = booking.PickUpLgaId,
                         PickUpLocation = booking.PickUpLocation,
                         Verification = Verification.YetToReply,
@@ -567,6 +673,11 @@ namespace ImouRentACar.Controllers
                     await _database.Bookings.AddAsync(saveBooking);
                     await _database.SaveChangesAsync();
 
+                    var getcarname = await _database.Cars.FindAsync(saveBooking.CarId);
+
+                    _session.SetString("successrequestedcarname", getcarname.Name);
+                    _session.SetString("successpassengeremail", _passengerInformation.Email);
+
                     return RedirectToAction("Success", "Booking");
                 }
                 else
@@ -574,7 +685,9 @@ namespace ImouRentACar.Controllers
                     TempData["bookingerror"] = "Sorry your session has expired.";
                     return RedirectToAction("Index", "Error");
                 }
-            }catch(Exception e)
+
+            }
+            catch(Exception e)
             {
                 return View(e);
             }

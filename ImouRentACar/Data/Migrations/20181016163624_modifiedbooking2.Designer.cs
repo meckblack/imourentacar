@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181016163624_modifiedbooking2")]
+    partial class modifiedbooking2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,21 +137,25 @@ namespace ImouRentACar.Migrations
 
                     b.Property<DateTime>("PickDate");
 
+                    b.Property<string>("PickUpDate")
+                        .IsRequired();
+
                     b.Property<int>("PickUpLgaId");
 
                     b.Property<string>("PickUpLocation")
                         .IsRequired();
 
-                    b.Property<DateTime>("PickUpTime");
-
                     b.Property<int>("PriceId");
+
+                    b.Property<string>("ReturnDate")
+                        .IsRequired();
 
                     b.Property<int>("ReturnLgaId");
 
                     b.Property<string>("ReturnLocation")
                         .IsRequired();
 
-                    b.Property<DateTime>("ReturnTime");
+                    b.Property<DateTime>("Returner");
 
                     b.Property<decimal>("TotalBookingPrice");
 

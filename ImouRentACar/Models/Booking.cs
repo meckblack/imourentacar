@@ -19,14 +19,17 @@ namespace ImouRentACar.Models
         public string PickUpLocation { get; set; }
 
         [Required(ErrorMessage = "Date is required")]
-        public string PickUpDate { get; set; }
+        public DateTime PickDate { get; set; }
+
+        [Required(ErrorMessage = "Time is required")]
+        public DateTime PickUpTime { get; set; }
 
         [Required(ErrorMessage = "Return location is required")]
         public string ReturnLocation { get; set; }
 
-        [Required(ErrorMessage = "Date is required")]
-        public string ReturnDate { get; set; }
-        
+        [Required(ErrorMessage = "Time is required")]
+        public DateTime ReturnTime { get; set; }
+
         public Verification Verification { get; set; }
 
         [DisplayName("Assigned Driver")]

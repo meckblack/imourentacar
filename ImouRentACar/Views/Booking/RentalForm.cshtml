@@ -25,7 +25,7 @@
                             <div class="col-md-3" style="padding-right: 5px">
                                 <label style="color: whitesmoke;">STATE</label>
                                 <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state" asp-items="ViewBag.PickOffStateId">
-                                    <option selected>---------- States--------</option>
+                                    <option selected>----- States-----</option>
                                 </select>
                             </div>
                             <div class="col-md-3" style="padding-right: 5px">
@@ -35,9 +35,9 @@
                                 </select>
                                 <span asp-validation-for="PickUpLgaId" class="text-danger"></span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="padding-right: 5px">
                                 <label style="color: whitesmoke;">DATE </label>
-                                <input type="date" asp-for="PickDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Date" />
+                                <input type="text" asp-for="PickDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Date" />
                                 <span asp-validation-for="PickDate" class="text-danger"></span>
                             </div>
                             <div class="col-md-3">

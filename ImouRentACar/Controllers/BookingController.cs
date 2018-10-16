@@ -375,8 +375,7 @@ namespace ImouRentACar.Controllers
 
             return View(cars);
         }
-
-
+        
         #endregion
 
         #region PassengerInformation
@@ -551,7 +550,22 @@ namespace ImouRentACar.Controllers
                     if (checkMemberId == null)
                     {
                         TempData["error"] = "Sorry the MemberId you entered is invalid";
-                        return View(passengerInformation);
+
+                        dynamic mymodel = new ExpandoObject();
+                        mymodel.Logos = GetLogos();
+                        mymodel.Contacts = GetContacts();
+
+                        foreach (Contact contact in mymodel.Contacts)
+                        {
+                            ViewData["contactnumber"] = contact.MobileNumberOne;
+                        }
+
+                        foreach (Logo logo in mymodel.Logos)
+                        {
+                            ViewData["imageoflogo"] = logo.Image;
+                        }
+
+                        return View("PassengerInformation", new { id = id });
                     }
 
                     var passenger = new PassengerInformation()
@@ -724,6 +738,18 @@ namespace ImouRentACar.Controllers
             }
 
             return View();
+        }
+
+        #endregion
+
+        #region Cancel
+
+        [HttpGet]
+        public IActionResult Cancel()
+        {
+            _session.Clear();
+            _database.Dispose();
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

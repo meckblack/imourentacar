@@ -1,7 +1,7 @@
 ﻿@model ImouRentACar.Models.Booking
 
 @{
-    ViewData["Title"] = "Rental Form";
+    ViewData["Title"] = "Payment";
     Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
 }
 
@@ -142,7 +142,7 @@
     var handler = PaystackPop.setup({
       key: 'pk_test_86d32aa1nV4l1da7120ce530f0b221c3cb97cbcc',
       email: 'customer@email.com',
-      amount: 10000,
+      amount: @TempData["totalprice"],
       metadata: {
          custom_fields: [
             {

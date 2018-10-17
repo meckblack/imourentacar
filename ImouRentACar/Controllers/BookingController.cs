@@ -11,9 +11,6 @@ using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
 using Newtonsoft.Json;
 using System.Dynamic;
-using Microsoft.AspNetCore.SignalR.Protocol;
-using MimeKit;
-using MailKit.Net.Smtp;
 using ImouRentACar.Services;
 
 namespace ImouRentACar.Controllers
@@ -1140,9 +1137,7 @@ namespace ImouRentACar.Controllers
                 TempData["expiredbooking"] = "Dear customer your pickup time has passed and so there your booking has expired.";
                 return RedirectToAction("Index", "Error");
             }
-
             
-
             //Get Car
             var carid = _booking.CarId;
             var _car = await _database.Cars.FindAsync(carid);

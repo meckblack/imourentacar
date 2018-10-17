@@ -2579,4 +2579,10 @@
     <Folder Include="wwwroot\UploadedFiles\Drivers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Customer\Success.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

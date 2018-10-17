@@ -500,6 +500,106 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region Password Recovery
+
+        [HttpGet]
+        public IActionResult PasswordRecovery()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordRecovery(Customer customer)
+        {
+            var _customer = await _database.Customers.SingleOrDefaultAsync(u => u.Email == customer.Email);
+
+            if (_customer == null)
+            {
+                ViewData["customer"] = "Sorry the email you enter does not exist. Check the email and try again";
+                return View();
+            }
+
+            new Mailer().PasswordRecovery(new AppConfig().ForgotPasswordHtml, _customer);
+
+            _session.SetString("recoveriedemail", _customer.Email);
+
+            return RedirectToAction("Success", "Account");
+
+        }
+
+        #endregion
+
+        #region Success
+
+        [HttpGet]
+        public IActionResult Success()
+        {
+            ViewData["recoveriedemail"] = _session.GetString("recoveriedemail");
+            if (ViewData["recoveriedemail"] == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            return View();
+        }
+
+        #endregion
+
+        #region New Password
+
+        [HttpGet]
+        public IActionResult NewPassword(string user)
+        {
+            if(user == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            _session.SetInt32("id", Convert.ToInt32(user));
+            return View();
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewPassword(Customer customer)
+        {
+            var id = _session.GetInt32("id");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            try
+            {
+                var _customer = new Customer()
+                {
+                    CustomerId = customer.CustomerId,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    MobileNumber = customer.MobileNumber,
+                    Title = customer.Title,
+                    Gender = customer.Gender,
+                    MemberId = customer.MemberId,
+                    Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
+                    ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
+                };
+
+
+                _database.Customers.Update(_customer);
+                await _database.SaveChangesAsync();
+
+                TempData["customer"] = "You have successfully changed your password";
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        #endregion
+
         #region Get Data
 
         private List<Logo> GetLogos()

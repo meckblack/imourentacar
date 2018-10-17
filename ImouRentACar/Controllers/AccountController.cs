@@ -367,6 +367,65 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region New Password
+
+        [HttpGet]
+        public IActionResult NewPassword(string appUser)
+        {
+            if (appUser == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            _session.SetInt32("id", Convert.ToInt32(appUser));
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewPassword(ApplicationUser applicationUser)
+        {
+            var userid = _session.GetInt32("id");
+
+            if (userid != applicationUser.ApplicationUserId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            try
+            {
+                var _user = new ApplicationUser()
+                {
+                    ApplicationUserId = applicationUser.ApplicationUserId,
+                    ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(applicationUser.ConfirmPassword),
+                    Password = BCrypt.Net.BCrypt.HashPassword(applicationUser.Password),
+                    DateCreated = applicationUser.DateCreated,
+                    DateLastModified = DateTime.Now,
+                    CreatedBy = applicationUser.CreatedBy,
+                    LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                    Email = applicationUser.Email,
+                    FirstName = applicationUser.FirstName,
+                    LastName = applicationUser.LastName,
+                    RoleId = applicationUser.RoleId
+
+                };
+
+                TempData["user"] = "You have successfully changed " + applicationUser.DisplayName + " password.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                _database.ApplicationUsers.Update(_user);
+                await _database.SaveChangesAsync();
+
+                return RedirectToAction("Signin", "Account");
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        #endregion
+
         #region Application User Exist
 
         private bool ApplicationUserExists(int id)

@@ -167,7 +167,7 @@ namespace ImouRentACar.Controllers
         {
             if(id != brand.CarBrandId)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             if (ModelState.IsValid)

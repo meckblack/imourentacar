@@ -105,6 +105,8 @@ namespace ImouRentACar.Controllers
                     Email = user.Email,
                     Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
                     ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(user.ConfirmPassword),
+                    CreatedBy = 1,
+                    LastModifiedBy = 1,
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
                     RoleId = _role.RoleId,
@@ -215,34 +217,108 @@ namespace ImouRentACar.Controllers
             {
                 return RedirectToAction("Index", "Error");
             }
-
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
-                    TempData["user"] = "You have successfully modified "+ applicationUser.DisplayName +" profile!!!";
-                    TempData["notificationType"] = NotificationType.Success.ToString();
+                    var _user = new ApplicationUser()
+                    {
+                        ApplicationUserId = applicationUser.ApplicationUserId,
+                        ConfirmPassword = applicationUser.ConfirmPassword,
+                        Password = applicationUser.Password,
+                        DateCreated = applicationUser.DateCreated,
+                        DateLastModified = DateTime.Now,
+                        CreatedBy = applicationUser.CreatedBy,
+                        LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                        Email = applicationUser.Email,
+                        FirstName = applicationUser.FirstName,
+                        LastName = applicationUser.LastName,
+                        RoleId = applicationUser.RoleId
 
-                    applicationUser.LastModifiedBy = Convert.ToInt32(_session.Get("imouloggedinuserid"));
-                    applicationUser.DateLastModified = DateTime.Now;
-                    _database.ApplicationUsers.Update(applicationUser);
-                    await _database.SaveChangesAsync();
+                    };
 
-                    return Json(new { success = true });
+                TempData["user"] = "You have successfully modified " + applicationUser.DisplayName + " profile.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                _database.ApplicationUsers.Update(_user);
+                await _database.SaveChangesAsync();
+
+                return Json(new { success = true });
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch(Exception ex)
                 {
-                    if (!ApplicationUserExists(applicationUser.ApplicationUserId))
-                    {
-                        return RedirectToAction("Index", "Error");
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw ex;
                 }
+        }
+
+        #endregion
+
+        #region Change Password
+
+        [HttpGet]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var userid = _session.GetInt32("imouloggedinuserid");
+
+            if (userid == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Try signin again";
+                return RedirectToAction("Signin", "Account");
             }
-            return RedirectToAction("ViewProfile", "Account");
+
+            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.ApplicationUserId == userid);
+
+            if (_user == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return PartialView("ChangePassword", _user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> ChangePassword(ApplicationUser applicationUser)
+        {
+            var userid = _session.GetInt32("imouloggedinuserid");
+
+            if (userid != applicationUser.ApplicationUserId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            try
+            {
+                var _user = new ApplicationUser()
+                {
+                    ApplicationUserId = applicationUser.ApplicationUserId,
+                    ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(applicationUser.ConfirmPassword),
+                    Password = BCrypt.Net.BCrypt.HashPassword(applicationUser.Password),
+                    DateCreated = applicationUser.DateCreated,
+                    DateLastModified = DateTime.Now,
+                    CreatedBy = applicationUser.CreatedBy,
+                    LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                    Email = applicationUser.Email,
+                    FirstName = applicationUser.FirstName,
+                    LastName = applicationUser.LastName,
+                    RoleId = applicationUser.RoleId
+
+                };
+
+                TempData["user"] = "You have successfully changed " + applicationUser.DisplayName + " password.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                _database.ApplicationUsers.Update(_user);
+                await _database.SaveChangesAsync();
+
+                return Json(new { success = true });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion

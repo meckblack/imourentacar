@@ -9,37 +9,38 @@
 <!-- Content Header (Page header) -->
 
 <section class="content">
+    @if (TempData["user"] != null)
+    {
+        if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
+        {
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                @TempData["user"]
+            </div>
+        }
+        else if (TempData["notificationtype"].Equals(NotificationType.Error.ToString()))
+        {
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                @TempData["user"]
+            </div>
+        }
+        else if (TempData["notificationtype"].Equals(NotificationType.Info.ToString()))
+        {
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                @TempData["user"]
+            </div>
+        }
+
+    }
     <div class="box">
         <div class="box-header with-border">
             <h2>
                 <strong>VIEW PROFILE</strong>
             </h2>
         </div>
-        @if (TempData["user"] != null)
-        {
-            if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
-            {
-                <div class="alert alert-success alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    @TempData["user"]
-                </div>
-            }
-            else if (TempData["notificationtype"].Equals(NotificationType.Error.ToString()))
-            {
-                <div class="alert alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    @TempData["user"]
-                </div>
-            }
-            else if (TempData["notificationtype"].Equals(NotificationType.Info.ToString()))
-            {
-                <div class="alert alert-info alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    @TempData["user"]
-                </div>
-            }
 
-        }
         <div class="box-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!--MODAL BODY-->
@@ -75,7 +76,7 @@
                 <div class="row pull-right">
                     <div class="col-md-12">
                         <a data-modal="" asp-action="EditProfile" class="btn btn-success pull-left">Edit Profile</a>
-                        <a data-modal="" asp-action="EditProfile" class="btn btn-primary">Change Password</a>
+                        <a data-modal="" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
                     </div>
                 </div>
             </div>

@@ -350,13 +350,24 @@ namespace ImouRentACar.Controllers
 
             try
             {
-                if (ModelState.IsValid)
+                var _customer = new Customer()
                 {
-                    _database.Customers.Update(customer);
-                    await _database.SaveChangesAsync();
+                    CustomerId = customer.CustomerId,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    MobileNumber = customer.MobileNumber,
+                    Title = customer.Title,
+                    Gender = customer.Gender,
+                    MemberId = customer.MemberId,
+                    Password = customer.Password,
+                    ConfrimPassword = customer.ConfrimPassword
+                };
 
-                    return Json(new { success = true });
-                }
+                _database.Customers.Update(_customer);
+                await _database.SaveChangesAsync();
+
+                return Json(new { success = true });
             }
             catch (Exception e)
             {
@@ -397,11 +408,11 @@ namespace ImouRentACar.Controllers
             var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
             TempData["customername"] = _customer.DisplayName;
             
-            return View();
+            return View(_customer);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(Customer customer)
+        [HttpPost, ActionName("ChangePassword")]
+        public async Task<IActionResult> ChangePasswordConfirm(Customer customer)
         {
             var id = _session.GetInt32("imouloggedincustomerid");
             if (id == null)
@@ -413,25 +424,33 @@ namespace ImouRentACar.Controllers
 
             try
             {
-                if (ModelState.IsValid)
+                var _customer = new Customer()
                 {
+                    CustomerId = customer.CustomerId,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    MobileNumber = customer.MobileNumber,
+                    Title = customer.Title,
+                    Gender = customer.Gender,
+                    MemberId = customer.MemberId,
+                    Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
+                    ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
+                };
 
-                    customer.Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
-                    customer.ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword);
 
-                    _database.Customers.Update(customer);
-                    await _database.SaveChangesAsync();
+                _database.Customers.Update(_customer);
+                await _database.SaveChangesAsync();
 
-                    TempData["customer"] = "You have successfully changed your password";
-                    return RedirectToAction("Index", "Home");
-                }
+                TempData["customer"] = "You have successfully changed your password";
+                return RedirectToAction("Index", "Home");
+
             }
             catch (Exception e)
             {
                 throw e;
             }
 
-            return View(customer);
         }
 
         #endregion

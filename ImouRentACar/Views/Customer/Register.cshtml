@@ -10,6 +10,10 @@
 <!-- /.login-logo -->
 <div class="login-box-body">
     <p class="login-box-msg">WELCOME</p>
+    @if(TempData["emailexists"] != null)
+    {
+        <p class="text-danger">@TempData["emailexists"]</p>
+    }
     <form asp-action="Register" asp-controller="Customer">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">

@@ -323,6 +323,50 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region Password Recovery
+
+        [HttpGet]
+        public IActionResult PasswordRecovery()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordRecovery(ApplicationUser user)
+        {
+            var _user = await _database.ApplicationUsers.SingleOrDefaultAsync(u => u.Email == user.Email);
+            
+            if(_user == null)
+            {
+                ViewData["appuser"] = "Sorry the email you enter does not exist. Check the email and try again";
+                return View();
+            }
+
+            new Mailer().PasswordRecovery(new AppConfig().ForgotPasswordHtml, _user);
+
+            _session.SetString("recoveriedemail", _user.Email);
+
+            return RedirectToAction("Success", "Account");
+
+        }
+
+        #endregion
+
+        #region Success
+
+        [HttpGet]
+        public IActionResult Success()
+        {
+            ViewData["recoveriedemail"] = _session.GetString("recoveriedemail");
+            if(ViewData["recoveriedemail"] == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            return View();
+        }
+
+        #endregion
+
         #region Application User Exist
 
         private bool ApplicationUserExists(int id)

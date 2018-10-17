@@ -565,7 +565,7 @@ namespace ImouRentACar.Controllers
                             ViewData["imageoflogo"] = logo.Image;
                         }
 
-                        return View("PassengerInformation", new { id = id });
+                        return RedirectToAction("RentalForm", "Booking");
                     }
 
                     var passenger = new PassengerInformation()
@@ -1119,6 +1119,8 @@ namespace ImouRentACar.Controllers
 
             _database.Cars.Update(_car);
             await _database.SaveChangesAsync();
+
+            new Mailer().BookingPaymentEmail(new AppConfig().BookingPaymentHtml, booking, _passenger);
 
             return View();
         }

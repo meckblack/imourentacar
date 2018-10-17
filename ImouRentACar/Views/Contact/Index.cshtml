@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ImouRentACar.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+<style>
+    .bottommenu > ul {
+        padding-left: 30%;
+        padding-top: 49px;
+    }
+</style>
+<partial name="~/Views/Shared/Enquiry.cshtml" />
+<div class="allcontain">
+    <div class="bottommenu">
+        <div class="bottomlogo">
+            <span class="dotlogo" style="color:black">&bullet;</span><img style="height: 70px; width: 250px;" src="~/UploadedFiles/Logo/@ViewData["imageoflogo"]" alt="logo1"><span class="dotlogo" style="color:black">&bullet;;</span>
+        </div>
+        <ul class="nav nav-tabs bottomlinks" style="align-content:center;">
+            <li role="presentation">
+                <a asp-action="Index" asp-controller="Home">HOME</a>
+            </li>
+            <li role="presentation">
+                <a asp-action="ViewAllCars" asp-controller="Car">CARS</a>
+            </li>
+            <li role="presentation">
+                <a asp-action="RentalForm" asp-controller="Booking">RENT A CAR</a>
+            </li>
+            <li role="presentation">
+                <a asp-action="Index" asp-controller="Contact">CONTACT US</a>
+            </li>
+        </ul>
+        <p style="padding-top:20px; margin-bottom:0px;">
+            <b>Address: </b>  @ViewData["contactaddress"] <br>
+            <b>POBox: </b>  @ViewData["contactboxoffice"] <br />
+            <b>Contact Numbers: </b>  @ViewData["contactnumber1"], @ViewData["contactnumber2"]
+        </p>
+        <img src="~/landing/image/line.png" alt="line"> <br>
+        <div class="bottomsocial">
+            <a href="#"><i class="fa fa-facebook" style="color:dodgerblue"></i></a>
+            <a href="#"><i class="fa fa-twitter" style="color:deepskyblue"></i></a>
+            <a href="#"><i class="fa fa-google-plus" style="color:red"></i></a>
+            <a href="#"><i class="fa fa-google-plus" style="color:red"></i></a>
+        </div>
+        <div class="footer">
+            <div class="copyright">
+                &copy; Copy right 2016 | <a href="#">Privacy </a>| <a href="#">Policy</a>
+            </div>
+            <div class="atisda">
+                Designed by <a href="http://www.webdomus.net/">Web Domus Italia - Web Agency </a>
+            </div>
+        </div>
+    </div>
+</div>

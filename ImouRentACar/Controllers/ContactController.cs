@@ -10,6 +10,8 @@ using ImouRentACar.Models;
 using Microsoft.AspNetCore.Http;
 using ImouRentACar.Models.Enums;
 using ImouRentACar.Services;
+using System.Dynamic;
+using Newtonsoft.Json;
 
 namespace ImouRentACar.Controllers
 {
@@ -30,23 +32,43 @@ namespace ImouRentACar.Controllers
         #endregion
 
         #region Index
-
-        [SessionExpireFilterAttribute]
-        public async Task<IActionResult> Index()
+        
+        public IActionResult Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
 
-            var userid = _session.GetInt32("imouloggedinuserid");
-            var _user = await _database.ApplicationUsers.FindAsync(userid);
-            ViewData["loggedinuserfullname"] = _user.DisplayName;
 
-            var contact = await _database.Contacts.ToListAsync();
-            return View(contact);
+            
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                _session.SetString("contactnumber", contact.MobileNumberOne);
+
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+                ViewData["contactaddress"] = contact.Address;
+                ViewData["contactboxoffice"] = contact.BoxOfficeNumber;
+                ViewData["contactnumber1"] = contact.MobileNumberOne;
+                ViewData["contactnumber2"] = contact.MobileNumberTwo;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                _session.SetString("imageoflogo", logo.Image);
+
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                return View();
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
+            return View();
         }
 
         #endregion
@@ -222,6 +244,27 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
+
+        #region Get Logos
+
+        private List<Logo> GetLogos()
+        {
+            var _logos = _database.Logos.ToList();
+
+            return _logos;
+        }
+
+        #endregion
         
+        #region Get Contacts
+
+        private List<Contact> GetContacts()
+        {
+            var _contact = _database.Contacts.ToList();
+            return _contact;
+        }
+
+        #endregion
+
     }
 }

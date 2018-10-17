@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace ImouRentACar.Services
 {
@@ -17,7 +18,7 @@ namespace ImouRentACar.Services
             try
             {
                 //From Address
-                var FromAddress = "info@imourentacar.com";
+                var FromAddress = "imourentacar@gmail.com";
                 var FromAddressTitle = "ImouRentACar";
                 //To Address
                 var toCustomer = passenger.Email;
@@ -47,6 +48,9 @@ namespace ImouRentACar.Services
 
                         var replace = body.Replace("USER", passenger.DisplayName);
                         replace = replace.Replace("URL", "http://imourentacar.com/booking/payment?bookingNumber=" + booking.BookingNumber);
+                        replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
+                        replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
+                        replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
                         bodyBuilder.HtmlBody = replace;
                         mimeMessageCustomer.Body = bodyBuilder.ToMessageBody();
                     }
@@ -60,7 +64,6 @@ namespace ImouRentACar.Services
                     client.Authenticate(new AppConfig().Email, new AppConfig().Password);
                     client.Send(mimeMessageCustomer);
                     client.Disconnect(true);
-                    client.Disconnect(true);
                 }
 
             }
@@ -68,6 +71,61 @@ namespace ImouRentACar.Services
             {
                 //ignore
             }
+        }
+
+        public void PasswordRecovery(string path, ApplicationUser user)
+        {
+            //From Address
+            var FromAddress = "imourentacar@gmail.com";
+            var FromAdressTitle = "Imou Rent A Car";
+            //To Address
+            var toUser = user.Email;
+            //var toCustomer = email;
+            var ToAdressTitle = user.DisplayName;
+            var Subject = "ImouRentACar (Password Reset).";
+
+            //Smtp Server
+            var smtpServer = new AppConfig().EmailServer;
+            //Smtp Port Number
+            var smtpPortNumber = new AppConfig().Port;
+
+            var mimeMessageUser = new MimeMessage();
+            mimeMessageUser.From.Add(new MailboxAddress(FromAdressTitle, FromAddress));
+            mimeMessageUser.To.Add(new MailboxAddress(ToAdressTitle, toUser));
+            mimeMessageUser.Subject = Subject;
+            var bodyBuilder = new BodyBuilder();
+
+            using (var data = File.OpenText(path))
+            {
+                if(data.BaseStream != null)
+                {
+                    // manage content
+                    bodyBuilder.HtmlBody = data.ReadToEnd();
+                    var body = bodyBuilder.HtmlBody;
+
+                    var replace = body.Replace("USER", user.DisplayName);
+                    replace = replace.Replace("DATE", DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                    replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
+                    replace = replace.Replace("APPURL", "https://www.imourentacar.com");
+                    replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
+                    replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
+                    replace = replace.Replace("URL",
+                        "http://imourentacar.com/Account/ForgotPassword?appUser=" + user.ApplicationUserId);
+                    bodyBuilder.HtmlBody = replace;
+                    mimeMessageUser.Body = bodyBuilder.ToMessageBody();
+                }
+            }
+
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                client.Connect(smtpServer, smtpPortNumber);
+                // Note: only needed if the SMTP server requires authentication
+                // Error 5.5.1 Authentication 
+                client.Authenticate(new AppConfig().Email, new AppConfig().Password);
+                client.Send(mimeMessageUser);
+                client.Disconnect(true);
+            }
+
         }
     }
 }

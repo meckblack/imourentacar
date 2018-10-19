@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImouRentACar.Migrations
 {
-    public partial class InitialCloudMigration : Migration
+    public partial class OnlyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,7 +97,7 @@ namespace ImouRentACar.Migrations
                     ConfrimPassword = table.Column<string>(nullable: false),
                     Gender = table.Column<int>(nullable: false),
                     Title = table.Column<int>(nullable: false),
-                    MemberId = table.Column<int>(nullable: false)
+                    MemberId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -240,6 +240,15 @@ namespace ImouRentACar.Migrations
                     CanManageCustomers = table.Column<bool>(nullable: false),
                     CanManageLandingDetails = table.Column<bool>(nullable: false),
                     CanManageCars = table.Column<bool>(nullable: false),
+                    CanManagePrices = table.Column<bool>(nullable: false),
+                    CanManageEnquires = table.Column<bool>(nullable: false),
+                    CanManageBookings = table.Column<bool>(nullable: false),
+                    CanManageStates = table.Column<bool>(nullable: false),
+                    CanManageLgas = table.Column<bool>(nullable: false),
+                    CanManageDrivers = table.Column<bool>(nullable: false),
+                    CanManageCarBrand = table.Column<bool>(nullable: false),
+                    CanManageApplicationUsers = table.Column<bool>(nullable: false),
+                    CanManagePassengersInformation = table.Column<bool>(nullable: false),
                     CanDoEverything = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -307,12 +316,16 @@ namespace ImouRentACar.Migrations
                     BookingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     PickUpLocation = table.Column<string>(nullable: false),
-                    PickUpDate = table.Column<string>(nullable: false),
+                    PickDate = table.Column<DateTime>(nullable: false),
+                    PickUpTime = table.Column<DateTime>(nullable: false),
                     ReturnLocation = table.Column<string>(nullable: false),
-                    ReturnDate = table.Column<string>(nullable: false),
+                    ReturnTime = table.Column<DateTime>(nullable: false),
                     Verification = table.Column<int>(nullable: false),
                     DriverId = table.Column<int>(nullable: false),
                     TotalBookingPrice = table.Column<decimal>(nullable: false),
+                    BookingNumber = table.Column<string>(nullable: true),
+                    CustomerId = table.Column<int>(nullable: false),
+                    PaymentStatus = table.Column<int>(nullable: false),
                     CarId = table.Column<int>(nullable: false),
                     PriceId = table.Column<int>(nullable: false),
                     ReturnLgaId = table.Column<int>(nullable: false),

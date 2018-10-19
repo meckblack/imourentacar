@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImouRentACar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181013143250_ModifiedBookingaAndCustomer")]
-    partial class ModifiedBookingaAndCustomer
+    [Migration("20181019100933_OnlyMigration")]
+    partial class OnlyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,8 @@ namespace ImouRentACar.Migrations
 
                     b.Property<int>("CarId");
 
+                    b.Property<int>("CustomerId");
+
                     b.Property<DateTime>("DateDriverAssigned");
 
                     b.Property<DateTime>("DateSent");
@@ -131,23 +133,25 @@ namespace ImouRentACar.Migrations
 
                     b.Property<int>("PassengerInformationId");
 
-                    b.Property<string>("PickUpDate")
-                        .IsRequired();
+                    b.Property<int>("PaymentStatus");
+
+                    b.Property<DateTime>("PickDate");
 
                     b.Property<int>("PickUpLgaId");
 
                     b.Property<string>("PickUpLocation")
                         .IsRequired();
 
-                    b.Property<int>("PriceId");
+                    b.Property<DateTime>("PickUpTime");
 
-                    b.Property<string>("ReturnDate")
-                        .IsRequired();
+                    b.Property<int>("PriceId");
 
                     b.Property<int>("ReturnLgaId");
 
                     b.Property<string>("ReturnLocation")
                         .IsRequired();
+
+                    b.Property<DateTime>("ReturnTime");
 
                     b.Property<decimal>("TotalBookingPrice");
 
@@ -504,11 +508,29 @@ namespace ImouRentACar.Migrations
 
                     b.Property<bool>("CanDoEverything");
 
+                    b.Property<bool>("CanManageApplicationUsers");
+
+                    b.Property<bool>("CanManageBookings");
+
+                    b.Property<bool>("CanManageCarBrand");
+
                     b.Property<bool>("CanManageCars");
 
                     b.Property<bool>("CanManageCustomers");
 
+                    b.Property<bool>("CanManageDrivers");
+
+                    b.Property<bool>("CanManageEnquires");
+
                     b.Property<bool>("CanManageLandingDetails");
+
+                    b.Property<bool>("CanManageLgas");
+
+                    b.Property<bool>("CanManagePassengersInformation");
+
+                    b.Property<bool>("CanManagePrices");
+
+                    b.Property<bool>("CanManageStates");
 
                     b.Property<int>("CreatedBy");
 
@@ -559,7 +581,7 @@ namespace ImouRentACar.Migrations
             modelBuilder.Entity("ImouRentACar.Models.Booking", b =>
                 {
                     b.HasOne("ImouRentACar.Models.PassengerInformation", "PassengerInformation")
-                        .WithMany()
+                        .WithMany("Booking")
                         .HasForeignKey("PassengerInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -4,14 +4,16 @@ using ImouRentACar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImouRentACar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181019212748_AddTwoWayTrips")]
+    partial class AddTwoWayTrips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -545,48 +547,6 @@ namespace ImouRentACar.Migrations
                     b.ToTable("Prices");
                 });
 
-            modelBuilder.Entity("ImouRentACar.Models.RentACar", b =>
-                {
-                    b.Property<int>("RentACarId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BookingNumber");
-
-                    b.Property<int>("CarId");
-
-                    b.Property<int>("CustomerId");
-
-                    b.Property<int>("Days");
-
-                    b.Property<int>("DriverId");
-
-                    b.Property<int>("PassengerInformationId");
-
-                    b.Property<int>("PaymentStatus");
-
-                    b.Property<DateTime>("PickDate");
-
-                    b.Property<int>("PickUpLgaId");
-
-                    b.Property<string>("PickUpLocation")
-                        .IsRequired();
-
-                    b.Property<DateTime>("PickUpTime");
-
-                    b.Property<int>("PriceId");
-
-                    b.Property<decimal>("TotalBookingPrice");
-
-                    b.Property<int>("Verification");
-
-                    b.HasKey("RentACarId");
-
-                    b.HasIndex("PassengerInformationId");
-
-                    b.ToTable("RentACars");
-                });
-
             modelBuilder.Entity("ImouRentACar.Models.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -739,14 +699,6 @@ namespace ImouRentACar.Migrations
                 });
 
             modelBuilder.Entity("ImouRentACar.Models.OneWayTrip", b =>
-                {
-                    b.HasOne("ImouRentACar.Models.PassengerInformation", "PassengerInformation")
-                        .WithMany()
-                        .HasForeignKey("PassengerInformationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ImouRentACar.Models.RentACar", b =>
                 {
                     b.HasOne("ImouRentACar.Models.PassengerInformation", "PassengerInformation")
                         .WithMany()

@@ -31,6 +31,10 @@ namespace ImouRentACar.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PassengerInformation> PassengersInformation { get; set; }
         public DbSet<Driver> Driver { get; set; }
+        public DbSet<OneWayTrip> OneWayTrips { get; set; }
+        public DbSet<TwoWayTrip> TwoWayTrips { get; set; }
+        public DbSet<RentACar> RentACars { get; set; }
+
 
     }
 }

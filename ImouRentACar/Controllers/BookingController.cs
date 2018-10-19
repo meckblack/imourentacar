@@ -250,13 +250,15 @@ namespace ImouRentACar.Controllers
             var customerObject = _session.GetString("imouloggedincustomer");
             if (customerObject == null)
             {
+                var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+                TempData["customername"] = _customer.DisplayName;
+
                 ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
                 ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
                 return View();
             }
 
-            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
-            TempData["customername"] = _customer.DisplayName;
+            
 
             ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
             ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");

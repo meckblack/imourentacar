@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImouRentACar.Models
 {
-    public class OneWayTrip
+    public class OneWayTrip : RentalTransport
     {
         #region Model Data
 

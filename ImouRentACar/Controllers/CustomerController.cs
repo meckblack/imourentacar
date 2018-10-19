@@ -170,13 +170,6 @@ namespace ImouRentACar.Controllers
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
             var roleid = _user.RoleId;
@@ -189,7 +182,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageCustomers == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -374,7 +367,6 @@ namespace ImouRentACar.Controllers
                 throw e;
             }
 
-            return View(customer);
         }
 
         #endregion
@@ -442,7 +434,7 @@ namespace ImouRentACar.Controllers
                 _database.Customers.Update(_customer);
                 await _database.SaveChangesAsync();
 
-                TempData["customer"] = "You have successfully changed your password";
+                TempData["passwordcustomer"] = "You have successfully changed your password";
                 return RedirectToAction("Index", "Home");
 
             }
@@ -588,7 +580,7 @@ namespace ImouRentACar.Controllers
                 _database.Customers.Update(_customer);
                 await _database.SaveChangesAsync();
 
-                TempData["customer"] = "You have successfully changed your password";
+                TempData["passwordcustomer"] = "You have successfully changed your password";
                 return RedirectToAction("Index", "Home");
 
             }

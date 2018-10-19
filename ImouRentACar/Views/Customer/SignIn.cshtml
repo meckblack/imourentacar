@@ -13,7 +13,7 @@
 }
 <!-- /.login-logo -->
 <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Customer sign in to start your session</p>
     <form asp-action="SignIn" asp-controller="Customer">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @if (ViewData["mismatch"] != null && Convert.ToString(ViewData["mismatch"]) != " ")

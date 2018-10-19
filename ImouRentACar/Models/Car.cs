@@ -23,8 +23,11 @@ namespace ImouRentACar.Models
 
         public string Image { get; set; }
 
-        [Required(ErrorMessage = "Price is required")]
+        [Required(ErrorMessage = "Trip price is required")]
         public decimal Price { get; set; }
+
+        [Required(ErrorMessage = "Rental price is required")]
+        public decimal RentalPrice { get; set; }
 
         [Required(ErrorMessage = "Color")]
         public Color Color { get; set; }

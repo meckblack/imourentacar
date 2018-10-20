@@ -454,8 +454,49 @@ namespace ImouRentACar.Controllers
         #region Veiw Bookings
 
         [HttpGet]
-        [Route("customer/viewbookings")]
-        public async Task<IActionResult> ViewBookings()
+        [Route("customer/viewonewaytrips")]
+        public async Task<IActionResult> ViewOnewayTrips()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+            
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if (id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var allOneWayTrips = await _database.OneWayTrips.Where(owt => owt.CustomerId == _id).ToListAsync();
+
+            return View(allOneWayTrips);
+        }
+
+        [HttpGet]
+        [Route("customer/viewtwowaytrips")]
+        public async Task<IActionResult> ViewTwowayTrips()
         {
             dynamic mymodel = new ExpandoObject();
             mymodel.Logos = GetLogos();
@@ -488,12 +529,52 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Signin", "Customer");
             }
 
-            
-            var customerBookings = await _database.Bookings.Where(b => b.CustomerId == id).ToListAsync();
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var allTwoWayTrips = await _database.TwoWayTrips.Where(owt => owt.CustomerId == _id).ToListAsync();
 
-            return View("ViewBookings", customerBookings);
+            return View(allTwoWayTrips);
         }
 
+        [HttpGet]
+        [Route("customer/viewcarrentals")]
+        public async Task<IActionResult> ViewCarRentals()
+        {
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
+            var customerObject = _session.GetString("imouloggedincustomer");
+            if (customerObject == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+            TempData["customername"] = _customer.DisplayName;
+
+            var id = _session.GetInt32("imouloggedincustomerid");
+            if (id == null)
+            {
+                TempData["error"] = "Sorry your session has expired. Kindly signin again and try again.";
+                return RedirectToAction("Signin", "Customer");
+            }
+
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var allCarRentals = await _database.RentACars.Where(owt => owt.CustomerId == _id).ToListAsync();
+
+            return View(allCarRentals);
+        }
 
         #endregion
 
@@ -611,28 +692,7 @@ namespace ImouRentACar.Controllers
             var _contact = _database.Contacts.ToList();
             return _contact;
         }
-
-        private List<OneWayTrip> GetOnewayTrip()
-        {
-            var _id = _session.GetInt32("imouloggedincustomerid");
-            var allOneWayTrips = _database.OneWayTrips.Where(owt => owt.CustomerId == _id).ToList();
-            return allOneWayTrips;
-        }
-
-        private List<TwoWayTrip> GetTwowayTrip()
-        {
-            var _id = _session.GetInt32("imouloggedincustomerid");
-            var allTwoWayTrips = _database.TwoWayTrips.Where(owt => owt.CustomerId == _id).ToList();
-            return allTwoWayTrips;
-        }
-
-        private List<RentACar> GetRentACar()
-        {
-            var _id = _session.GetInt32("imouloggedincustomerid");
-            var rentACar = _database.RentACars.Where(owt => owt.CustomerId == _id).ToList();
-            return rentACar;
-        }
-
+        
         #endregion
 
     }

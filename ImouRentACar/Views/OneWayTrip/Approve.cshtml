@@ -1,0 +1,39 @@
+﻿@model ImouRentACar.Models.OneWayTrip
+
+@{
+    ViewData["Title"] = "Approve";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> APPROVE ONE WAY TRIP BOOK REQUEST </strong> </h3>
+</div>
+
+
+<!--MODAL BODY-->
+<div class="modal-body">
+    <h3 class="text-center"> Are you sure you want to approve this one way trip book request?</h3>
+</div>
+<form asp-action="Approve">
+    <input type="hidden" asp-for="OneWayTripId" />
+    <input type="hidden" asp-for="DestinationLgaId" />
+    <input type="hidden" asp-for="PickUpLgaId" />
+    <input type="hidden" asp-for="Destination" />
+    <input type="hidden" asp-for="PassengerInformationId" />
+    <input type="hidden" asp-for="PickUpLocation" />
+    <input type="hidden" asp-for="PickDate" />
+    <input type="hidden" asp-for="PickUpTime" />
+    <input type="hidden" asp-for="DateSent" />
+
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Yes" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">No</a>
+            </div>
+        </div>
+    </div>
+</form>

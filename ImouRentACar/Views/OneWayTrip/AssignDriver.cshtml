@@ -1,0 +1,55 @@
+﻿@model ImouRentACar.Models.OneWayTrip
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> ASSIGN DRIVER </strong> </h3>
+</div>
+
+<form asp-action="AssignDriver">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="OneWayTripId" />
+    <input type="hidden" asp-for="CarId" />
+    <input type="hidden" asp-for="PickUpLgaId" />
+    <input type="hidden" asp-for="DestinationLgaId" />
+    <input type="hidden" asp-for="PassengerInformationId" />
+    <input type="hidden" asp-for="Destination" />
+    <input type="hidden" asp-for="PickUpLocation" />
+    <input type="hidden" asp-for="PickDate" />
+    <input type="hidden" asp-for="PickUpTime" />
+    <input type="hidden" asp-for="DateSent" />
+    <input type="hidden" asp-for="DateVerified" />
+    <input type="hidden" asp-for="Verification" />
+    <input type="hidden" asp-for="VerifiedBy" />
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>DRIVER</label>
+                    <select asp-for="DriverId" class="form-control" asp-items="ViewBag.DriverId">
+                        <option selected>----------------------------------------- Select A Driver --------------------------------------------</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MODAL FOOTER-->
+    <div class="modal-footer">
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Assign" class="btn btn-primary" />
+                <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

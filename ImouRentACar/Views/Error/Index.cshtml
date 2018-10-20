@@ -4,6 +4,15 @@
 
 }
 
-<h1 class="text-danger text-center" style="padding-top:50px;">404 ERROR</h1>
-<h3 class="text-danger text-center">Sorry the page you requested does not exist!!!</h3>
+@if (Convert.ToString(TempData["expiredbooking"]) == null)
+{
+    <h1 class="text-danger text-center" style="padding-top:50px;">404 ERROR</h1>
+    <h3 class="text-danger text-center">Sorry the page you requested does not exist!!!</h3>
+}
+
+<h1 class="text-danger text-center" style="padding-top:50px;">ERROR</h1>
+<h3 class="text-danger text-center">@TempData["expiredbooking"]</h3>
+<h3 class="text-danger text-center">Click <a asp-action="Book" asp-controller="OneWayTrip">here</a> to book again</h3>
+
+
 

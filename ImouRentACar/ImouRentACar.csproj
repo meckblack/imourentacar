@@ -2572,7 +2572,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\OneWayTrip\" />
     <Folder Include="wwwroot\UploadedFiles\Cars\" />
     <Folder Include="wwwroot\UploadedFiles\Logo\" />
     <Folder Include="wwwroot\UploadedFiles\AboutUs\" />

@@ -1185,6 +1185,104 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region Completed
+
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Completed(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var rentACar = await _database.RentACars.SingleOrDefaultAsync(b => b.RentACarId == id);
+
+            if (rentACar == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return PartialView("Complete", rentACar);
+        }
+
+        [HttpPost]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> Complete(int id, RentACar rentACar)
+        {
+            if (id != rentACar.RentACarId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    rentACar.DateVerified = DateTime.Now;
+                    rentACar.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    rentACar.Verification = Verification.Approve;
+
+                    _database.RentACars.Update(rentACar);
+                    await _database.SaveChangesAsync();
+
+                    var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == rentACar.CarId);
+
+                    var _car = new Car()
+                    {
+                        CarId = car.CarId,
+                        CarAvaliability = Avaliability.Avaliable,
+                        CarBrand = car.CarBrand,
+                        CarBrandId = car.CarBrandId,
+                        Color = car.Color,
+                        CreatedBy = car.CreatedBy,
+                        DateCreated = car.DateCreated,
+                        DateLastModified = car.DateLastModified,
+                        Description = car.Description,
+                        Engine = car.Engine,
+                        Image = car.Image,
+                        LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                        Name = car.Name,
+                        Price = car.Price,
+                        RentalPrice = car.RentalPrice,
+                        Speed = car.Speed
+                    };
+
+                    _database.Cars.Update(_car);
+                    await _database.SaveChangesAsync();
+
+                    TempData["rentacar"] = "Car rental has been completed";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RentACarExists(rentACar.RentACarId))
+                    {
+                        return RedirectToAction("Index", "Error");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View("ProcessingRentACar");
+        }
+
+        #endregion
+
         #region Rent A Car Exists
 
         private bool RentACarExists(int id)

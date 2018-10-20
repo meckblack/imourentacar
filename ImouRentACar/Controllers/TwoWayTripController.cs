@@ -1237,6 +1237,104 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region Completed
+
+        [HttpGet]
+        [SessionExpireFilter]
+        public async Task<IActionResult> Completed(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var twoWayTrip = await _database.TwoWayTrips.SingleOrDefaultAsync(b => b.TwoWayTripId == id);
+
+            if (twoWayTrip == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            return PartialView("Completed", twoWayTrip);
+        }
+
+        [HttpPost]
+        [SessionExpireFilterAttribute]
+        public async Task<IActionResult> Completed(int id, TwoWayTrip twoWayTrip)
+        {
+            if (id != twoWayTrip.TwoWayTripId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    twoWayTrip.DateVerified = DateTime.Now;
+                    twoWayTrip.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
+                    twoWayTrip.Verification = Verification.Junk;
+
+                    _database.TwoWayTrips.Update(twoWayTrip);
+                    await _database.SaveChangesAsync();
+
+                    var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == twoWayTrip.CarId);
+
+                    var _car = new Car()
+                    {
+                        CarId = car.CarId,
+                        CarAvaliability = Avaliability.Avaliable,
+                        CarBrand = car.CarBrand,
+                        CarBrandId = car.CarBrandId,
+                        Color = car.Color,
+                        CreatedBy = car.CreatedBy,
+                        DateCreated = car.DateCreated,
+                        DateLastModified = car.DateLastModified,
+                        Description = car.Description,
+                        Engine = car.Engine,
+                        Image = car.Image,
+                        LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
+                        Name = car.Name,
+                        Price = car.Price,
+                        RentalPrice = car.RentalPrice,
+                        Speed = car.Speed
+                    };
+
+                    _database.Cars.Update(_car);
+                    await _database.SaveChangesAsync();
+
+                    TempData["twowaytrip"] = "This two way trip has been completed.";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TwoWayTripExists(twoWayTrip.TwoWayTripId))
+                    {
+                        return RedirectToAction("Index", "Error");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View("ProcessingTwoWayTrip");
+        }
+
+        #endregion
+
         #region One Way Trip Exists
 
         private bool TwoWayTripExists(int id)

@@ -1119,7 +1119,7 @@ namespace ImouRentACar.Controllers
             _database.Cars.Update(_car);
             await _database.SaveChangesAsync();
 
-            new Mailer().BookingPaymentEmail(new AppConfig().BookingPaymentHtml, booking, _passenger);
+            //new Mailer().BookingPaymentEmail(new AppConfig().BookingPaymentHtml, booking, _passenger);
 
             return View();
         }

@@ -1,0 +1,166 @@
+﻿@model ImouRentACar.Models.TwoWayTrip
+
+@{
+    ViewData["Title"] = "Payment";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+}
+
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        margin: auto;
+        text-align: center;
+        color: white;
+    }
+
+    .title {
+        color: grey;
+        font-size: 18px;
+    }
+
+    h5 {
+        font-size: small;
+        margin-bottom: 3px;
+        margin-top: 3px;
+    }
+
+    b {
+        color: red;
+        font-family: Arial
+    }
+
+    .utton {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .feturedsection > h1 {
+        font-family: "OpenSans-Light";
+        font-size: 41px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        color: #020243;
+    }
+
+    button:hover, a:hover {
+        opacity: 0.7;
+    }
+</style>
+
+<div class="allcontain" style="background-color: #473454">
+    <div class="container">
+        <div class="" style="padding-bottom: 50px">
+            <div class="feturedsection">
+                <h1 style="font-size:40px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center"><span class="bdots">&bullet;</span>P A S S S E N G E R<span class="carstxt">I N F O R M A T I O N</span>&bullet;</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class=" col-md-offset-3 col-md-6 col-md-3">
+                            <div class="card">
+                                <img src="~/UploadedFiles/Cars/@TempData["carimage"]" alt="CarImage" style="width:100%" />
+                                <div class="row" style="padding-top: 3px;">
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">CAR BRAND: </b>@TempData["carbrand"]</h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">CAR NAME: </b>@TempData["carname"]</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">RENTAL PRICE: </b> &#8358 @TempData["carprice"]</h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">FROM: </b>@TempData["pickuplocation"]</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">TO: </b>@TempData["returnlocation"]</h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">DROP PRICE: </b> &#8358 @TempData["destinationprice"]</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">TOTAL COST: </b> &#8358 @TempData["totalprice"]</h5>
+                                    </div>
+                                </div>
+                                <form>
+                                    <script src="https://js.paystack.co/v1/inline.js"></script>
+                                    <button class="btn utton" type="button" onclick="payWithPaystack()"> Pay </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="copyright">
+        &copy; Copy right @DateTime.Now.Year | <a href="#">Privacy </a>| <a href="#">Policy</a>
+    </div>
+    <div class="atisda">
+        Designed by <a href="#">meckblvck </a>
+    </div>
+</div>
+
+
+
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: 'pk_test_86d32aa1nV4l1da7120ce530f0b221c3cb97cbcc',
+      email: 'customer@email.com',
+      amount: @TempData["totalprice"],
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: "+2348012345678"
+            }
+         ]
+      },
+      callback: function(response){
+          alert('success. transaction ref is ' + response.reference);
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
+
+

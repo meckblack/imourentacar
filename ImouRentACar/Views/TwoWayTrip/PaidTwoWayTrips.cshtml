@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ImouRentACar.Models.OneWayTrip>
+﻿@model IEnumerable<ImouRentACar.Models.TwoWayTrip>
 @using ImouRentACar.Models.Enums;
 
 @{
@@ -10,11 +10,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        PAID ONE WAY TRIPS
+        PAID TWO WAY TRIPS
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Paid One Way Trips</li>
+        <li class="active">Paid Two Way Trips</li>
     </ol>
 
 
@@ -22,27 +22,27 @@
 
 <!-- Main content -->
 <section class="content">
-    @if (TempData["onewaytrip"] != null)
+    @if (TempData["twowaytrip"] != null)
     {
         if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
         {
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["twowaytrip"]
             </div>
         }
         else if (TempData["notificationtype"].Equals(NotificationType.Error.ToString()))
         {
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["twowaytrip"]
             </div>
         }
         else if (TempData["notificationtype"].Equals(NotificationType.Info.ToString()))
         {
             <div class="alert alert-info alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["twowaytrip"]
             </div>
         }
 
@@ -81,10 +81,10 @@
                                 &#8358 @item.TotalBookingPrice
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Details</a>
+                                <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Details</a>
                                 @if (Convert.ToString(ViewData["userrole"]) == "SuperUser")
                                 {
-                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Delete</a>
                                 }
                             </td>
                         </tr>

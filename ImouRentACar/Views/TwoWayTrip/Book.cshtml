@@ -1,4 +1,4 @@
-﻿@model ImouRentACar.Models.OneWayTrip
+﻿@model ImouRentACar.Models.TwoWayTrip
 
 @{
     ViewData["Title"] = "One Way Trip";
@@ -77,6 +77,19 @@
                         </div>
                         <br />
                         <div class="row">
+                            <div class="col-md-6" style="padding-right: 5px">
+                                <label style="color: whitesmoke;">RETURN DATE</label>
+                                <input type="text" asp-for="ReturnTripDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Return Date" />
+                                <span asp-validation-for="PickDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label style="color: whitesmoke;">RETURN TIME</label>
+                                <input type="time" asp-for="ReturnTripTime" style="color: black; font-weight:500;" class="form-control " placeholder="Return Time" />
+                                <span asp-validation-for="PickUpTime" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
                             <div class="col-md-12">
                                 <label style="color: whitesmoke;">LOCATION </label>
                                 <textarea type="text" asp-for="Destination" style="color: black; font-weight:500;" class="form-control " placeholder="Destination"></textarea>
@@ -129,7 +142,7 @@
                 $('#lga').children("option").remove();
                 $.ajax({
                     type: 'GET',
-                    url: '/OneWayTrip/GetLgasForState',
+                    url: '/TwoWayTrip/GetLgasForState',
                     dataType: 'json',
                     data: { id: $('#state').val() },
                     success: function (lga) {
@@ -155,7 +168,7 @@
                 $('#lga2').children("option").remove();
                 $.ajax({
                     type: 'GET',
-                    url: '/OneWayTrip/GetLgasForState',
+                    url: '/TwoWayTrip/GetLgasForState',
                     dataType: 'json',
                     data: { id: $('#state2').val() },
                     success: function (lga) {

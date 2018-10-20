@@ -39,13 +39,6 @@ namespace ImouRentACar.Controllers
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-
             var userObject = _session.GetString("imouloggedinuser");
             var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
 
@@ -58,12 +51,14 @@ namespace ImouRentACar.Controllers
             mymodel.AboutUsImages = GetAboutUsImage();
             mymodel.AboutUsImageTwos = GetAboutUsImageTwo();
             mymodel.Contacts = GetContacts();
+            mymodel.Policies = GetPolicies();
             
             ViewData["logochecker"] = _database.Logos.Count();
             ViewData["headerchecker"] = _database.Headers.Count();
             ViewData["aboutusimagechecker"] = _database.AboutUsImages.Count();
             ViewData["aboutusimagetwochecker"] = _database.AboutUsImageTwos.Count();
             ViewData["contactchecker"] = _database.Contacts.Count();
+            ViewData["policychecker"] = _database.Policies.Count();
 
             var roleid = _user.RoleId;
 
@@ -152,6 +147,16 @@ namespace ImouRentACar.Controllers
         {
             var _contacts = _database.Contacts.ToList();
             return _contacts;
+        }
+
+        #endregion
+
+        #region Get Policy
+
+        private List<Policy> GetPolicies()
+        {
+            var _policies = _database.Policies.ToList();
+            return _policies;
         }
 
         #endregion

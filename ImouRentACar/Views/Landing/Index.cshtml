@@ -54,11 +54,11 @@
                 </div>
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
-                        @if(Convert.ToInt32(ViewData["logochecker"]) == 0)
+                        @if (Convert.ToInt32(ViewData["logochecker"]) == 0)
                         {
                             <li><a asp-action="AddLogo" asp-controller="Logo">Add Image <span class="pull-right"><i class="fa fa-plus" style="color: green"></i></span></a></li>
                         }
-                            
+
                         @foreach (Logo logo in Model.Logos)
                         {
                             <li><a data-modal="" asp-action="View" asp-controller="Logo" asp-route-id="@logo.LogoId">View logo<span class="pull-right"><i class="fa fa-image" style="color: blue"></i></span></a></li>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="box-footer no-padding">
                     <ul class="nav nav-stacked">
-                        @if(Convert.ToInt32(ViewData["headerchecker"]) == 0)
+                        @if (Convert.ToInt32(ViewData["headerchecker"]) == 0)
                         {
                             <li><a asp-action="AddHeader" asp-controller="Header">Add Image <span class="pull-right"><i class="fa fa-plus" style="color: green"></i></span></a></li>
                         }
@@ -95,7 +95,7 @@
                     </ul>
                 </div>
             </div>
-                <!-- /.widget-user -->
+            <!-- /.widget-user -->
         </div>
 
         <div class="col-md-3">
@@ -172,6 +172,32 @@
                             <li><a data-modal="" asp-action="View" asp-controller="Contact" asp-route-id="@contact.ContactId">View Contact<span class="pull-right"><i class="fa fa-address-book" style="color: blue"></i></span></a></li>
                             <li><a data-modal="" asp-action="Edit" asp-controller="Contact" asp-route-id="@contact.ContactId">Edit Contact<span class="pull-right"><i class="fa fa-pencil" style="color: blue"></i></span></a></li>
                             <li><a data-modal="" asp-action="Delete" asp-controller="Contact" asp-route-id="@contact.ContactId">Delete Contact<span class="pull-right"><i class="fa fa-trash" style="color: red"></i></span></a></li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            <!-- /.widget-user -->
+        </div>
+        <div class="col-md-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-blue" style="align-content: center">
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">POLICY</h3>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        @if (Convert.ToInt32(ViewData["policychecker"]) == 0)
+                        {
+                            <li><a data-modal="" asp-action="Create" asp-controller="Policy">Add Policy <span class="pull-right"><i class="fa fa-plus" style="color: green"></i></span></a></li>
+                        }
+
+                        @foreach (Policy policy in Model.Policies)
+                        {
+                            <li><a data-modal="" asp-action="View" asp-controller="Policy" asp-route-id="@policy.PolicyId">View Policy<span class="pull-right"><i class="fa fa-address-book" style="color: blue"></i></span></a></li>
+                            <li><a data-modal="" asp-action="Delete" asp-controller="Policy" asp-route-id="@policy.PolicyId">Delete Policy<span class="pull-right"><i class="fa fa-trash" style="color: red"></i></span></a></li>
                         }
 
                     </ul>

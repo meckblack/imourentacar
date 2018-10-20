@@ -47,13 +47,6 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Landing");
             }
 
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
             ViewData["loggedinuserfullname"] = _user.DisplayName;
@@ -150,14 +143,14 @@ namespace ImouRentACar.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var logo = await _database.Logos
                 .SingleOrDefaultAsync(m => m.LogoId == id);
             if (logo == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
             return View("Delete");
         }
@@ -201,14 +194,14 @@ namespace ImouRentACar.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var _logo = await _database.Logos.SingleOrDefaultAsync(l => l.LogoId == id);
 
             if(_logo == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return View(_logo);

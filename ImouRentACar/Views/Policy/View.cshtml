@@ -1,0 +1,21 @@
+﻿@model ImouRentACar.Models.Policy
+
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-widget">
+                <div class="box-body">
+                    @Html.DisplayFor(c => c.Text);
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-sm btn-primary" data-modal="dismiss">Cancel</a>
+</div>

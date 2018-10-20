@@ -259,6 +259,8 @@ namespace ImouRentACar.Controllers
 
         #region View Profile
 
+        [HttpGet]
+        [Route("customer/viewprofile")]
         public async Task<IActionResult> ViewProfile()
         {
             dynamic mymodel = new ExpandoObject();
@@ -308,6 +310,7 @@ namespace ImouRentACar.Controllers
         #region Edit Profile
 
         [HttpGet]
+        [Route("customer/editprofile")]
         public async Task<IActionResult> EditProfile()
         {
             var id = _session.GetInt32("imouloggedincustomerid");
@@ -374,6 +377,7 @@ namespace ImouRentACar.Controllers
         #region Change Password
 
         [HttpGet]
+        [Route("customer/changepassword")]
         public IActionResult ChangePassword()
         {
             dynamic mymodel = new ExpandoObject();
@@ -450,6 +454,7 @@ namespace ImouRentACar.Controllers
         #region Veiw Bookings
 
         [HttpGet]
+        [Route("customer/viewbookings")]
         public async Task<IActionResult> ViewBookings()
         {
             dynamic mymodel = new ExpandoObject();
@@ -605,6 +610,27 @@ namespace ImouRentACar.Controllers
         {
             var _contact = _database.Contacts.ToList();
             return _contact;
+        }
+
+        private List<OneWayTrip> GetOnewayTrip()
+        {
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var allOneWayTrips = _database.OneWayTrips.Where(owt => owt.CustomerId == _id).ToList();
+            return allOneWayTrips;
+        }
+
+        private List<TwoWayTrip> GetTwowayTrip()
+        {
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var allTwoWayTrips = _database.TwoWayTrips.Where(owt => owt.CustomerId == _id).ToList();
+            return allTwoWayTrips;
+        }
+
+        private List<RentACar> GetRentACar()
+        {
+            var _id = _session.GetInt32("imouloggedincustomerid");
+            var rentACar = _database.RentACars.Where(owt => owt.CustomerId == _id).ToList();
+            return rentACar;
         }
 
         #endregion

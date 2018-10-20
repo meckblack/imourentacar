@@ -290,7 +290,7 @@ namespace ImouRentACar.Controllers
 
                         Verification = Verification.YetToReply,
                         PriceId = _priceId,
-                        TotalBookingPrice = _tripPrice,
+                        TotalBookingPrice = _tripPrice * 2,
                         DateSent = DateTime.Now
                     };
 
@@ -1143,6 +1143,45 @@ namespace ImouRentACar.Controllers
             TempData["totalprice"] = _twoWayTrip.TotalBookingPrice;
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PaymentSuccessful(string bookingNumber)
+        {
+            var twoWayTrip = await _database.TwoWayTrips.Where(b => b.PaymentStatus == PaymentStatus.Unpaid).ToListAsync();
+
+            var _twoWayTrip = twoWayTrip.SingleOrDefault(b => b.BookingNumber == bookingNumber);
+
+            var twoway = new TwoWayTrip()
+            {
+                TwoWayTripId = _twoWayTrip.TwoWayTripId,
+                BookingNumber = _twoWayTrip.BookingNumber,
+                CarId = _twoWayTrip.CarId,
+                CustomerId = _twoWayTrip.CustomerId,
+                DateDriverAssigned = _twoWayTrip.DateDriverAssigned,
+                DateSent = _twoWayTrip.DateSent,
+                DateVerified = _twoWayTrip.DateVerified,
+                Destination = _twoWayTrip.Destination,
+                DestinationLgaId = _twoWayTrip.DestinationLgaId,
+                DriverAssignedBy = _twoWayTrip.DriverAssignedBy,
+                DriverId = _twoWayTrip.DriverId,
+                PickDate = _twoWayTrip.PickDate,
+                PassengerInformation = _twoWayTrip.PassengerInformation,
+                PaymentStatus = PaymentStatus.Paid,
+                PickUpLgaId = _twoWayTrip.PickUpLgaId,
+                PassengerInformationId = _twoWayTrip.PassengerInformationId,
+                PickUpLocation = _twoWayTrip.PickUpLocation,
+                PickUpTime = _twoWayTrip.PickUpTime,
+                PriceId = _twoWayTrip.PriceId,
+                TotalBookingPrice = _twoWayTrip.TotalBookingPrice,
+                Verification = _twoWayTrip.Verification,
+                VerifiedBy = _twoWayTrip.VerifiedBy,
+            };
+
+            _database.TwoWayTrips.Update(twoway);
+            await _database.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

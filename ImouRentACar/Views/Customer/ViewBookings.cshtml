@@ -8,11 +8,10 @@
 
 <div class="allcontain" style="background-color: white">
     <div class="container" style="padding-bottom: 146px">
-        <div class="" style="padding-bottom: 50px"></div>
         <div class="feturedsection">
             <h1 style="font-size:40px; margin-top:2px;  padding-top:5px; padding-bottom:5px; text-align: center; color: black; "
                 class="text-center">
-                <span class="bdots">&bullet;</span>P A I D<span class="carstxt">B O O K I N G S</span>&bullet;
+                &bullet; ONE WAY TRIP &bullet;
             </h1>
         </div>
         <div class="row">
@@ -32,6 +31,9 @@
                             <th>
                                 Destination
                             </th>
+                            <th>
+                                Amount
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +52,121 @@
                                 <td>
                                     @item.ReturnLocation
                                 </td>
+                                <td>
+                                    @item.TotalBookingPrice
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="padding-bottom: 146px">
+        <div class="feturedsection">
+            <h1 style="font-size:40px; margin-top:2px;  padding-top:5px; padding-bottom:5px; text-align: center; color: black; "
+                class="text-center">
+                &bullet; TWO WAY TRIPS &bullet;
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                <table class="table" id="myTable2">
+                    <thead>
+                        <tr>
+                            <th>
+                                S/N
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Pick Up
+                            </th>
+                            <th>
+                                Destination
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @(x++)
+                                </td>
+                                <td>
+                                    @item.PickDate
+                                </td>
+                                <td>
+                                    @item.PickUpLocation
+                                </td>
+                                <td>
+                                    @item.ReturnLocation
+                                </td>
+                                <td>
+                                    @item.TotalBookingPrice
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="padding-bottom: 146px">
+        <div class="feturedsection">
+            <h1 style="font-size:40px; margin-top:2px;  padding-top:5px; padding-bottom:5px; text-align: center; color: black; "
+                class="text-center">
+                &bullet; CAR RENTAL &bullet;
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                <table class="table" id="myTable3">
+                    <thead>
+                        <tr>
+                            <th>
+                                S/N
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Pick Up
+                            </th>
+                            <th>
+                                Destination
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @(x++)
+                                </td>
+                                <td>
+                                    @item.PickDate
+                                </td>
+                                <td>
+                                    @item.PickUpLocation
+                                </td>
+                                <td>
+                                    @item.ReturnLocation
+                                </td>
+                                <td>
+                                    @item.TotalBookingPrice
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -58,6 +175,19 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="footer">
     <div class="copyright">
@@ -72,6 +202,26 @@
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({
+            columnDefs: [
+                {
+                    targets: [0, 1, 2],
+                    className: 'dataTable'
+                }
+            ]
+        });
+    });
+    $(document).ready(function () {
+        $('#myTable2').DataTable({
+            columnDefs: [
+                {
+                    targets: [0, 1, 2],
+                    className: 'dataTable'
+                }
+            ]
+        });
+    });
+    $(document).ready(function () {
+        $('#myTable3').DataTable({
             columnDefs: [
                 {
                     targets: [0, 1, 2],

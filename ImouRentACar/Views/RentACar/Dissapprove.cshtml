@@ -1,37 +1,30 @@
-﻿@model ImouRentACar.Models.TwoWayTrip
+﻿@model ImouRentACar.Models.RentACar
 
 @{
-    ViewData["Title"] = "Remove Driver";
+    ViewData["Title"] = "Disapprove";
     Layout = null;
 }
 
 <!--MODAL HEADER-->
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3> <strong> REMOVE DRIVER</strong> </h3>
+    <h3> <strong> DISAPPROVE CAR RENTAL BOOKING REQUEST </strong> </h3>
 </div>
 
 
 <!--MODAL BODY-->
 <div class="modal-body">
-    <h3 class="text-center"> Are you sure you want to remove the driver from this two way trip book request?</h3>
+    <h3 class="text-center"> Are you sure you want to disapprove this car rental booking request?</h3>
 </div>
-<form asp-action="RemoveDriver">
-    <input type="hidden" asp-for="TwoWayTripId" />
-    <input type="hidden" asp-for="CarId" />
-    <input type="hidden" asp-for="PickUpLgaId" />
-    <input type="hidden" asp-for="DestinationLgaId" />
+<form asp-action="Disapprove">
+    <input type="hidden" asp-for="RentACarId" />
     <input type="hidden" asp-for="PassengerInformationId" />
-    <input type="hidden" asp-for="Destination" />
+    <input type="hidden" asp-for="PickUpLgaId" />
+    <input type="hidden" asp-for="Days" />
     <input type="hidden" asp-for="PickUpLocation" />
     <input type="hidden" asp-for="PickUpTime" />
-    <input type="hidden" asp-for="ReturnTripDate" />
-    <input type="hidden" asp-for="ReturnTripTime" />
     <input type="hidden" asp-for="PickDate" />
     <input type="hidden" asp-for="DateSent" />
-    <input type="hidden" asp-for="DateVerified" />
-    <input type="hidden" asp-for="Verification" />
-    <input type="hidden" asp-for="VerifiedBy" />
 
     <!--MODAL FOOTER-->
     <div class="modal-footer">

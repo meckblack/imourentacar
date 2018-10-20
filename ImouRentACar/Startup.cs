@@ -78,7 +78,7 @@ namespace ImouRentACar
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=OneWayTrip}/{action=Book}/{id?}");
+                    template: "{controller=onewaytrip}/{action=book}/{id?}");
             });
         }
     }

@@ -519,6 +519,8 @@ namespace ImouRentACar.Controllers
                     await _database.PassengersInformation.AddAsync(passenger);
                     await _database.SaveChangesAsync();
 
+                    var _customer = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == passengerInformation.MemberId);
+
                     var _booktwowaytrip = _session.GetString("booktwowaytrip");
 
                     if (_booktwowaytrip != null)
@@ -542,6 +544,7 @@ namespace ImouRentACar.Controllers
                             PickUpTime = twoWayTrip.PickUpTime,
                             PickUpLgaId = twoWayTrip.PickUpLgaId,
                             PickUpLocation = twoWayTrip.PickUpLocation,
+                            CustomerId = _customer.CustomerId,
                             Verification = Verification.YetToReply,
                             CarId = Convert.ToInt32(id),
                             TotalBookingPrice = twoWayTrip.TotalBookingPrice + carPrice,

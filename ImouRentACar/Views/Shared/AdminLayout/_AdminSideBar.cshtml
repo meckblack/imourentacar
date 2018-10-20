@@ -13,7 +13,7 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-            @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null || ViewData["canmangecars"] != null) 
+            @if (ViewData["canmangecarbrand"] != null || ViewData["candoeverything"] != null || ViewData["canmangecars"] != null)
             {
                 <li class="treeview">
                     <a>
@@ -51,6 +51,57 @@
                     <a asp-action="Index" asp-controller="Landing">
                         <i class="fa fa-th"></i> <span>Landing Details</span>
                     </a>
+                </li>
+            }
+            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+            {
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-bookmark"></i> <span>One Way Trips</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="ProcessingOneWayTrips" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Process One Way Trips</a></li>
+                        <li><a asp-action="UnPaidOneWayTrip" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>UnPaid One Way Trips</a></li>
+                        <li><a asp-action="ExpiredOneWayTrip" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Expired One Way Trips</a></li>
+                        <li><a asp-action="PaidOneWayTrip" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Paid One Way Trips</a></li>
+                    </ul>
+                </li>
+            }
+            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+            {
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-bookmark"></i> <span>Two Way Trips</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="ProcessingTwoWayTrips" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Process Two Way Trips</a></li>
+                        <li><a asp-action="UnPaidTwoWayTrip" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>UnPaid Two Way Trips</a></li>
+                        <li><a asp-action="ExpiredTwoWayTrip" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Expired Two Way Trips</a></li>
+                        <li><a asp-action="PaidTwoWayTrip" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Paid Two Way Trips</a></li>
+                    </ul>
+                </li>
+            }
+            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+            {
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-bookmark"></i> <span>Car Rental</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="ProcessingRentACar" asp-controller="RentACar"><i class="fa fa-circle-o"></i>Process Rent A Car</a></li>
+                        <li><a asp-action="UnPaidRentACar" asp-controller="RentACar"><i class="fa fa-circle-o"></i>Unpaid Rent A Car</a></li>
+                        <li><a asp-action="ExpiredRentACar" asp-controller="RentACar"><i class="fa fa-circle-o"></i>Expired Rent A Car</a></li>
+                        <li><a asp-action="PaidRentACar" asp-controller="RentACar"><i class="fa fa-circle-o"></i>Paid Rent A Car</a></li>
+                    </ul>
                 </li>
             }
             @if (ViewData["canmangeenquries"] != null || ViewData["candoeverything"] != null)
@@ -92,22 +143,15 @@
                     </a>
                 </li>
             }
-            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+            @if (ViewData["canmangedrivers"] != null || ViewData["candoeverything"] != null)
             {
-                <li class="treeview">
-                    <a>
-                        <i class="fa fa-bookmark"></i> <span>Bookings</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
+                <li>
+                    <a asp-action="Index" asp-controller="Driver">
+                        <i class="fa fa-users"></i> <span>Drivers</span>
                     </a>
-                    <ul class="treeview-menu">
-                        <li><a asp-action="ProcessingBookings" asp-controller="Booking"><i class="fa fa-circle-o"></i>Process Bookings</a></li>
-                        <li><a asp-action="UnPaidBookings" asp-controller="Booking"><i class="fa fa-circle-o"></i>UnPaid Bookings</a></li>
-                        <li><a asp-action="PaidBookings" asp-controller="Booking"><i class="fa fa-circle-o"></i>Paid Bookings</a></li>
-                    </ul>
                 </li>
             }
+
         </ul>
     </section>
     <!-- /.sidebar -->

@@ -287,7 +287,9 @@ namespace ImouRentACar.Controllers
                         PickUpTime = twoWayTrip.PickUpTime,
                         PickUpLgaId = twoWayTrip.PickUpLgaId,
                         PickUpLocation = twoWayTrip.PickUpLocation,
-
+                        DestinationLgaId = twoWayTrip.DestinationLgaId,
+                        ReturnTripDate = twoWayTrip.ReturnTripDate,
+                        ReturnTripTime = twoWayTrip.ReturnTripTime,
                         Verification = Verification.YetToReply,
                         PriceId = _priceId,
                         TotalBookingPrice = _tripPrice * 2,

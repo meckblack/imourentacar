@@ -285,7 +285,7 @@ namespace ImouRentACar.Controllers
                         PickUpTime = oneWayTrip.PickUpTime,
                         PickUpLgaId = oneWayTrip.PickUpLgaId,
                         PickUpLocation = oneWayTrip.PickUpLocation,
-
+                        DestinationLgaId = oneWayTrip.DestinationLgaId,
                         Verification = Verification.YetToReply,
                         PriceId = _priceId,
                         TotalBookingPrice = _tripPrice,
@@ -556,6 +556,8 @@ namespace ImouRentACar.Controllers
                     await _database.PassengersInformation.AddAsync(passenger);
                     await _database.SaveChangesAsync();
 
+                    var _customer = await _database.Customers.SingleOrDefaultAsync(c => c.MemberId == passengerInformation.MemberId);
+
                     var _bookonewaytrip = _session.GetString("bookonewaytrip");
 
                     if (_bookonewaytrip != null)
@@ -584,6 +586,7 @@ namespace ImouRentACar.Controllers
                             PassengerInformationId = passenger.PassengerInformationId,
                             PassengerInformation = passenger,
                             BookingNumber = bookingNumber,
+                            CustomerId = _customer.CustomerId,
                             PaymentStatus = PaymentStatus.Processing
                         };
 
@@ -685,6 +688,39 @@ namespace ImouRentACar.Controllers
         [Route("onewaytrip/successfullbooking")]
         public IActionResult Success()
         {
+            var customerObject = _session.GetString("imouloggedincustomer");
+
+            if (customerObject != null)
+            {
+                var _customer = JsonConvert.DeserializeObject<Customer>(customerObject);
+
+                dynamic cmymodel = new ExpandoObject();
+                cmymodel.Logos = GetLogos();
+                cmymodel.Contacts = GetContacts();
+
+                foreach (Contact contact in cmymodel.Contacts)
+                {
+                    ViewData["contactnumber"] = contact.MobileNumberOne;
+                }
+
+                foreach (Logo logo in cmymodel.Logos)
+                {
+                    ViewData["imageoflogo"] = logo.Image;
+                }
+
+                TempData["successrequestedcarname"] = _session.GetString("successrequestedcarname");
+                TempData["successpassengeremail"] = _session.GetString("successpassengeremail");
+
+                if (TempData["successrequestedcarname"] == null && TempData["successpassengeremail"] == null)
+                {
+                    return NotFound();
+                }
+
+                TempData["customername"] = _customer.DisplayName;
+
+                return View();
+            }
+
             dynamic mymodel = new ExpandoObject();
             mymodel.Logos = GetLogos();
             mymodel.Contacts = GetContacts();

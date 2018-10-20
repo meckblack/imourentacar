@@ -245,5 +245,26 @@
                 </div>
             </div>
         }
+        @if (ViewData["canmangedrivers"] != null || ViewData["candoeverything"] != null)
+        {
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h1>
+                            @ViewData["drivercounter"]
+                        </h1>
+                        <p>
+                            Drivers
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pricetags"></i>
+                    </div>
+                    <a asp-action="Index" asp-controller="Driver" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        }
 
     </section>

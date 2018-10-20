@@ -48,6 +48,7 @@ namespace ImouRentACar.Controllers
             ViewData["bookingcounter"] = _database.Bookings.Count();
             ViewData["applicationusercounter"] = _database.ApplicationUsers.Count();
             ViewData["customercounter"] = _database.Customers.Count();
+            ViewData["drivercounter"] = _database.Driver.Count();
 
 
 
@@ -75,7 +76,6 @@ namespace ImouRentACar.Controllers
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
             ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true && r.RoleId == roleid);
-
 
             return View();
         }

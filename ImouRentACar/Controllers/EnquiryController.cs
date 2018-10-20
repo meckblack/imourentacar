@@ -33,13 +33,6 @@ namespace ImouRentACar.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-
             var userObject = _session.GetString("imouloggedinuser");
             var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
 

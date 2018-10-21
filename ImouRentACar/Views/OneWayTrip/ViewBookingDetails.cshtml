@@ -1,0 +1,157 @@
+﻿@model ImouRentACar.Models.OneWayTrip
+
+@{
+    ViewData["Title"] = "Detials";
+    Layout = null;
+}
+
+<!--MODAL HEADER-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3> <strong> One Way Trip Booked By @Html.DisplayFor(model => model.PassengerInformation.DisplayName) </strong> </h3>
+</div>
+
+<!--MODAL BODY-->
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <dt style="text-transform:capitalize">
+                Booking Number
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.BookingNumber)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Car Brand
+            </dt>
+            <dd>
+                @ViewData["carbrand"]
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Car Name
+            </dt>
+            <dd>
+                @ViewData["carname"]
+            </dd>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                Pick Up Date
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PickDate.Date)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Pick Up Time
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PickUpTime.TimeOfDay)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Price
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TotalBookingPrice)
+            </dd>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <dt>
+                Pick Up Location
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PickUpLocation)
+            </dd>
+        </div>
+        <div class="col-md-6">
+            <dt>
+                Destination
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Destination)
+            </dd>
+        </div>
+    </div>
+    <br />
+    <h3>
+        Passengers Information
+    </h3>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                Passenger Title
+            </dt>
+            <dd>
+                @ViewData["passengertitle"]
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Passenger Name
+            </dt>
+            <dd>
+                @ViewData["passengername"]
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Passenger Email
+            </dt>
+            <dd>
+                @ViewData["passengeremail"]
+            </dd>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                Passenger Phone Number
+            </dt>
+            <dd>
+                @ViewData["passengernumber"]
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Member ID
+            </dt>
+            <dd>
+                @ViewData["passengermemberid"]
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Passenger Gender
+            </dt>
+            <dd>
+                @ViewData["passengergender"]
+            </dd>
+        </div>
+    </div>
+</div>
+
+<!--MODAL FOOTER-->
+<div class="modal-footer">
+    <div class="row pull-right">
+        <div class="col-md-12">
+            <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

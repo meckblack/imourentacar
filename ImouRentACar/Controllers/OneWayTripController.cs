@@ -753,6 +753,48 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region View Booking Details
+
+        [HttpGet]
+        public async Task<IActionResult> ViewBookingDetails(int? id)
+        {
+            if(id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var _booking = await _database.OneWayTrips.SingleOrDefaultAsync(owt => owt.OneWayTripId == id);
+
+            if(_booking == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            //Get car
+            var carid = _booking.CarId;
+            var car = await _database.Cars.FindAsync(carid);
+            ViewData["carname"] = car.Name;
+            
+            var brand = await _database.CarBrands.FindAsync(car.CarBrandId);
+            ViewData["carbrand"] = brand.Name;
+
+            //Get Passenger Informations
+            var passengerid = _booking.PassengerInformationId;
+            var passenger = await _database.PassengersInformation.FindAsync(passengerid);
+
+            ViewData["passengername"] = passenger.DisplayName;
+            ViewData["passengeremail"] = passenger.Email;
+            ViewData["passengernumber"] = passenger.PhoneNumber;
+            ViewData["passengergender"] = passenger.Gender;
+            ViewData["passengertitle"] = passenger.Title;
+            ViewData["passengermemberid"] = passenger.MemberId;
+
+
+            return PartialView("ViewBookingDetails", _booking);
+        }
+
+        #endregion
+
         #region Approve One Way Trip
 
         [HttpGet]
@@ -1075,7 +1117,7 @@ namespace ImouRentACar.Controllers
             ViewData["passengername"] = _passengerDetails.DisplayName;
             ViewData["passengeremail"] = _passengerDetails.Email;
 
-            return PartialView("SendLink", oneWayTrip);
+            return PartialView("SendALink", oneWayTrip);
         }
 
         [HttpPost]
@@ -1089,13 +1131,35 @@ namespace ImouRentACar.Controllers
 
             var _oneWayTrip = await _database.OneWayTrips.SingleOrDefaultAsync(b => b.OneWayTripId == id);
 
-            var passengerId = _oneWayTrip.PassengerInformationId;
-            var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
-            oneWayTrip.Verification = Verification.LinkSent;
-            oneWayTrip.PaymentStatus = PaymentStatus.Unpaid;
 
-            _database.OneWayTrips.Update(oneWayTrip);
+            var onewaytrip = new OneWayTrip()
+            {
+                OneWayTripId = _oneWayTrip.OneWayTripId,
+                BookingNumber = _oneWayTrip.BookingNumber,
+                DateSent = _oneWayTrip.DateSent,
+                PaymentStatus = PaymentStatus.Unpaid,
+                CarId = _oneWayTrip.CarId,
+                CustomerId = 1,
+                DateDriverAssigned = _oneWayTrip.DateDriverAssigned,
+                DateVerified = _oneWayTrip.DateVerified,
+                Destination = _oneWayTrip.Destination,
+                DestinationLgaId = _oneWayTrip.DestinationLgaId,
+                DriverAssignedBy = _oneWayTrip.DriverAssignedBy,
+                DriverId = _oneWayTrip.DriverId,
+                PassengerInformation = _oneWayTrip.PassengerInformation,
+                PassengerInformationId = _oneWayTrip.PassengerInformationId,
+                PickDate = _oneWayTrip.PickDate,
+                PickUpLgaId = _oneWayTrip.PickUpLgaId,
+                PickUpLocation = _oneWayTrip.PickUpLocation,
+                PickUpTime = _oneWayTrip.PickUpTime,
+                PriceId = _oneWayTrip.PriceId,
+                TotalBookingPrice = _oneWayTrip.TotalBookingPrice,
+                Verification = Verification.LinkSent,
+                VerifiedBy = _oneWayTrip.VerifiedBy,
+            };
+
+            _database.OneWayTrips.Update(onewaytrip);
             await _database.SaveChangesAsync();
 
             var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == _oneWayTrip.CarId);
@@ -1122,7 +1186,10 @@ namespace ImouRentACar.Controllers
             _database.Cars.Update(_car);
             await _database.SaveChangesAsync();
 
-            new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, oneWayTrip, _passenger);
+            var passengerId = _oneWayTrip.PassengerInformationId;
+            var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
+
+            new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, onewaytrip, _passenger);
 
             return View();
         }

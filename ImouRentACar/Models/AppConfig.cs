@@ -10,8 +10,8 @@ namespace ImouRentACar.Models
         #region Mailer
 
         public string EmailServer => "smtp.gmail.com";
-        public string Email => "imourentacar@gmail.com";
-        public string Password => "ImouRentACar18";
+        public string Email => "meckydrix@gmail.com";
+        public string Password => "bluefire2045";
         public int Port => 465;
         public string BookingPaymentHtml => "wwwroot/EmailTemplates/BookingPayment.html";
         public string ForgotPasswordHtml => "wwwroot/EmailTemplates/ForgotPassword.html";

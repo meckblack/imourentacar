@@ -12,12 +12,12 @@
 </div>
 
 <form asp-action="AssignDriver">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="OneWayTripId" />
     <input type="hidden" asp-for="DestinationLgaId" />
     <input type="hidden" asp-for="PickUpLgaId" />
     <input type="hidden" asp-for="Destination" />
     <input type="hidden" asp-for="PassengerInformationId" />
+    <input type="hidden" asp-for="PassengerInformation" />
     <input type="hidden" asp-for="PickUpLocation" />
     <input type="hidden" asp-for="PickDate" />
     <input type="hidden" asp-for="PickUpTime" />
@@ -29,6 +29,11 @@
     <input type="hidden" asp-for="PriceId" />
     <input type="hidden" asp-for="TotalBookingPrice" />
     <input type="hidden" asp-for="BookingNumber" />
+    <input type="hidden" asp-for="DriverAssignedBy" />
+    <input type="hidden" asp-for="DateDriverAssigned" />
+    <input type="hidden" asp-for="Verification" />
+    <input type="hidden" asp-for="DateVerified" />
+    <input type="hidden" asp-for="VerifiedBy" />
 
     <div class="modal-body">
         <div class="form-horizontal">

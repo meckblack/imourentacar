@@ -32,7 +32,6 @@ namespace ImouRentACar.Controllers
         #region SignIn
 
         [HttpGet]
-        [Route("account/signin")]
         public async Task<IActionResult> SignIn()
         {
             var user = await _database.ApplicationUsers.CountAsync();

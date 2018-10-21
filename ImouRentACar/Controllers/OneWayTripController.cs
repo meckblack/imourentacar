@@ -65,8 +65,8 @@ namespace ImouRentACar.Controllers
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
             ViewData["canmanageapplicationusers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageApplicationUsers == true && r.RoleId == roleid);
 
-            var twoWayTrips = _database.TwoWayTrips.Where(b => b.PaymentStatus == PaymentStatus.Processing);
-            return View(await twoWayTrips.ToListAsync());
+            var oneWayTrips = _database.OneWayTrips.Where(b => b.PaymentStatus == PaymentStatus.Processing);
+            return View(await oneWayTrips.ToListAsync());
         }
 
         #endregion

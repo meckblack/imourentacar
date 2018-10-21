@@ -72,7 +72,7 @@
     <div class="container">
         <div class="" style="padding-bottom: 50px">
             <div class="feturedsection">
-                <h1 style="font-size:40px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; PASSSENGER INFORMATION &bullet;</h1>
+                <h1 style="font-size:40px; text-align: center; color: white; font-family: montserrat; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; PASSSENGER INFORMATION &bullet;</h1>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -83,68 +83,68 @@
                                 {
                                     <div class="row">
                                         <div class="col-md-2" style="padding-right: 5px">
-                                            <label style="color: whitesmoke;">TITLE <b style="color:red;">*</b></label>
-                                            <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Title)))"></select>
+                                            <label style="color: whitesmoke; font-family: montserrat;">TITLE <b style="color:red;">*</b></label>
+                                            <select asp-for="Title" class="form-control" style=" font-family: montserrat;" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Title)))"></select>
                                             <span asp-validation-for="Title" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-5" style="padding-right: 5px">
-                                            <label style="color: whitesmoke;">FIRST NAME <b style="color:red;">*</b></label>
-                                            <input asp-for="FirstName" class="form-control " placeholder="First Name" />
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">FIRST NAME <b style="color:red;">*</b></label>
+                                            <input asp-for="FirstName" style=" font-family: montserrat;" class="form-control " placeholder="First Name" />
+                                            <span asp-validation-for="FirstName" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-5">
-                                            <label style="color: whitesmoke;">LAST NAME <b style="color:red;">*</b></label>
-                                            <input asp-for="LastName" class="form-control " placeholder="Last Name" />
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">LAST NAME <b style="color:red;">*</b></label>
+                                            <input asp-for="LastName" style=" font-family: montserrat;" class="form-control " placeholder="Last Name" />
+                                            <span asp-validation-for="LastName" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col-md-6" style="padding-right: 5px">
-                                            <label style="color: whitesmoke;">MIDDLE NAME </label>
-                                            <input asp-for="MiddleName" class="form-control " placeholder="Middle Name" />
-                                            <span asp-validation-for="MiddleName" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">MIDDLE NAME </label>
+                                            <input asp-for="MiddleName" style=" font-family: montserrat;" class="form-control " placeholder="Middle Name" />
+                                            <span asp-validation-for="MiddleName" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <label style="color: whitesmoke;">EMAIL ADDRESS <b style="color:red;">*</b></label>
-                                            <input asp-for="Email" class="form-control " placeholder="Email Address" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">EMAIL ADDRESS <b style="color:red;">*</b></label>
+                                            <input asp-for="Email" style=" font-family: montserrat;" class="form-control " placeholder="Email Address" />
+                                            <span asp-validation-for="Email" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col-md-4" style="padding-right: 5px">
-                                            <label style="color: whitesmoke;">DATE OF BIRTH </label>
-                                            <input asp-for="DOB" class="form-control datepicker" placeholder="Date Of Birth" />
-                                            <span asp-validation-for="DOB" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">DATE OF BIRTH </label>
+                                            <input asp-for="DOB" style=" font-family: montserrat;" class="form-control datepicker" placeholder="Date Of Birth" />
+                                            <span asp-validation-for="DOB" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
-                                        <div class="col-md-4" style="padding-right: 5px">
-                                            <label style="color: whitesmoke;">GENDER <b style="color:red;">*</b></label>
-                                            <select asp-for="Title" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Gender)))"></select>
-                                            <span asp-validation-for="Gender" class="text-danger"></span>
+                                        <div class="col-md-4" style="padding-right: 5px;">
+                                            <label style="color: whitesmoke; font-family: montserrat;">GENDER <b style="color:red;">*</b></label>
+                                            <select asp-for="Title" style=" font-family: montserrat;" class="form-control" asp-items="new SelectList(Enum.GetValues(typeof(ImouRentACar.Models.Enums.Gender)))"></select>
+                                            <span asp-validation-for="Gender" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-4">
-                                            <label style="color: whitesmoke;">PHONE NUNMBER <b style="color:red;">*</b></label>
-                                            <input asp-for="PhoneNumber" class="form-control " placeholder="Phone Number" />
-                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">PHONE NUNMBER <b style="color:red;">*</b></label>
+                                            <input asp-for="PhoneNumber" style=" font-family: montserrat;" class="form-control " placeholder="Phone Number" />
+                                            <span asp-validation-for="PhoneNumber" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label style="color: whitesmoke;">MEMBER ID</label>
-                                            <input asp-for="MemberId" class="form-control " placeholder="Member ID" />
-                                            <span asp-validation-for="MemberId" class="text-danger"></span>
+                                            <label style="color: whitesmoke; font-family: montserrat;">MEMBER ID</label>
+                                            <input asp-for="MemberId"style=" font-family: montserrat;" class="form-control " placeholder="Member ID" />
+                                            <span asp-validation-for="MemberId" style=" font-family: montserrat;" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <br />
-                                    <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
+                                    <button type="submit" style="background-color: #020243; font-family: montserrat; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
                                 }
                                 else
                                 {
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h3 style="color: white">
+                                            <h3 style="color: white; font-family: montserrat;">
                                                 <input type="hidden" asp-for="FirstName" />
                                                 <input type="hidden" asp-for="LastName" />
                                                 <input type="hidden" asp-for="PhoneNumber" />
@@ -157,7 +157,7 @@
                                         </div>
                                     </div>
                                     <br />
-                                    <button type="submit" style="background-color: #020243; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
+                                    <button type="submit" style="background-color: #020243; font-family: montserrat; color: white;" class="btn pull-right btn-submit">  SUBMIT</button>
 
                                 }
                             </form>
@@ -167,37 +167,37 @@
                                 <img src="~/UploadedFiles//Cars/@TempData["carimage"]" alt="CarImage" style="width:100%" height="400px;" />
                                 <div class="row" style="padding-top: 3px;">
                                     <div class="col-md-6">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">CAR BRAND: </b>@TempData["carbrand"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">CAR BRAND: </b>@TempData["carbrand"]</h5>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">CAR NAME: </b>@TempData["carname"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">CAR NAME: </b>@TempData["carname"]</h5>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">CAR PRICE: </b> &#8358 @TempData["carprice"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">CAR PRICE: </b> &#8358 @TempData["carprice"]</h5>
                                     </div>
                                     <div class="col-md-7">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">FROM: </b>@TempData["pickuplocation"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">FROM: </b>@TempData["pickuplocation"]</h5>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">TO: </b>@TempData["returnlocation"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">TO: </b>@TempData["returnlocation"]</h5>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">DROP PRICE: </b> &#8358 @TempData["destinationprice"] X 2</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">DROP PRICE: </b> &#8358 @TempData["destinationprice"] X 2</h5>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <h5 style="color:#000; font-weight:bold"><b style="color:white">TOTAL COST: </b> &#8358 @TempData["totalprice"]</h5>
+                                        <h5 style="color:#000; font-weight:bold; font-family: montserrat;"><b style="color:white">TOTAL COST: </b> &#8358 @TempData["totalprice"]</h5>
                                     </div>
                                 </div>
-                                <p><a class="btn utton" asp-action="Cancel" asp-controller="Booking">CANCEL BOOKING</a></p>
+                                <p><a class="btn utton" style=" font-family: montserrat;" asp-action="Cancel" asp-controller="Booking">CANCEL BOOKING</a></p>
                             </div>
                         </div>
                     </div>

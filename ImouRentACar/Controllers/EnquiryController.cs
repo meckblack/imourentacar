@@ -31,6 +31,8 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
+        [HttpGet]
+        [Route("enquiry/index")]
         public async Task<IActionResult> Index()
         {
             var userObject = _session.GetString("imouloggedinuser");
@@ -88,9 +90,7 @@ namespace ImouRentACar.Controllers
 
                 await _database.Enquiries.AddAsync(_enquiry);
                 await _database.SaveChangesAsync();
-
-                TempData["enquiry"] = "Mr "+ enquiry.DisplayName +" your enquiry has been sent";
-                TempData["notificationType"] = NotificationType.Success.ToString();
+                
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home", enquiry);

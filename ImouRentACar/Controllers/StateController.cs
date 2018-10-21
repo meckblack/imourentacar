@@ -31,6 +31,8 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
+        [HttpGet]
+        [Route("state/index")]
         public async Task<IActionResult> Index()
         {
             //Counters

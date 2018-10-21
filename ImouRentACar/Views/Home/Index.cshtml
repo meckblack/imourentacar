@@ -9,8 +9,8 @@
             <div class="item active">
                 <img src="~/UploadedFiles/HeaderImage/@ViewData["imageofheader"]" alt="HeaderImage">
                 <div class="carousel-caption">
-                    <h2>@ViewData["headofheader"]</h2>
-                    <p>
+                    <h2 style=" font-family: montserrat; font-weight:600; font-size:45px">@ViewData["headofheader"]</h2>
+                    <p style=" font-family: montserrat">
                         @ViewData["bodyofheader"]
                     </p>
                 </div>
@@ -21,7 +21,7 @@
 
 <div class="allcontain">
     <div class="feturedsection">
-        <h1 class="text-center"><span class="bdots">&bullet;</span>A B O U T<span class="carstxt">U S</span>&bullet;</h1>
+        <h1 class="text-center" style="font-family: montserrat;"><span class="bdots">&bullet;</span>A B O U T<span class="carstxt">U S</span>&bullet;</h1>
     </div>
     <div class="feturedimage">
         <div class="row firstrow">
@@ -32,8 +32,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 txt1colon ">
                         <div class="featurecontant">
-                            <h1>@ViewData["headingofaboutus"]</h1>
-                            <p>
+                            <h1 style="font-family: montserrat;">@ViewData["headingofaboutus"]</h1>
+                            <p style="font-family: montserrat;">
                                 @ViewData["bodyofaboutus"]
                             </p>
                             <button asp-controller="Reservation" asp-action="RentalForm">RENT WITH US</button>
@@ -48,8 +48,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 txt1colon ">
                         <div class="featurecontant">
-                            <h1>@ViewData["headingofaboutustwo"]</h1>
-                            <p>
+                            <h1 style="font-family: montserrat;">@ViewData["headingofaboutustwo"]</h1>
+                            <p style="font-family: montserrat;">
                                 @ViewData["bodyofaboutustwo"]
                             </p>
                             <button asp-controller="Reservation" asp-action="RentalForm">RENT WITH US</button>
@@ -61,10 +61,10 @@
     </div>
     <partial name="~/Views/Shared/Enquiry.cshtml" />
 <div class="footer">
-    <div class="copyright">
+    <div class="copyright" style="font-family: montserrat;">
         &copy; Copy right 2018 | <a href="#">Privacy </a>| <a href="#">Policy</a>
     </div>
-    <div class="atisda">
+    <div class="atisda" style="font-family: montserrat;">
         Designed by <a href="http://www.webdomus.net/">meckblvck </a>
     </div>
 </div>

@@ -9,7 +9,7 @@
     <div class="container">
         <div class="" style="padding-bottom: 84px">
             <div class="feturedsection">
-                <h1 style="font-size:40px; padding-top:5px; padding-bottom:5px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; TWO WAY TRIP  &bullet;</h1>
+                <h1 style="font-size:40px; font-family: montserrat; padding-top:5px; padding-bottom:5px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; TWO WAY TRIP  &bullet;</h1>
             </div>
             <div class="row">
                 <div class="col-md-offset-2 col-md-8 col-md-offset-2">
@@ -21,17 +21,17 @@
 
                         }
                             <div class="col-md-6" style="padding-right: 25px;">
-                                <h4 style="color: black; text-align:left; font-weight: 300; padding-bottom:10px;"><b>PICK UP</b></h4>
+                                <h4 style="color: black; text-align:left; font-weight: 300; padding-bottom:10px; font-family: montserrat"><b>PICK UP</b></h4>
                                 <div class="row">
                                     <div class="col-md-6" style="padding-right: 15px">
-                                        <label style="color: whitesmoke;">STATE</label>
-                                        <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state" asp-items="ViewBag.PickOffStateId">
+                                        <label style="color: whitesmoke; font-family: montserrat;">STATE</label>
+                                        <select style="color: black; font-weight:500; font-family: montserrat; text-align: center" class="form-control" id="state" asp-items="ViewBag.PickOffStateId">
                                             <option selected>----- States-----</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label style="color: whitesmoke;">LGA</label>
-                                        <select asp-for="PickUpLgaId" style="color: black; font-weight:500 " class="form-control" id="lga">
+                                        <label style="color: whitesmoke;font-family: montserrat"">LGA</label>
+                                        <select asp-for="PickUpLgaId" style="color: black; font-family: montserrat; font-weight:500 " class="form-control" id="lga">
                                             <option selected> Pick Up Lga</option>
                                         </select>
                                         <span asp-validation-for="PickUpLgaId" class="text-danger"></span>
@@ -40,21 +40,21 @@
                                 <br />
                                 <div class="row">
                                     <div class="col-md-6" style="padding-right: 15px">
-                                        <label style="color: whitesmoke;">DATE </label>
-                                        <input type="text" asp-for="PickDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Date" />
+                                        <label style="color: whitesmoke;font-family: montserrat">DATE </label>
+                                        <input type="text" asp-for="PickDate" style="color: black; font-family: montserrat; font-weight:500;" class="form-control datepicker " placeholder="Date" />
                                         <span asp-validation-for="PickDate" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        <label style="color: whitesmoke;">TIME </label>
-                                        <input type="time" asp-for="PickUpTime" style="color: black; font-weight:500;" class="form-control " placeholder="Time" />
+                                        <label style="color: whitesmoke;font-family: montserrat">TIME </label>
+                                        <input type="time" asp-for="PickUpTime" style="color: black; font-family: montserrat; font-weight:500;" class="form-control " placeholder="Time" />
                                         <span asp-validation-for="PickUpTime" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label style="color: whitesmoke;">LOCATION </label>
-                                        <textarea type="text" asp-for="PickUpLocation" style="color: black; font-weight:500;" class="form-control " placeholder="Location"></textarea>
+                                        <label style="color: whitesmoke;font-family: montserrat">LOCATION </label>
+                                        <textarea type="text" asp-for="PickUpLocation" style="color: black; font-family: montserrat; font-weight:500;" class="form-control " placeholder="Location"></textarea>
                                         <span asp-validation-for="PickUpLocation" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -62,17 +62,17 @@
                             </div>
 
                             <div class="col-md-6" style="padding-right: 25px">
-                                <h4 style="color: black; text-align:left; font-weight: 300; padding-bottom:10px;"><b>DESTINATION</b></h4>
+                                <h4 style="color: black; text-align:left; font-weight: 300; padding-bottom:10px;font-family: montserrat""><b>DESTINATION</b></h4>
                                 <div class="row">
                                     <div class="col-md-6" style="padding-right: 15px">
-                                        <label style="color: whitesmoke;">STATE</label>
-                                        <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state2" asp-items="ViewBag.DropOffStateId">
+                                        <label style="color: whitesmoke; font-family: montserrat">STATE</label>
+                                        <select style="color: black; font-weight:500; font-family: montserrat; text-align: center" class="form-control" id="state2" asp-items="ViewBag.DropOffStateId">
                                             <option selected>---------- States--------</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label style="color: whitesmoke;">LGA</label>
-                                        <select asp-for="DestinationLgaId" style="color: black; font-weight:500 " class="form-control" id="lga2">
+                                        <label style="color: whitesmoke; font-family: montserrat">LGA</label>
+                                        <select asp-for="DestinationLgaId" style="color: black; font-family: montserrat; font-weight:500 " class="form-control" id="lga2">
                                             <option selected> Pick Up Lga</option>
                                         </select>
                                         <span asp-validation-for="DestinationLgaId" class="text-danger"></span>
@@ -81,20 +81,20 @@
                                 <br />
                                 <div class="row">
                                     <div class="col-md-6" style="padding-right: 15px">
-                                        <label style="color: whitesmoke;">RETURN DATE</label>
-                                        <input type="text" asp-for="ReturnTripDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Return Date" />
+                                        <label style="color: whitesmoke; font-family: montserrat">RETURN DATE</label>
+                                        <input type="text" asp-for="ReturnTripDate" style="color: black; font-family: montserrat; font-weight:500;" class="form-control datepicker " placeholder="Return Date" />
                                         <span asp-validation-for="PickDate" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-6">
-                                        <label style="color: whitesmoke;">RETURN TIME</label>
-                                        <input type="time" asp-for="ReturnTripTime" style="color: black; font-weight:500;" class="form-control " placeholder="Return Time" />
+                                        <label style="color: whitesmoke; font-family: montserrat">RETURN TIME</label>
+                                        <input type="time" asp-for="ReturnTripTime" style="color: black; font-family: montserrat; font-weight:500;" class="form-control " placeholder="Return Time" />
                                         <span asp-validation-for="PickUpTime" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label style="color: whitesmoke;">LOCATION </label>
+                                        <label style="color: whitesmoke; font-family: montserrat">LOCATION </label>
                                         <textarea type="text" asp-for="Destination" style="color: black; font-weight:500;" class="form-control " placeholder="Destination"></textarea>
                                         <span asp-validation-for="Destination" class="text-danger"></span>
                                     </div>

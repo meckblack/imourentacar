@@ -46,7 +46,6 @@ namespace ImouRentACar.Controllers
             ViewData["pricecounter"] = _database.Prices.Count();
             ViewData["statecounter"] = _database.States.Count();
             ViewData["lgacounter"] = _database.Lgas.Count();
-            ViewData["bookingcounter"] = _database.Bookings.Count();
             ViewData["applicationusercounter"] = _database.ApplicationUsers.Count();
             ViewData["customercounter"] = _database.Customers.Count();
             ViewData["drivercounter"] = _database.Driver.Count();

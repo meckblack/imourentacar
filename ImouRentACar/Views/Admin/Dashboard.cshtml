@@ -185,95 +185,94 @@
                     </div>
                 }
         </div>
-        <div class="row">
-            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
-            {
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                            <h1>
-                                @ViewData["bookingcounter"]
-                            </h1>
-                            <p>
-                                Bookings
-                            </p>
+            <div class="row">
+                @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
+                {
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-blue">
+                            <div class="inner">
+                                <h1>
+                                    @ViewData["bookingcounter"]
+                                </h1>
+                                <p>
+                                    Bookings
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pricetags"></i>
+                            </div>
+                            <a asp-action="ProcessingBookings" asp-controller="Booking" class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-pricetags"></i>
-                        </div>
-                        <a asp-action="ProcessingBookings" asp-controller="Booking" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
                     </div>
-                </div>
-            }
-            @if (ViewData["canmangecustomers"] != null || ViewData["candoeverything"] != null)
-            {
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                            <h1>
-                                @ViewData["customercounter"]
-                            </h1>
-                            <p>
-                                Customers
-                            </p>
+                }
+                @if (ViewData["canmangecustomers"] != null || ViewData["candoeverything"] != null)
+                {
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-blue">
+                            <div class="inner">
+                                <h1>
+                                    @ViewData["customercounter"]
+                                </h1>
+                                <p>
+                                    Customers
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pricetags"></i>
+                            </div>
+                            <a asp-action="Index" asp-controller="Customer" class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-pricetags"></i>
-                        </div>
-                        <a asp-action="Index" asp-controller="Customer" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
                     </div>
-                </div>
-            }
+                }
+                @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
+                {
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-blue">
+                            <div class="inner">
+                                <h1>
+                                    @ViewData["applicationusercounter"]
+                                </h1>
+                                <p>
+                                    Application Users
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pricetags"></i>
+                            </div>
+                            <a asp-action="Index" asp-controller="ApplicationUser" class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
 
-            @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
-            {
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                            <h1>
-                                @ViewData["applicationusercounter"]
-                            </h1>
-                            <p>
-                                Application Users
-                            </p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-pricetags"></i>
-                        </div>
-                        <a asp-action="Index" asp-controller="ApplicationUser" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
-                    </div>
-                </div>
-            }
 
-
-            @if (ViewData["canmangedrivers"] != null || ViewData["candoeverything"] != null)
-            {
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                            <h1>
-                                @ViewData["drivercounter"]
-                            </h1>
-                            <p>
-                                Drivers
-                            </p>
+                @if (ViewData["canmangedrivers"] != null || ViewData["candoeverything"] != null)
+                {
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-blue">
+                            <div class="inner">
+                                <h1>
+                                    @ViewData["drivercounter"]
+                                </h1>
+                                <p>
+                                    Drivers
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pricetags"></i>
+                            </div>
+                            <a asp-action="Index" asp-controller="Driver" class="small-box-footer">
+                                More info <i class="fa fa-arrow-circle-right"></i>
+                            </a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-pricetags"></i>
-                        </div>
-                        <a asp-action="Index" asp-controller="Driver" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
 
 
     </section>

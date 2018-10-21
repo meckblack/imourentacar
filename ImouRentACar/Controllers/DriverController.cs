@@ -37,6 +37,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         [SessionExpireFilterAttribute]
+        [Route("driver/index")]
         public async Task<IActionResult> Index()
         {
             var _cars = _database.Cars;

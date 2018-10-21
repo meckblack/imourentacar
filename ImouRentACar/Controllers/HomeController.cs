@@ -29,7 +29,7 @@ namespace ImouRentACar.Controllers
         #endregion
 
         #region Index
-
+        
         public IActionResult Index()
         {
             dynamic mymodel = new ExpandoObject();

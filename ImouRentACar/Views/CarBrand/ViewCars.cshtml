@@ -8,13 +8,13 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
+    <h1 style="text-transform: capitalize">
         CARS
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li><a asp-controller="CarBrand" asp-action="Index">Car Brand</a></li>
-        <li class="active">Car</li>
+        <li class="active">All Cars In @ViewData["brandname"]</li>
     </ol>
 
 
@@ -26,7 +26,7 @@
     <div class="box">
         <div class="box-header with-border">
             <h3>
-                Brand: @ViewData["brandname"]
+                Car Brand: @ViewData["brandname"]
 
                 <a asp-action="Index" asp-controller="CarBrand" class="btn btn-primary btn pull-right"><i style="color: red;" class="fa fa-arrow-left"></i> Go Back</a>
             </h3>
@@ -65,8 +65,8 @@
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.CarId"><i class="fa fa-book "></i> Details</a>
-                                <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Car" asp-route-id="@item.CarId"><i class="fa fa-pencil-square-o "></i> Edit</a>
+                                <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-controller="Car" asp-route-id="@item.CarId"><i class="fa fa-book "></i> Details</a>
+                                <a class="btn btn-success btn-sm" data-modal="" asp-action="ViewImage" asp-controller="Car" asp-route-id="@item.CarId"><i class="fa fa-picture-o "></i> View Image</a>
                             </td>
                         </tr>
                     }

@@ -36,6 +36,7 @@ namespace ImouRentACar.Controllers
         #region Add Header
 
         [HttpGet]
+        [Route("header/add")]
         public async Task<IActionResult> AddHeader()
         {
             var counter = _database.Headers.Count();

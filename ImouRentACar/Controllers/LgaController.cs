@@ -33,6 +33,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         // GET: Lga
+        [Route("lga/index")]
         public async Task<IActionResult> Index()
         {
             //Counters

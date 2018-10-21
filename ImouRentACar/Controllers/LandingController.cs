@@ -36,6 +36,7 @@ namespace ImouRentACar.Controllers
 
         #region Index
 
+        [Route("landing/index")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {

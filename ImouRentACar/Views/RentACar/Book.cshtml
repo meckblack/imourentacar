@@ -7,9 +7,9 @@
 
 <div class="allcontain" style="background-color: #473454">
     <div class="container">
-        <div class="" style="padding-bottom: 50px">
+        <div class="" style="padding-bottom: 64px">
             <div class="feturedsection">
-                <h1 style="font-size:40px; padding-top:5px; padding-bottom:5px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; ONE WAY TRIP  &bullet;</h1>
+                <h1 style="font-size:40px; padding-top:5px; padding-bottom:5px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; RENT A CAR  &bullet;</h1>
             </div>
             <div class="row">
                 <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
@@ -25,7 +25,7 @@
                             <div class="col-md-6" style="padding-right: 5px">
                                 <label style="color: whitesmoke;">STATE</label>
                                 <select style="color: black; font-weight:500; text-align: center" class="form-control" id="state" asp-items="ViewBag.PickOffStateId">
-                                    <option selected>----- States-----</option>
+                                    <option selected>----------------------- States -----------------------</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -43,14 +43,14 @@
                                 <input type="text" asp-for="PickDate" style="color: black; font-weight:500;" class="form-control datepicker " placeholder="Date" />
                                 <span asp-validation-for="PickDate" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" style="padding-right: 5px">
                                 <label style="color: whitesmoke;">TIME </label>
                                 <input type="time" asp-for="PickUpTime" style="color: black; font-weight:500;" class="form-control " placeholder="Time" />
                                 <span asp-validation-for="PickUpTime" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
                                 <label style="color: whitesmoke;">NUMBER OF DAY(s) </label>
-                                <input type="time" asp-for="Days" style="color: black; font-weight:500;" class="form-control " placeholder="Number Of Day(s)" />
+                                <input type="number" asp-for="Days" style="color: black; font-weight:500;" class="form-control " placeholder="Number Of Day(s)" />
                                 <span asp-validation-for="Days" class="text-danger"></span>
                             </div>
                         </div>

@@ -35,6 +35,7 @@ namespace ImouRentACar.Controllers
         #region Add Logo
 
         [HttpGet]
+        [Route("logo/add")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> AddLogo()
         {

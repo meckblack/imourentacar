@@ -32,6 +32,7 @@ namespace ImouRentACar.Controllers
         #region Dashboard
 
         [HttpGet]
+        [Route("admin/dashboard")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Dashboard()
         {

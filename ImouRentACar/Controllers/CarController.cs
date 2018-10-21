@@ -38,6 +38,7 @@ namespace ImouRentACar.Areas
         #region Index
 
         [SessionExpireFilterAttribute]
+        [Route("car/index")]
         public async Task<IActionResult> Index()
         {
             //Counters
@@ -88,6 +89,7 @@ namespace ImouRentACar.Areas
 
         [HttpGet]
         [SessionExpireFilterAttribute]
+        [Route("car/create")]
         public async Task<IActionResult> Create()
         {
             var userid = _session.GetInt32("imouloggedinuserid");
@@ -184,6 +186,7 @@ namespace ImouRentACar.Areas
 
         [HttpGet]
         [SessionExpireFilterAttribute]
+        [Route("car/edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -272,7 +275,7 @@ namespace ImouRentACar.Areas
                         _database.Cars.Update(car);
                         await _database.SaveChangesAsync();
 
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", "Car");
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -392,6 +395,7 @@ namespace ImouRentACar.Areas
         #region Avaliable Cars
 
         [HttpGet]
+        [Route("cars/allavaliablecars")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> AvaliableCars()
         {
@@ -435,6 +439,7 @@ namespace ImouRentACar.Areas
         #region Rented Cars
 
         [HttpGet]
+        [Route("cars/allrentedcars")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> RentedCars()
         {

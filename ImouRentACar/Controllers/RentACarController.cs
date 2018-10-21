@@ -274,7 +274,6 @@ namespace ImouRentACar.Controllers
         #region Passenger Information
 
         [HttpGet]
-        [Route("rentacar/passengerinformation")]
         public async Task<IActionResult> PassengerInformation(int? id)
         {
             dynamic mymodel = new ExpandoObject();
@@ -323,8 +322,7 @@ namespace ImouRentACar.Controllers
                     TempData["carprice"] = car.RentalPrice;
                     TempData["pickuplocation"] = _booking.PickUpLocation;
                     TempData["numberofdays"] = _booking.Days;
-                    TempData["destinationprice"] = _booking.TotalBookingPrice;
-                    TempData["totalprice"] = _booking.TotalBookingPrice + car.RentalPrice;
+                    TempData["totalprice"] = car.RentalPrice * _booking.Days;
                     return View();
                 }
 

@@ -34,6 +34,7 @@ namespace ImouRentACar.Controllers
         #region Register
 
         [HttpGet]
+        [Route("customer/register")]
         public IActionResult Register()
         {
             return View();
@@ -88,6 +89,7 @@ namespace ImouRentACar.Controllers
         #region Signin
 
         [HttpGet]
+        [Route("customer/signin")]
         public IActionResult SignIn()
         {
             return View();
@@ -154,7 +156,8 @@ namespace ImouRentACar.Controllers
         #endregion
 
         #region SignOut
-        
+
+        [Route("customer/signout")]
         public IActionResult SignOut()
         {
             _database.Dispose();
@@ -168,6 +171,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         [SessionExpireFilterAttribute]
+        [Route("customer/index")]
         public async Task<IActionResult> Index()
         {
             var userid = _session.GetInt32("imouloggedinuserid");
@@ -581,6 +585,7 @@ namespace ImouRentACar.Controllers
         #region Password Recovery
 
         [HttpGet]
+        [Route("customer/passwordrecovery")]
         public IActionResult PasswordRecovery()
         {
             return View();
@@ -610,6 +615,7 @@ namespace ImouRentACar.Controllers
         #region Success
 
         [HttpGet]
+        [Route("customer/success")]
         public IActionResult Success()
         {
             ViewData["recoveriedemail"] = _session.GetString("recoveriedemail");
@@ -625,6 +631,7 @@ namespace ImouRentACar.Controllers
         #region New Password
 
         [HttpGet]
+        [Route("customer/newpassword")]
         public IActionResult NewPassword(string user)
         {
             if(user == null)

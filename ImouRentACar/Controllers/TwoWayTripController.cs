@@ -277,6 +277,51 @@ namespace ImouRentACar.Controllers
                         return View(twoWayTrip);
                     }
 
+                    if(twoWayTrip.PickDate > twoWayTrip.ReturnTripDate)
+                    {
+                        TempData["error"] = "Sorry your return date cannot be behind your picku date";
+                        dynamic mymodel = new ExpandoObject();
+                        mymodel.Logos = GetLogos();
+                        mymodel.Contacts = GetContacts();
+
+                        foreach (Contact contact in mymodel.Contacts)
+                        {
+                            ViewData["contactnumber"] = contact.MobileNumberOne;
+                        }
+
+                        foreach (Logo logo in mymodel.Logos)
+                        {
+                            ViewData["imageoflogo"] = logo.Image;
+                        }
+
+                        ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
+                        ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
+
+                        return View(twoWayTrip);
+                    }
+                    if (twoWayTrip.PickDate == twoWayTrip.ReturnTripDate && twoWayTrip.PickUpTime > twoWayTrip.ReturnTripTime)
+                    {
+                        TempData["error"] = "You have selected the same dates. Therefore your return time cannot be earlier than your pick up time";
+                        dynamic mymodel = new ExpandoObject();
+                        mymodel.Logos = GetLogos();
+                        mymodel.Contacts = GetContacts();
+
+                        foreach (Contact contact in mymodel.Contacts)
+                        {
+                            ViewData["contactnumber"] = contact.MobileNumberOne;
+                        }
+
+                        foreach (Logo logo in mymodel.Logos)
+                        {
+                            ViewData["imageoflogo"] = logo.Image;
+                        }
+
+                        ViewBag.PickOffStateId = new SelectList(_database.States, "StateId", "Name");
+                        ViewBag.DropOffStateId = new SelectList(_database.States, "StateId", "Name");
+
+                        return View(twoWayTrip);
+                    }
+
                     var _priceId = price.PriceId;
                     var _tripPrice = price.Amount;
 
@@ -312,7 +357,6 @@ namespace ImouRentACar.Controllers
         #region Passenger Information
 
         [HttpGet]
-        [Route("twowaytrip/passengerinformation")]
         public async Task<IActionResult> PassengerInformation(int? id)
         {
             dynamic mymodel = new ExpandoObject();

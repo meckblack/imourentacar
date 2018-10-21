@@ -28,8 +28,14 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        #region Index
+
+
+
+        #endregion
+
         #region Create
-        
+
         [HttpGet]
         [SessionExpireFilter]
         public async Task<IActionResult> Create()

@@ -38,7 +38,13 @@ namespace ImouRentACar.Controllers
             mymodel.AboutUsImages = GetAboutUsImage();
             mymodel.AboutUsImageTwos = GetAboutUsImageTwo();
             mymodel.Contacts = GetContacts();
+            mymodel.Policies = GetPolicies();
 
+
+            foreach(Policy policy in mymodel.Policies)
+            {
+                ViewData["policyid"] = policy.PolicyId;
+            }
 
             foreach (Header header in mymodel.Headers)
             {
@@ -63,15 +69,11 @@ namespace ImouRentACar.Controllers
 
             foreach (Contact contact in mymodel.Contacts)
             {
-                _session.SetString("contactnumber", contact.MobileNumberOne);
-                
                 ViewData["contactnumber"] = contact.MobileNumberOne;
             }
 
             foreach (Logo logo in mymodel.Logos)
             {
-                _session.SetString("imageoflogo", logo.Image);
-
                 ViewData["imageoflogo"] = logo.Image;
             }
 
@@ -163,6 +165,16 @@ namespace ImouRentACar.Controllers
         {
             var _contact = _database.Contacts.ToList();
             return _contact;
+        }
+
+        #endregion
+
+        #region Get Policy
+
+        private List<Policy> GetPolicies()
+        {
+            var _policy = _database.Policies.ToList();
+            return _policy;
         }
 
         #endregion

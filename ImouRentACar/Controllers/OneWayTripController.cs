@@ -275,6 +275,7 @@ namespace ImouRentACar.Controllers
                         return View(oneWayTrip);
                     }
 
+                   
                     var _priceId = price.PriceId;
                     var _tripPrice = price.Amount;
 

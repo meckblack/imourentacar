@@ -467,6 +467,7 @@ namespace ImouRentACar.Areas
         #region View All Cars
 
         [HttpGet]
+        [Route("car/viewallcars")]
         public async Task<IActionResult> ViewAllCars()
         {
             dynamic mymodel = new ExpandoObject();

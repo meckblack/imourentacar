@@ -50,13 +50,14 @@
         <h1 style="font-family:'OpenSans-Light'; font-size: 41px;
             letter-spacing: 0px; padding-top: 6px;
             padding-bottom: 7px;
-            color: #020243;" class="text-center">
+            color: #020243; 
+            font-family: montserrat;" class="text-center">
             &bullet; SELECT A CAR &bullet;
         </h1>
         <div class="row">
             <div class="col-md-12">
                 <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
-                    <li role="presentation" class="li-sortby"><span class="sortby">CAR BRAND: </span></li>
+                    <li role="presentation" class="li-sortby"><span class="sortby" style=" font-family: montserrat; font-size:22px;">CAR BRAND: </span></li>
 
                     <li id="hideonmobile">
                 </ul>
@@ -104,7 +105,7 @@
             success: function (data) {
                 var data = data.brands;
                 for (var i = 0; i < data.length; i++) {
-                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' class='alphSort' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR'>" + data[i]['name'] + "</a></li>");
+                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' class='alphSort' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR' style=' font-family: montserrat; font-size:20px;'>" + data[i]['name'] + "</a></li>");
                     if (i == data.length - 1) {
                         loadCars(data[0]['carBrandId']);
                     }
@@ -133,7 +134,7 @@
                         
                         '<p class="pad"><b style="color: gray; font-size: 13px;">Price(N): </b>' + data[i]['price'] + '</p>' +
                         '<p class="pad"><b style="color: gray; font-size: 13px;">Description: </b>' + data[i]['description'] + '</p>' +
-                        '<p><a class="btn buutton" href="PassengerInformation/' + data[i]['carId'] + '">SELECT</a></p>' +
+                        '<p><a class="btn buutton" href="passengerinformation/' + data[i]['carId'] + '">SELECT</a></p>' +
                         '</div>' +
                         '</div>'
                     );

@@ -4,15 +4,13 @@
         <ul class="socialicon">
             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
         </ul>
-        <ul class="givusacall" style="font-family: montserrat; ">
+        <ul class="givusacall" style="font-family: montserrat; font-size:12px; ">
             <li>Give us a call : @ViewData["contactnumber"] </li>
         </ul>
         @if (TempData["customername"] == null || Convert.ToString(TempData["customername"]) == " ")
         {
-            <ul class="logreg" style="font-family: montserrat; ">
+            <ul class="logreg" style="font-family: montserrat; font-size:12px;   ">
                 <li><a asp-action="SignIn" asp-controller="Customer">SignIn </a> </li>
                 <li><a asp-action="Register" asp-controller="Customer"><span class="register">Register</span></a></li>
             </ul>

@@ -344,7 +344,6 @@ namespace ImouRentACar.Controllers
         #region Passenger Information
 
         [HttpGet]
-        [Route("onewaytrip/passengerinformation")]
         public async Task<IActionResult> PassengerInformation(int? id)
         {
             dynamic mymodel = new ExpandoObject();

@@ -15,23 +15,28 @@
 <div class="allcontain">
     <div class="bottommenu">
         <div class="bottomlogo">
-            <span class="dotlogo" style="color:black">&bullet;</span><img style="height: 70px; width: 250px;" src="~/UploadedFiles/Logo/@ViewData["imageoflogo"]" alt="logo1"><span class="dotlogo" style="color:black">&bullet;;</span>
+            <span class="dotlogo" style="color:black; font-family: montserrat">&bullet;</span><img style="height: 70px; width: 250px;" src="~/UploadedFiles/Logo/@ViewData["imageoflogo"]" alt="logo1"><span class="dotlogo" style="color:black; font-family: montserrat">&bullet;;</span>
         </div>
         <ul class="nav nav-tabs bottomlinks" style="align-content:center;">
             <li role="presentation">
-                <a asp-action="Index" asp-controller="Home">HOME</a>
+                <a asp-action="Index" asp-controller="Home" style="font-family: montserrat; font-weight:600">HOME</a>
             </li>
             <li role="presentation">
-                <a asp-action="ViewAllCars" asp-controller="Car">CARS</a>
+                <a asp-action="ViewAllCars" asp-controller="Car" style="font-family: montserrat; font-weight:600">CARS</a>
             </li>
-            <li role="presentation">
-                <a asp-action="RentalForm" asp-controller="Booking">RENT A CAR</a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-family: montserrat; font-weight:600">USE OUR SERVICES<span class="caret"></span></a>
+                <ul class="dropdown-menu dropdowncostume">
+                    <li><a asp-action="Book" asp-controller="OneWayTrip" style="font-family: montserrat; font-weight:600">ONE WAY TRIP</a></li>
+                    <li><a asp-action="Book" asp-controller="TwoWayTrip" style="font-family: montserrat; font-weight:600">TWO WAY TRIP</a></li>
+                    <li><a asp-action="Book" asp-controller="RentACar" style="font-family: montserrat; font-weight:600">RENT A CAR</a></li>
+                </ul>
             </li>
-            <li role="presentation">
-                <a asp-action="Index" asp-controller="Contact">CONTACT US</a>
+            <li>
+                <a asp-action="Index" asp-controller="Contact" style="font-family: montserrat; font-weight:600">CONTACT US</a>
             </li>
         </ul>
-        <p style="padding-top:20px; margin-bottom:0px;">
+        <p style="padding-top:20px; margin-bottom:0px; font-family: montserrat; font-size: 20px;">
             <b>Address: </b>  @ViewData["contactaddress"] <br>
             <b>POBox: </b>  @ViewData["contactboxoffice"] <br />
             <b>Contact Numbers: </b>  @ViewData["contactnumber1"], @ViewData["contactnumber2"]
@@ -44,11 +49,11 @@
             <a href="#"><i class="fa fa-google-plus" style="color:red"></i></a>
         </div>
         <div class="footer">
-            <div class="copyright">
-                &copy; Copy right 2016 | <a href="#">Privacy </a>| <a href="#">Policy</a>
+            <div class="copyright" style="font-family: montserrat;">
+                &copy; Copy right 2018 | <a href="#">Privacy </a>| <a href="#">Policy</a>
             </div>
-            <div class="atisda">
-                Designed by <a href="http://www.webdomus.net/">Web Domus Italia - Web Agency </a>
+            <div class="atisda" style="font-family: montserrat;">
+                Designed by <a href="">meckblvck </a>
             </div>
         </div>
     </div>

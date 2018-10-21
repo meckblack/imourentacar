@@ -9,13 +9,14 @@
         <h1 style="font-family:'OpenSans-Light'; font-size: 41px;
             letter-spacing: 10px; padding-top: 6px;
             padding-bottom: 7px;
-            color: #020243;" class="text-center">
+            color: #020243;
+            font-family: montserrat;" class="text-center">
             &bullet; ALL THE CARS &bullet;
         </h1>
         <div class="row">
             <div class="col-md-12">
                 <ul id="brand-list" class="nav nav-tabs navbar-left latest-navleft">
-                    <li role="presentation" class="li-sortby"><span class="sortby">CAR BRANDS: </span></li>
+                    <li role="presentation" class="li-sortby"><span class="sortby" style="font-family: montserrat; font-size:22px;">CAR BRANDS: </span></li>
 
                     <li id="hideonmobile">
                 </ul>
@@ -29,6 +30,7 @@
 </div>
 
 
+
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     var loadBrand = function () {
@@ -40,7 +42,7 @@
             success: function (data) {
                 var data = data.brands;
                 for (var i = 0; i < data.length; i++) {
-                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR  text-capitalize'>" + data[i]['name'] + "</a></li>");
+                    $('#brand-list').append("<li role='presentation' onclick='loadCars(" + data[i]['carBrandId'] + ")'><a href='javascript: void(0);' on-click='loadCars(" + data[i]['carBrandId'] + ")' class='prcBtnR  text-capitalize' style='font-family:montserrat; font-size: 20px;'>" + data[i]['name'] + "</a></li>");
                     if (i === data.length - 1) {
                         loadCars(data[0]['carBrandId']);
                     }
@@ -71,9 +73,7 @@
                                 '<h3 class="name">'+ data[i]['name'] +'</h3><br />'+
                                 '<h3><b style="color: gray; font-size: 13px;">Car Speed:</b>'+ data[i]['speed'] +'(km/h)</h3><br />' +
                         '<h3><b style="color: gray; font-size: 13px;">Engine Type:</b>'+ data[i]['engine'] +'</h3><br />' +
-                        '<h3><b style="color: gray; font-size: 13px;">Car Color:</b>'+ data[i]['color'] +'</h3><br />' +
                         '<h3><b style="color: gray; font-size: 13px;">Description:</b>' + data[i]['description'] + '</h3><br />' +
-                        '<a><h3><b style="color: gray; font-size: 13px;" asp-action="Details" asp-route-id="' + data[i]['carId'] + '">Learn More</b></h3></a><br />' +
                         '<div class="">'+
                               '</div>'+
                             '</div>'+

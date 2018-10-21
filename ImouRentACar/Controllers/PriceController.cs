@@ -35,14 +35,6 @@ namespace ImouRentACar.Controllers
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-            //ViewData["reservationcounter"] = _database.Bookings.Where(r => r.Verification == Verification.Approve).Count();
-
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
             ViewData["loggedinuserfullname"] = _user.DisplayName;
@@ -53,7 +45,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -61,12 +53,10 @@ namespace ImouRentACar.Controllers
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
             ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
             ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
-            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
-            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageBookings == true && r.RoleId == roleid);
+            ViewData["canmangelocation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLocation == true && r.RoleId == roleid);
             ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
@@ -91,7 +81,7 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -100,7 +90,7 @@ namespace ImouRentACar.Controllers
             
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -108,12 +98,10 @@ namespace ImouRentACar.Controllers
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
             ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
             ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
-            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
-            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageBookings == true && r.RoleId == roleid);
+            ViewData["canmangelocation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLocation == true && r.RoleId == roleid);
             ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
@@ -191,21 +179,22 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
             ViewData["rolename"] = role.Name;
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var _price = await _database.Prices
                 .FirstOrDefaultAsync(m => m.PriceId == id);
             if (_price == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var _pickuplgaid = _price.PickUpLgaId;
@@ -242,39 +231,32 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var price = await _database.Prices.FindAsync(id);
             if (price == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
             ViewData["loggedinuserfullname"] = _user.DisplayName;
 
             ViewData["userrole"] = role.Name;
-
-            if (role.CanManageStates == false && role.CanDoEverything == false)
-            {
-                return RedirectToAction("Index", "Error");
-            }
-
+            
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
             ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
             ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
-            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
-            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageBookings == true && r.RoleId == roleid);
+            ViewData["canmangelocation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLocation == true && r.RoleId == roleid);
             ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
@@ -357,21 +339,21 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var price = await _database.Prices
                 .FirstOrDefaultAsync(m => m.PriceId == id);
             if (price == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("Delete", price);

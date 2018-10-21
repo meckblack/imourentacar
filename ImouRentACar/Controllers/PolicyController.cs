@@ -45,7 +45,7 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLandingDetails == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -90,7 +90,7 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManagePrices == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -122,7 +122,7 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLandingDetails == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }

@@ -36,13 +36,6 @@ namespace ImouRentACar.Controllers
         [Route("lga/index")]
         public async Task<IActionResult> Index()
         {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
             ViewData["loggedinuserfullname"] = _user.DisplayName;
@@ -53,7 +46,7 @@ namespace ImouRentACar.Controllers
 
             ViewData["userrole"] = role.Name;
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLocation == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -61,12 +54,10 @@ namespace ImouRentACar.Controllers
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
             ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
             ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
-            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
-            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageBookings == true && r.RoleId == roleid);
+            ViewData["canmangelocation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLocation == true && r.RoleId == roleid);
             ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
@@ -90,7 +81,7 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
             
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLocation == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
@@ -101,12 +92,10 @@ namespace ImouRentACar.Controllers
         }
 
         // POST: Lga/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LGAId,Name,StateId,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] LGA lga)
+        public async Task<IActionResult> Create(LGA lga)
         {
             if (ModelState.IsValid)
             {
@@ -154,20 +143,20 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLocation == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var lga = await _database.Lgas.FindAsync(id);
             if (lga == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
             ViewBag.StateId = new SelectList(_database.States, "StateId", "Name", lga.StateId);
 
@@ -175,8 +164,6 @@ namespace ImouRentACar.Controllers
         }
 
         // POST: Lga/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionExpireFilterAttribute]
@@ -184,7 +171,7 @@ namespace ImouRentACar.Controllers
         {
             if (id != lga.LGAId)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             if (ModelState.IsValid)
@@ -201,7 +188,7 @@ namespace ImouRentACar.Controllers
                 {
                     if (!LGAExists(lga.LGAId))
                     {
-                        return NotFound();
+                        return RedirectToAction("Index", "Error");
                     }
                     else
                     {
@@ -231,21 +218,21 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
             ViewData["rolename"] = role.Name;
-            if (role.CanManageApplicationUsers == false && role.CanDoEverything == false)
+            if (role.CanManageLocation == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var _lga = await _database.Lgas.SingleOrDefaultAsync(c => c.LGAId == id);
 
             if (_lga == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var stateid = _lga.StateId;
@@ -262,8 +249,7 @@ namespace ImouRentACar.Controllers
 
             return PartialView(_lga);
         }
-
-
+        
         #endregion
 
         #region Delete
@@ -278,14 +264,14 @@ namespace ImouRentACar.Controllers
             var roleid = _user.RoleId;
             var role = _database.Roles.Find(roleid);
 
-            if (role.CanManageStates == false && role.CanDoEverything == false)
+            if (role.CanManageLocation == false && role.CanDoEverything == false)
             {
                 return RedirectToAction("Index", "Error");
             }
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var lga = await _database.Lgas
@@ -293,7 +279,7 @@ namespace ImouRentACar.Controllers
                 .FirstOrDefaultAsync(m => m.LGAId == id);
             if (lga == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("Delete", lga);

@@ -121,13 +121,13 @@ namespace ImouRentACar.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var contact = await _database.Contacts.FindAsync(id);
             if (contact == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error"); ;
             }
             return PartialView("Edit", contact);
         }
@@ -138,7 +138,7 @@ namespace ImouRentACar.Controllers
         [HttpPost]
         [SessionExpireFilterAttribute]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactId,Address,MobileNumberOne,MobileNumberTwo,BoxOfficeNumber,CreatedBy,DateCreated,DateLastModified,LastModifiedBy")] Contact contact)
+        public async Task<IActionResult> Edit(int id, Contact contact)
         {
             if (id != contact.ContactId)
             {
@@ -182,14 +182,14 @@ namespace ImouRentACar.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var contact = await _database.Contacts
                 .FirstOrDefaultAsync(m => m.ContactId == id);
             if (contact == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("Delete", contact);
@@ -221,14 +221,14 @@ namespace ImouRentACar.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             var contact = await _database.Contacts
                 .FirstOrDefaultAsync(m => m.ContactId == id);
             if (contact == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Error");
             }
 
             return PartialView("View", contact);

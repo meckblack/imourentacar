@@ -32,6 +32,7 @@ namespace ImouRentACar.Controllers
         #region SignIn
 
         [HttpGet]
+        [Route("account/signin")]
         public async Task<IActionResult> SignIn()
         {
             var user = await _database.ApplicationUsers.CountAsync();
@@ -77,6 +78,7 @@ namespace ImouRentACar.Controllers
         #region First Registration
 
         [HttpGet]
+        [Route("account/firstregistration")]
         public IActionResult FirstRegistration()
         {
             return View();
@@ -139,14 +141,7 @@ namespace ImouRentACar.Controllers
 
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> ViewProfile()
-        {
-            //Counters
-            ViewData["carbrandcounter"] = _database.CarBrands.Count();
-            ViewData["caravaliablecounter"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Avaliable).Count();
-            ViewData["carrentedout"] = _database.Cars.Where(c => c.CarAvaliability == Avaliability.Rented).Count();
-            ViewData["contactcounter"] = _database.Contacts.Count();
-            ViewData["enquirycounter"] = _database.Enquiries.Count();
-            
+        {   
             var userid = _session.GetInt32("imouloggedinuserid");
             var _user = await _database.ApplicationUsers.FindAsync(userid);
 
@@ -166,12 +161,10 @@ namespace ImouRentACar.Controllers
             ViewData["canmangecars"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCars == true && r.RoleId == roleid);
             ViewData["canmangecustomers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCustomers == true && r.RoleId == roleid);
             ViewData["canmangelandingdetails"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangecarbrand"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageCarBrand == true && r.RoleId == roleid);
             ViewData["canmangeprices"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePrices == true && r.RoleId == roleid);
             ViewData["canmangeenquries"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageEnquires == true && r.RoleId == roleid);
-            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLandingDetails == true && r.RoleId == roleid);
-            ViewData["canmangestates"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageStates == true && r.RoleId == roleid);
-            ViewData["canmangelgas"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLgas == true && r.RoleId == roleid);
+            ViewData["canmangebookings"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageBookings == true && r.RoleId == roleid);
+            ViewData["canmangelocation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageLocation == true && r.RoleId == roleid);
             ViewData["canmangedrivers"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManageDrivers == true && r.RoleId == roleid);
             ViewData["canmangepassengersinformation"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanManagePassengersInformation == true && r.RoleId == roleid);
             ViewData["candoeverything"] = await _database.Roles.SingleOrDefaultAsync(r => r.CanDoEverything == true && r.RoleId == roleid);
@@ -185,6 +178,7 @@ namespace ImouRentACar.Controllers
         #region Edit Profile
 
         [HttpGet]
+        [Route("account/editprofile")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> EditProfile()
         {
@@ -256,6 +250,7 @@ namespace ImouRentACar.Controllers
         #region Change Password
 
         [HttpGet]
+        [Route("account/changepassword")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> ChangePassword()
         {
@@ -326,6 +321,7 @@ namespace ImouRentACar.Controllers
         #region Password Recovery
 
         [HttpGet]
+        [Route("account/passwordrecovery")]
         public IActionResult PasswordRecovery()
         {
             return View();
@@ -355,6 +351,7 @@ namespace ImouRentACar.Controllers
         #region Success
 
         [HttpGet]
+        [Route("account/success")]
         public IActionResult Success()
         {
             ViewData["recoveriedemail"] = _session.GetString("recoveriedemail");
@@ -370,6 +367,7 @@ namespace ImouRentACar.Controllers
         #region New Password
 
         [HttpGet]
+        [Route("account/newpassword")]
         public IActionResult NewPassword(string appUser)
         {
             if (appUser == null)

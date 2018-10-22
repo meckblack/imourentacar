@@ -282,7 +282,8 @@ namespace ImouRentACar.Controllers
                         Verification = Verification.YetToReply,
                         PriceId = _priceId,
                         TotalBookingPrice = _tripPrice,
-                        DateSent = DateTime.Now
+                        DateSent = DateTime.Now,
+                        
                     };
 
                     _session.SetString("bookonewaytrip", JsonConvert.SerializeObject(_bookOneWayTrip));
@@ -486,7 +487,7 @@ namespace ImouRentACar.Controllers
                             PassengerInformation = _passengerInformations,
                             CustomerId = _customer.CustomerId,
                             BookingNumber = bookingNumber,
-                            PaymentStatus = PaymentStatus.Processing
+                            PaymentStatus = PaymentStatus.Processing,
                         };
 
                         var getcarname = await _database.Cars.FindAsync(saveBooking.CarId);
@@ -579,7 +580,7 @@ namespace ImouRentACar.Controllers
                             PassengerInformation = passenger,
                             BookingNumber = bookingNumber,
                             CustomerId = _customer.CustomerId,
-                            PaymentStatus = PaymentStatus.Processing
+                            PaymentStatus = PaymentStatus.Processing,
                         };
 
                         var getcarname = await _database.Cars.FindAsync(saveBooking.CarId);
@@ -646,7 +647,7 @@ namespace ImouRentACar.Controllers
                         PassengerInformationId = _passengerInformation.PassengerInformationId,
                         PassengerInformation = _passengerInformation,
                         BookingNumber = bookingNumber,
-                        PaymentStatus = PaymentStatus.Processing
+                        PaymentStatus = PaymentStatus.Processing,
                     };
 
                     await _database.OneWayTrips.AddAsync(saveBooking);
@@ -844,7 +845,7 @@ namespace ImouRentACar.Controllers
                     _database.OneWayTrips.Update(oneWayTrip);
                     await _database.SaveChangesAsync();
 
-                    TempData["onewaytrip"] = "You have successfully verified a booking request. Next Assign A Driver ";
+                    TempData["onewaytrip"] = "You have successfully verified a booking request. Next Set Car To Rented ";
                     TempData["notificationType"] = NotificationType.Success.ToString();
 
                     return Json(new { success = true });
@@ -863,6 +864,132 @@ namespace ImouRentACar.Controllers
             }
 
             return View("ProcessingOneWayTrip");
+        }
+
+        #endregion
+
+        #region Change Car To Rented
+
+        [HttpGet]
+        public async Task<IActionResult> SetCarRented(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageBookings == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            
+            var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == id);
+
+            if (car == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+
+            return PartialView("SetCarRented", car);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCarRented(int id, Car car)
+        {
+            if(id != car.CarId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    car.CarAvaliability = Avaliability.Rented;
+
+                    _database.Cars.Update(car);
+                    await _database.SaveChangesAsync();
+
+                    TempData["onewaytrip"] = "You have successfully set " + car.Name + " to rented. Next Assign Driver";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+
+            return View("SetCarRented");
+
+        }
+
+        #endregion
+
+        #region Change Car To Avaliable
+
+        [HttpGet]
+        public async Task<IActionResult> SetCarAvaliable(int? id)
+        {
+            var userObject = _session.GetString("imouloggedinuser");
+            var _user = JsonConvert.DeserializeObject<ApplicationUser>(userObject);
+            var roleid = _user.RoleId;
+            var role = _database.Roles.Find(roleid);
+            if (role.CanManageBookings == false && role.CanDoEverything == false)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == id);
+
+            if (car == null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+
+            return PartialView("SetCarAvaliable", car);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCarAvaliable(int id, Car car)
+        {
+            if (id != car.CarId)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    car.CarAvaliability = Avaliability.Avaliable;
+
+                    _database.Cars.Update(car);
+                    await _database.SaveChangesAsync();
+
+                    TempData["onewaytrip"] = "You have successfully set " + car.Name + " to avaliable. Next Remove Driver";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
+
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
+
+            return View("SetCarAvaliable");
+
         }
 
         #endregion
@@ -979,6 +1106,16 @@ namespace ImouRentACar.Controllers
                 return NotFound();
             }
 
+            var car = await _database.Cars.FindAsync(oneWayTrip.CarId);
+
+            if(car.CarAvaliability == Avaliability.Avaliable)
+            {
+                TempData["onewaytrip"] = "You cannot assign a driver without first seting car to rented";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -988,8 +1125,8 @@ namespace ImouRentACar.Controllers
 
                     _database.OneWayTrips.Update(oneWayTrip);
                     await _database.SaveChangesAsync();
-
-                    TempData["onewaytrip"] = "You have successfully assigned a driver to the a booking request. Next Send Link";
+                    
+                    TempData["onewaytrip"] = "You have successfully assigned a driver to the a booking request. Next Send A Link";
                     TempData["notificationType"] = NotificationType.Success.ToString();
 
                     return Json(new { success = true });
@@ -1048,6 +1185,16 @@ namespace ImouRentACar.Controllers
             if (id != oneWayTrip.OneWayTripId)
             {
                 return RedirectToAction("Index", "Error");
+            }
+
+            var car = await _database.Cars.FindAsync(oneWayTrip.CarId);
+
+            if (car.CarAvaliability == Avaliability.Rented)
+            {
+                TempData["onewaytrip"] = "You cannot remove a driver without first seting car to avaliable";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
             }
 
             if (ModelState.IsValid)
@@ -1125,72 +1272,45 @@ namespace ImouRentACar.Controllers
         {
             if (id != oneWayTrip.OneWayTripId)
             {
-                return RedirectToAction("Index", "Error");
+                return NotFound();
             }
-
-
-            var _oneWayTrip = await _database.OneWayTrips.SingleOrDefaultAsync(b => b.OneWayTripId == id);
-
-
-
-            var onewaytrip = new OneWayTrip()
+            
+            if (ModelState.IsValid)
             {
-                OneWayTripId = _oneWayTrip.OneWayTripId,
-                BookingNumber = _oneWayTrip.BookingNumber,
-                DateSent = _oneWayTrip.DateSent,
-                PaymentStatus = PaymentStatus.Unpaid,
-                CarId = _oneWayTrip.CarId,
-                CustomerId = 1,
-                DateDriverAssigned = _oneWayTrip.DateDriverAssigned,
-                DateVerified = _oneWayTrip.DateVerified,
-                Destination = _oneWayTrip.Destination,
-                DestinationLgaId = _oneWayTrip.DestinationLgaId,
-                DriverAssignedBy = _oneWayTrip.DriverAssignedBy,
-                DriverId = _oneWayTrip.DriverId,
-                PassengerInformation = _oneWayTrip.PassengerInformation,
-                PassengerInformationId = _oneWayTrip.PassengerInformationId,
-                PickDate = _oneWayTrip.PickDate,
-                PickUpLgaId = _oneWayTrip.PickUpLgaId,
-                PickUpLocation = _oneWayTrip.PickUpLocation,
-                PickUpTime = _oneWayTrip.PickUpTime,
-                PriceId = _oneWayTrip.PriceId,
-                TotalBookingPrice = _oneWayTrip.TotalBookingPrice,
-                Verification = Verification.LinkSent,
-                VerifiedBy = _oneWayTrip.VerifiedBy,
-            };
+                try
+                {
+                    oneWayTrip.Verification = Verification.LinkSent;
+                    oneWayTrip.PaymentStatus = PaymentStatus.Unpaid;
 
-            _database.OneWayTrips.Update(onewaytrip);
-            await _database.SaveChangesAsync();
+                    _database.OneWayTrips.Update(oneWayTrip);
+                    await _database.SaveChangesAsync();
 
-            var car = await _database.Cars.SingleOrDefaultAsync(c => c.CarId == _oneWayTrip.CarId);
+                    TempData["onewaytrip"] = "You have successfully sent the link";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
 
-            var _car = new Car()
-            {
-                CarId = car.CarId,
-                Name = car.Name,
-                Price = car.Price,
-                RentalPrice = car.RentalPrice,
-                Speed = car.Speed,
-                CarBrandId = car.CarBrandId,
-                Color = car.Color,
-                CreatedBy = car.CreatedBy,
-                DateCreated = car.DateCreated,
-                Description = car.Description,
-                Engine = car.Engine,
-                Image = car.Image,
-                CarAvaliability = Avaliability.Rented,
-                LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
-                DateLastModified = DateTime.Now,
-            };
 
-            _database.Cars.Update(_car);
-            await _database.SaveChangesAsync();
+                    var _oneWayTrip = await _database.OneWayTrips.SingleOrDefaultAsync(b => b.OneWayTripId == id);
 
-            var passengerId = _oneWayTrip.PassengerInformationId;
-            var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
+                    var passengerId = _oneWayTrip.PassengerInformationId;
+                    var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
-            new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, onewaytrip, _passenger);
+                    new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, oneWayTrip, _passenger);
 
+                    return Json(new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OneWayTripExists(oneWayTrip.OneWayTripId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            
             return View();
         }
 

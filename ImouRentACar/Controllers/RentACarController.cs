@@ -1457,7 +1457,7 @@ namespace ImouRentACar.Controllers
                 }
             }
 
-            return View("ProcessingRentACar");
+            return View("PaidRentACar");
         }
 
         #endregion

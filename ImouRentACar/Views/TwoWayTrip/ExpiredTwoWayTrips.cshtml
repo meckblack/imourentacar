@@ -1,8 +1,7 @@
-﻿@model IEnumerable<ImouRentACar.Models.Car>
-@using ImouRentACar.Models.Enums
+﻿@model IEnumerable<ImouRentACar.Models.TwoWayTrip>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Expired";
     Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
     var x = 1;
 }
@@ -10,11 +9,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        CARS
+        EXPIRED TWO WAY TRIPS
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Car</li>
+        <li class="active">Expired Two Way Trips</li>
     </ol>
 
 
@@ -22,36 +21,8 @@
 
 <!-- Main content -->
 <section class="content">
-    @if (TempData["car"] != null)
-    {
-        if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
-        {
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["car"]
-            </div>
-        }
-        else if (TempData["notificationtype"].Equals(NotificationType.Error.ToString()))
-        {
-            <div class="alert alert-danger alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["car"]
-            </div>
-        }
-        else if (TempData["notificationtype"].Equals(NotificationType.Info.ToString()))
-        {
-            <div class="alert alert-info alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["car"]
-            </div>
-        }
-
-    }
     <!-- Default box -->
     <div class="box">
-        <div class="box-header with-border">
-            <a asp-action="Create" class="btn btn-primary btn pull-right"><i style="color: red;" class="fa fa-plus"></i> ADD</a>
-        </div>
         <div class="box-body">
             <table class="table" id="myTable">
                 <thead>
@@ -60,11 +31,10 @@
                             S/N
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            Date Of Booking
                         </th>
-
                         <th>
-                            Description
+                            Amount( &#8358 )
                         </th>
                         <th>
                             Actions
@@ -74,21 +44,20 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-
                         <tr>
                             <td>
                                 @(x++)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Name)
+                                @item.DateSent
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Description)
+                                &#8358 @item.TotalBookingPrice
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" data-modal="" asp-action="Details" asp-route-id="@item.CarId"><i class="fa fa-book "></i> Details</a>
-                                <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.CarId"><i class="fa fa-pencil-square-o "></i> Edit</a>
-                                <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.CarId"><i class="fa fa-trash-o "></i> Delete</a>
+                                <a class="btn btn-warning btn-sm" data-modal="" asp-action="SetCarAvaliable" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Set Car Avaliable</a>
+                                <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Details</a>
                             </td>
                         </tr>
                     }

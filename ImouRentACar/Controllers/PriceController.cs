@@ -32,6 +32,7 @@ namespace ImouRentACar.Controllers
         #region Index
 
         // GET: Price
+        [Route("fixedprice/index")]
         [SessionExpireFilterAttribute]
         public async Task<IActionResult> Index()
         {
@@ -73,6 +74,7 @@ namespace ImouRentACar.Controllers
 
         // GET: Price/Create
         [HttpGet]
+        [Route("fixedprice/create")]
         [SessionExpireFilter]
         public async Task<IActionResult> Create()
         {
@@ -223,6 +225,7 @@ namespace ImouRentACar.Controllers
 
         // GET: Price/Edit/5
         [HttpGet]
+        [Route("fixedprice/edit")]
         [SessionExpireFilter]
         public async Task<IActionResult> Edit(int? id)
         {

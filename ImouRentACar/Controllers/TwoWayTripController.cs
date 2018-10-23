@@ -1558,7 +1558,7 @@ namespace ImouRentACar.Controllers
                 }
             }
 
-            return View("ProcessingTwoWayTrip");
+            return View("PaidTwoWayTrip");
         }
 
         #endregion

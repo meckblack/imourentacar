@@ -1306,6 +1306,18 @@ namespace ImouRentACar.Controllers
             return _contact;
         }
 
+        public JsonResult CarBrand()
+        {
+            var brand = _database.CarBrands.ToArray();
+            return Json(new { brands = brand });
+        }
+
+        public JsonResult GetCarByBrand(int brand)
+        {
+            var car = _database.Cars.Where(s => s.CarBrandId == brand && s.CarAvaliability == Avaliability.Avaliable).ToArray();
+            return Json(new { cars = car });
+        }
+
         #endregion
     }
 }

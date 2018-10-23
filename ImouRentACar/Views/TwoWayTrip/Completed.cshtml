@@ -17,10 +17,21 @@
     <h3 class="text-center"> This two way trip has been completed. And can be moved to the junk files?</h3>
 </div>
 <form asp-action="Completed">
+    <input type="hidden" asp-for="PassengerInformation" />
+    <input type="hidden" asp-for="CarId" />
+    <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="PriceId" />
+    <input type="hidden" asp-for="TotalBookingPrice" />
+    <input type="hidden" asp-for="BookingNumber" />
+    <input type="hidden" asp-for="DriverAssignedBy" />
+    <input type="hidden" asp-for="DateDriverAssigned" />
+    <input type="hidden" asp-for="DriverId" />
+    <input type="hidden" asp-for="Verification" />
+    <input type="hidden" asp-for="DateVerified" />
+    <input type="hidden" asp-for="VerifiedBy" />
     <input type="hidden" asp-for="TwoWayTripId" />
     <input type="hidden" asp-for="DestinationLgaId" />
     <input type="hidden" asp-for="PickUpLgaId" />
-    <input type="hidden" asp-for="CarId" />
     <input type="hidden" asp-for="Destination" />
     <input type="hidden" asp-for="PassengerInformationId" />
     <input type="hidden" asp-for="PickUpLocation" />
@@ -29,6 +40,7 @@
     <input type="hidden" asp-for="ReturnTripTime" />
     <input type="hidden" asp-for="PickUpTime" />
     <input type="hidden" asp-for="DateSent" />
+    <input type="hidden" asp-for="PaymentStatus" />
 
     <!--MODAL FOOTER-->
     <div class="modal-footer">

@@ -97,7 +97,7 @@
 <script>
     var loadBrand = function () {
         $.ajax({
-            url: '/Car/CarBrand',
+            url: '/RentACar/CarBrand',
             async: true,
             method: 'GET',
             data: {},
@@ -115,7 +115,7 @@
 
     var loadCars = function (id) {
         $.ajax({
-            url: '/Car/GetCarByBrand',
+            url: '/RentACar/GetCarByBrand',
             async: true,
             method: 'GET',
             data: { brand: id },

@@ -12,102 +12,120 @@
 </div>
 
  <!--MODAL BODY-->
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-4">
-                <dt style="text-transform:capitalize">
-                    Car @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-            </div>
-            <div class="col-md-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-            </div>
-            <div class="col-md-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Color)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Color)
-                </dd>
-            </div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <dt style="text-transform:capitalize">
+                Car @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Speed)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Speed)
-                </dd>
-            </div>
-            <div class="col-md-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Engine)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Engine)
-                </dd>
-            </div>
-            <div class="col-md-4">
-                <dt>
-                    Car Brand
-                </dt>
-                <dd>
-                    @ViewData["brandname"]
-                </dd>
-            </div>
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
         </div>
-        <br />
-        <div class="row">
-            <div class="col-md-3">
-                <dt>
-                    @Html.DisplayNameFor(model => model.CreatedBy)
-                </dt>
-                <dd>
-                    @ViewData["creatorby"]
-                </dd>
-            </div>
-            <div class="col-md-3">
-                <dt>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateCreated)
-                </dd>
-            </div>
-            <div class="col-md-3">
-                <dt>
-                    Modified By
-                </dt>
-                <dd>
-                    @ViewData["modifiedby"]
-                </dd>
-            </div>
-            <div class="col-md-3">
-                <dt>
-                    Date Modified
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateLastModified)
-                </dd>
-            </div>
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Color)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Color)
+            </dd>
         </div>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Speed)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Speed)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Engine)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Engine)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                Car Brand
+            </dt>
+            <dd>
+                @ViewData["brandname"]
+            </dd>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RentalPrice)
+            </dd>
+        </div>
+        <div class="col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+            <dd>
+                @ViewData["creatorby"]
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt>
+                Modified By
+            </dt>
+            <dd>
+                @ViewData["modifiedby"]
+            </dd>
+        </div>
+        <div class="col-md-3">
+            <dt>
+                Date Modified
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateLastModified)
+            </dd>
+        </div>
+    </div>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Image)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Image)
+    </dd>
+</div>
 
     <!--MODAL FOOTER-->
     <div class="modal-footer">

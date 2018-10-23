@@ -1,8 +1,8 @@
-﻿@model IEnumerable<ImouRentACar.Models.OneWayTrip>
+﻿@model IEnumerable<ImouRentACar.Models.RentACar>
 @using ImouRentACar.Models.Enums
 
 @{
-    ViewData["Title"] = "Processing";
+    ViewData["Title"] = "Processing OneWayTrips";
     Layout = "~/Views/Shared/AdminLayout/_AdminLayout.cshtml";
     var x = 1;
 }
@@ -10,11 +10,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        ONE WAY TRIPS IN PROCESS
+        CAR RENTAL IN PROCESS
     </h1>
     <ol class="breadcrumb" style="padding-bottom: 10px">
         <li><a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">One Way Trip In Process</li>
+        <li class="active">Car Rental In Process</li>
     </ol>
 
 
@@ -22,27 +22,27 @@
 
 <!-- Main content -->
 <section class="content">
-    @if (TempData["onewaytrip"] != null)
+    @if (TempData["rentacar"] != null)
     {
         if (TempData["notificationType"].Equals(NotificationType.Success.ToString()))
         {
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["rentacar"]
             </div>
         }
         else if (TempData["notificationtype"].Equals(NotificationType.Error.ToString()))
         {
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["rentacar"]
             </div>
         }
         else if (TempData["notificationtype"].Equals(NotificationType.Info.ToString()))
         {
             <div class="alert alert-info alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                @TempData["onewaytrip"]
+                @TempData["rentacar"]
             </div>
         }
 
@@ -60,7 +60,10 @@
                             Date Of Booking
                         </th>
                         <th>
-                            Level Of Verification
+                            Number of Days
+                        </th>
+                        <th>
+                            Amount( &#8358 )
                         </th>
                         <th>
                             Actions
@@ -78,36 +81,39 @@
                                 @item.DateSent
                             </td>
                             <td>
-                                @item.Verification
+                                @item.Days
+                            </td>
+                            <td>
+                                &#8358 @item.TotalBookingPrice
                             </td>
                             <td>
                                 @if (item.Verification == Verification.YetToReply)
                                 {
-                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.OneWayTripId"><i class="fa fa-check "></i> Approve</a>
-                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
-                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.RentACarId"><i class="fa fa-check "></i> Approve</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Booking Details</a>
+                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Delete</a>
                                 }
                                 @if (item.Verification == Verification.Approve && item.DriverId == 0)
                                 {
-                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.OneWayTripId"><i class="fa fa-cog "></i> Disapprove</a>
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.RentACarId"><i class="fa fa-cog "></i> Disapprove</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="AssignDriver" asp-route-id="@item.RentACarId"><i class="fa fa-user "></i> Assign Driver</a>
                                     <a class="btn btn-warning btn-sm" data-modal="" asp-action="SetCarRented" asp-route-id="@item.CarId"><i class="fa fa-user "></i> Set Car Rented</a>
-                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="AssignDriver" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Assign Driver</a>
-                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Booking Details</a>
                                 }
                                 @if (item.Verification == Verification.Approve && item.DriverId != 0)
                                 {
-                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.OneWayTripId"><i class="fa fa-cog "></i> Disapprove</a>
-                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="RemoveDriver" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Remove Driver</a>
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.RentACarId"><i class="fa fa-cog "></i> Disapprove</a>
+                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="RemoveDriver" asp-route-id="@item.RentACarId"><i class="fa fa-user "></i> Remove Driver</a>
                                     <a class="btn btn-warning btn-sm" data-modal="" asp-action="SetCaravaliable" asp-route-id="@item.CarId"><i class="fa fa-user "></i> Set Car Avaliable</a>
-                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="SendALink" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Send A Link</a>
-                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="SendALink" asp-route-id="@item.RentACarId"><i class="fa fa-user "></i> Send A Link</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Booking Details</a>
                                 }
                                 @if (item.Verification == Verification.Disapprove)
                                 {
-                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
+                                    <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Booking Details</a>
                                     @if (Convert.ToString(ViewData["userrole"]) == "SuperUser")
                                     {
-                                        <a class="btn btn-info btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                        <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Delete</a>
                                     }
                                 }
                             </td>

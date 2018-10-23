@@ -17,15 +17,26 @@
     <h3 class="text-center"> Are you sure you want to approve this car rental booking request?</h3>
 </div>
 <form asp-action="Approve">
+    <input type="hidden" asp-for="PassengerInformation" />
+    <input type="hidden" asp-for="CarId" />
+    <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="TotalBookingPrice" />
+    <input type="hidden" asp-for="BookingNumber" />
+    <input type="hidden" asp-for="DriverAssignedBy" />
+    <input type="hidden" asp-for="DateDriverAssigned" />
+    <input type="hidden" asp-for="DriverId" />
+    <input type="hidden" asp-for="Verification" />
+    <input type="hidden" asp-for="DateVerified" />
+    <input type="hidden" asp-for="VerifiedBy" />
     <input type="hidden" asp-for="RentACarId" />
     <input type="hidden" asp-for="PickUpLgaId" />
     <input type="hidden" asp-for="PassengerInformationId" />
     <input type="hidden" asp-for="PickUpLocation" />
     <input type="hidden" asp-for="PickDate" />
-    <input type="hidden" asp-for="Days" />
     <input type="hidden" asp-for="PickUpTime" />
     <input type="hidden" asp-for="DateSent" />
     <input type="hidden" asp-for="PaymentStatus" />
+    <input type="hidden" asp-for="Days" />
 
     <!--MODAL FOOTER-->
     <div class="modal-footer">

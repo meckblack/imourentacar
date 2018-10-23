@@ -12,7 +12,8 @@ namespace ImouRentACar.Models.Enums
         Disapprove,
         Replied,
         LinkSent,
-        Junk,
+        Completed,
+        Incomplete,
         [DisplayName("Yet To Reply")]
         YetToReply
     }

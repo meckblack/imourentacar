@@ -47,10 +47,6 @@ namespace ImouRentACar.Models
         [Display(Name = "Car")]
         [ForeignKey("CarId")]
         public int CarId { get; set; }
-
-        [Display(Name = "Price")]
-        [ForeignKey("PriceId")]
-        public int PriceId { get; set; }
         
         [ForeignKey("PickUpLgaId")]
         [Required(ErrorMessage = "Lga is required")]

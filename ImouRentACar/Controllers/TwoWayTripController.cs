@@ -1449,13 +1449,13 @@ namespace ImouRentACar.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var twoWayTrip = await _database.TwoWayTrips.SingleOrDefaultAsync(b => b.TwoWayTripId == id);
-
+            
             if (twoWayTrip != null)
             {
                 _database.TwoWayTrips.Remove(twoWayTrip);
                 await _database.SaveChangesAsync();
 
-                TempData["twowaytrip"] = "You have successfully deleted a paid one way trip!!!";
+                TempData["twowaytrip"] = "You have successfully deleted a paid two way trip booking request!!!";
                 TempData["notificationType"] = NotificationType.Success.ToString();
 
                 return Json(new { success = true });
@@ -1510,7 +1510,7 @@ namespace ImouRentACar.Controllers
                 {
                     twoWayTrip.DateVerified = DateTime.Now;
                     twoWayTrip.VerifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid"));
-                    twoWayTrip.Verification = Verification.Junk;
+                    twoWayTrip.Verification = Verification.Completed;
 
                     _database.TwoWayTrips.Update(twoWayTrip);
                     await _database.SaveChangesAsync();

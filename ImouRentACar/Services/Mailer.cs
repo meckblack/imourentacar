@@ -1,12 +1,7 @@
 ﻿using ImouRentACar.Models;
 using MimeKit;
-using MailKit.Net.Smtp;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace ImouRentACar.Services
@@ -19,7 +14,7 @@ namespace ImouRentACar.Services
             {
                 //From Address
                 var FromAddress = "imourentacar@gmail.com";
-                var FromAddressTitle = "ImouRentACar";
+                var FromAddressTitle = "imourentacar@gmail.com";
                 //To Address
                 var toCustomer = passenger.Email;
                 var ToAddressTitle = passenger.DisplayName;
@@ -47,6 +42,9 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
+                        replace = replace.Replace("BOOKINGNUMBER", oneWayTrip.BookingNumber);
+                        replace = replace.Replace("PICKUPLOCATION ", oneWayTrip.PickUpLocation);
+                        replace = replace.Replace("DESTINATION  ", oneWayTrip.Destination);
                         replace = replace.Replace("URL", "http://imourentacar.com/booking/payment?bookingNumber=" + oneWayTrip.BookingNumber);
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
                         replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
@@ -201,8 +199,8 @@ namespace ImouRentACar.Services
                 var FromAddress = "imourentacar@gmail.com";
                 var FromAddressTitle = "ImouRentACar";
                 //To Address
-                var toCustomer = passenger.Email;
-                var ToAddressTitle = passenger.DisplayName;
+                var toCustomer = "imourentacar@gmail.com";
+                var ToAddressTitle = "imourentacar@gmail.com";
                 var Subject = "ImouRenACar (Car Rental Payment).";
 
                 //Smtp Server
@@ -227,6 +225,7 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
+                        replace = replace.Replace("PICKUPLOCATION", rentACar.PickUpLocation);
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
                         replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
                         replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
@@ -260,8 +259,8 @@ namespace ImouRentACar.Services
                 var FromAddress = "imourentacar@gmail.com";
                 var FromAddressTitle = "ImouRentACar";
                 //To Address
-                var toCustomer = passenger.Email;
-                var ToAddressTitle = passenger.DisplayName;
+                var toCustomer = "imourentacar@gmail.com";
+                var ToAddressTitle = "imourentacar@gmail.com";
                 var Subject = "ImouRenACar (Car Rental Payment).";
 
                 //Smtp Server
@@ -286,6 +285,7 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
+                        replace = replace.Replace("PICKUPLOCATION", twoWayTrip.PickUpLocation);
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
                         replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
                         replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
@@ -319,8 +319,8 @@ namespace ImouRentACar.Services
                 var FromAddress = "imourentacar@gmail.com";
                 var FromAddressTitle = "ImouRentACar";
                 //To Address
-                var toCustomer = passenger.Email;
-                var ToAddressTitle = passenger.DisplayName;
+                var toCustomer = "imourentacar@gmail.com";
+                var ToAddressTitle = "imourentacar@gmail.com";
                 var Subject = "ImouRenACar (Car Rental Payment).";
 
                 //Smtp Server

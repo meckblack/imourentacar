@@ -495,6 +495,8 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", _passengerInformations.Email);
 
+                        new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, oneWayTrip, passengerInformation);
+
                         await _database.OneWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
@@ -1282,19 +1284,18 @@ namespace ImouRentACar.Controllers
                     oneWayTrip.Verification = Verification.LinkSent;
                     oneWayTrip.PaymentStatus = PaymentStatus.Unpaid;
 
-                    _database.OneWayTrips.Update(oneWayTrip);
-                    await _database.SaveChangesAsync();
-
-                    TempData["onewaytrip"] = "You have successfully sent the link";
-                    TempData["notificationType"] = NotificationType.Success.ToString();
-
-
                     var _oneWayTrip = await _database.OneWayTrips.SingleOrDefaultAsync(b => b.OneWayTripId == id);
 
                     var passengerId = _oneWayTrip.PassengerInformationId;
                     var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
                     new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, oneWayTrip, _passenger);
+
+                    _database.OneWayTrips.Update(oneWayTrip);
+                    await _database.SaveChangesAsync();
+
+                    TempData["onewaytrip"] = "You have successfully sent the link";
+                    TempData["notificationType"] = NotificationType.Success.ToString();
 
                     return Json(new { success = true });
                 }

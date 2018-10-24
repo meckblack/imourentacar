@@ -60,10 +60,10 @@
                             Date Of Booking
                         </th>
                         <th>
-                            Amount( &#8358 )
+                            Booking Number
                         </th>
                         <th>
-                            Booking Number
+                            Verification
                         </th>
                         <th>
                             Actions
@@ -78,20 +78,23 @@
                                 @(x++)
                             </td>
                             <td>
-                                @item.DateSent
+                                @item.DateSent.Date
                             </td>
                             <td>
                                 @item.BookingNumber
                             </td>
                             <td>
-                                &#8358 @item.TotalBookingPrice
+                                @item.Verification
                             </td>
                             <td>
                                 @if (item.Verification == Verification.YetToReply)
                                 {
                                     <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.TwoWayTripId"><i class="fa fa-check "></i> Approve</a>
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Booking Details</a>
-                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    @if (Convert.ToString(ViewData["userrole"]) == "SuperUSer")
+                                    {
+                                        <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.TwoWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    }
                                 }
                                 @if (item.Verification == Verification.Approve && item.DriverId == 0)
                                 {

@@ -1037,6 +1037,14 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
+            if (oneWayTrip.DriverId != 0)
+            {
+                TempData["onewaytrip"] = "You cannot disapprove this request without first removing the driver.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
+
             if (ModelState.IsValid)
             {
                 try

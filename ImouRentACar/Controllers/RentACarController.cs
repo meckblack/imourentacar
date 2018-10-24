@@ -956,6 +956,12 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
+            if(rentACar.DriverId != 0)
+            {
+                TempData["rentacar"] = "You cannot disapprove a request without first removing driver.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+            }
+
             if (ModelState.IsValid)
             {
                 try

@@ -39,7 +39,7 @@
                             Booking Number
                         </th>
                         <th>
-                            Level Of Verification
+                            Verification
                         </th>
                         <th>
                             Actions
@@ -67,7 +67,10 @@
                                 {
                                     <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.OneWayTripId"><i class="fa fa-check "></i> Approve</a>
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
-                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    @if (Convert.ToString(ViewData["userrole"]) == "SuperUser")
+                                    {
+                                        <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                    }
                                 }
                                 @if (item.Verification == Verification.Approve && item.DriverId == 0)
                                 {
@@ -79,9 +82,9 @@
                                 @if (item.Verification == Verification.Approve && item.DriverId != 0)
                                 {
                                     <a class="btn btn-success btn-sm" data-modal="" asp-action="Disapprove" asp-route-id="@item.OneWayTripId"><i class="fa fa-cog "></i> Disapprove</a>
-                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="RemoveDriver" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Remove Driver</a>
+                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="RemoveDriver" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Remove Driver</a>
                                     <a class="btn btn-warning btn-sm" data-modal="" asp-action="SetCaravaliable" asp-route-id="@item.CarId"><i class="fa fa-user "></i> Set Car Avaliable</a>
-                                    <a class="btn btn-warning btn-sm" data-modal="" asp-action="SendALink" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Send A Link</a>
+                                    <a class="btn btn-success btn-sm" data-modal="" asp-action="SendALink" asp-route-id="@item.OneWayTripId"><i class="fa fa-user "></i> Send A Link</a>
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
                                 }
                                 @if (item.Verification == Verification.Disapprove)

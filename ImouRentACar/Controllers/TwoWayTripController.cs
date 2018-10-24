@@ -500,11 +500,11 @@ namespace ImouRentACar.Controllers
 
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", _passengerInformations.Email);
-
-                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
-
+                        
                         await _database.TwoWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
+
+                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                         return RedirectToAction("Success", "TwoWayTrip");
                     }
@@ -597,11 +597,11 @@ namespace ImouRentACar.Controllers
 
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", passenger.Email);
-
-                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
-
+                        
                         await _database.TwoWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
+
+                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                         return RedirectToAction("Success", "TwoWayTrip");
                     }
@@ -662,9 +662,7 @@ namespace ImouRentACar.Controllers
                         BookingNumber = bookingNumber,
                         PaymentStatus = PaymentStatus.Processing
                     };
-
-                    new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
-
+                    
                     await _database.TwoWayTrips.AddAsync(saveBooking);
                     await _database.SaveChangesAsync();
 
@@ -672,6 +670,8 @@ namespace ImouRentACar.Controllers
 
                     _session.SetString("successrequestedcarname", getcarname.Name);
                     _session.SetString("successpassengeremail", _passengerInformation.Email);
+
+                    new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                     return RedirectToAction("Success", "TwoWayTrip");
                 }
@@ -1057,6 +1057,14 @@ namespace ImouRentACar.Controllers
             {
                 return RedirectToAction("Index", "Error");
             }
+            
+            if (twoWayTrip.DriverId != 0)
+            {
+                TempData["twowaytrip"] = "You cannot disapprove this request without first removing the driver.";
+                TempData["notificationType"] = NotificationType.Success.ToString();
+
+                return Json(new { success = true });
+            }
 
             if (ModelState.IsValid)
             {
@@ -1216,7 +1224,7 @@ namespace ImouRentACar.Controllers
 
             if (car.CarAvaliability == Avaliability.Rented)
             {
-                TempData["onewaytrip"] = "You cannot remove a driver without first seting car to avaliable";
+                TempData["twowaytrip"] = "You cannot remove a driver without first seting car to avaliable";
                 TempData["notificationType"] = NotificationType.Success.ToString();
 
                 return Json(new { success = true });

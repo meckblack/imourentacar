@@ -63,7 +63,7 @@
                             Number of Days
                         </th>
                         <th>
-                            Amount( &#8358 )
+                            Verification
                         </th>
                         <th>
                             Actions
@@ -84,14 +84,17 @@
                                 @item.Days
                             </td>
                             <td>
-                                &#8358 @item.TotalBookingPrice
+                                @item.Verification
                             </td>
                             <td>
                                 @if (item.Verification == Verification.YetToReply)
                                 {
                                     <a class="btn btn-success btn-sm" data-modal="" asp-action="Approve" asp-route-id="@item.RentACarId"><i class="fa fa-check "></i> Approve</a>
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Booking Details</a>
-                                    <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Delete</a>
+                                    @if (Convert.ToString(ViewData["userrole"]) == "SuperUser")
+                                    {
+                                        <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.RentACarId"><i class="fa fa-book "></i> Delete</a>
+                                    }
                                 }
                                 @if (item.Verification == Verification.Approve && item.DriverId == 0)
                                 {

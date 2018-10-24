@@ -73,12 +73,12 @@
     <div class="container">
         <div class="" style="padding-bottom: 50px">
             <div class="feturedsection">
-                <h1 style="font-size:40px; text-align: center; color: white; font-family: montserrat; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center"><span class="bdots">&bullet;</span>P A S S S E N G E R<span class="carstxt">I N F O R M A T I O N</span>&bullet;</h1>
+                <h1 style="font-size:40px; text-align: center; color: white; font-family: montserrat; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c;" class="text-center">&bullet; Booking Info &bullet;</h1>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class=" col-md-offset-3 col-md-6 col-md-3">
+                        <div class="col-md-offset-3 col-md-6">
                             <div class="card">
                                 <img src="~/UploadedFiles/Cars/@TempData["carimage"]" alt="CarImage" style="width:100%" />
                                 <div class="row" style="padding-top: 3px;">
@@ -140,7 +140,7 @@
 <script>
   function payWithPaystack(){
     var handler = PaystackPop.setup({
-      key: 'pk_test_86d32aa1nV4l1da7120ce530f0b221c3cb97cbcc',
+        key: 'pk_test_2db6a3e880a77849f77cb09c5956fee9c83e6344',
       email: 'customer@email.com',
       amount: @TempData["totalprice"],
       metadata: {
@@ -153,7 +153,7 @@
          ]
       },
       callback: function(response){
-          alert('success. transaction ref is ' + response.reference);
+          window.location.replace = "http://localhost:44360/onewaytrip/paymentsuccessful?bookingNumber="+@TempData["bookingnumber"];
       },
       onClose: function(){
           alert('window closed');

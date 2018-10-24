@@ -1,7 +1,7 @@
 ﻿@model ImouRentACar.Models.OneWayTrip
 
 @{
-    ViewData["Title"] = "Approve";
+    ViewData["Title"] = "SEND A LINK";
     Layout = null;
 }
 
@@ -28,6 +28,7 @@
     <input type="hidden" asp-for="PassengerInformation" />
     <input type="hidden" asp-for="PickUpLocation" />
     <input type="hidden" asp-for="PickDate" />
+    <input type="hidden" asp-for="DriverId" />
     <input type="hidden" asp-for="PickUpTime" />
     <input type="hidden" asp-for="DateSent" />
     <input type="hidden" asp-for="PaymentStatus" />

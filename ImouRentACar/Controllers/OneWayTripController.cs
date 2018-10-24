@@ -591,7 +591,6 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successpassengeremail", passenger.Email);
 
                         new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passenger);
-
                         await _database.OneWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
@@ -1286,6 +1285,9 @@ namespace ImouRentACar.Controllers
                 {
                     oneWayTrip.Verification = Verification.LinkSent;
                     oneWayTrip.PaymentStatus = PaymentStatus.Unpaid;
+                    
+                    _database.OneWayTrips.Update(oneWayTrip);
+                    await _database.SaveChangesAsync();
 
                     var _oneWayTrip = await _database.OneWayTrips.SingleOrDefaultAsync(b => b.OneWayTripId == id);
 
@@ -1293,9 +1295,6 @@ namespace ImouRentACar.Controllers
                     var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
                     new Mailer().OneWayTripPaymentEmail(new AppConfig().BookingPaymentHtml, oneWayTrip, _passenger);
-
-                    _database.OneWayTrips.Update(oneWayTrip);
-                    await _database.SaveChangesAsync();
 
                     TempData["onewaytrip"] = "You have successfully sent the link";
                     TempData["notificationType"] = NotificationType.Success.ToString();
@@ -1335,6 +1334,20 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Logos = GetLogos();
+            mymodel.Contacts = GetContacts();
+
+            foreach (Contact contact in mymodel.Contacts)
+            {
+                ViewData["contactnumber"] = contact.MobileNumberOne;
+            }
+
+            foreach (Logo logo in mymodel.Logos)
+            {
+                ViewData["imageoflogo"] = logo.Image;
+            }
+
             //Get Car
             var carid = _oneWayTrip.CarId;
             var _car = await _database.Cars.FindAsync(carid);
@@ -1352,6 +1365,7 @@ namespace ImouRentACar.Controllers
             TempData["returnlocation"] = _oneWayTrip.Destination;
             TempData["destinationprice"] = _oneWayTrip.TotalBookingPrice;
             TempData["totalprice"] = _oneWayTrip.TotalBookingPrice;
+            TempData["bookingnumber"] = _oneWayTrip.BookingNumber;
 
             return View();
         }
@@ -1443,7 +1457,7 @@ namespace ImouRentACar.Controllers
 
                 return Json(new { success = true });
             }
-            return View("PaidOneWayTrips");
+            return View();
         }
 
         #endregion

@@ -18,7 +18,7 @@ namespace ImouRentACar.Services
                 //To Address
                 var toCustomer = passenger.Email;
                 var ToAddressTitle = passenger.DisplayName;
-                var Subject = "ImouRenACar (One Way Payment).";
+                var Subject = "ImouRenACar (One Way Trip Payment).";
 
                 //Smtp Server
                 var smtpServer = new AppConfig().EmailServer;
@@ -77,7 +77,7 @@ namespace ImouRentACar.Services
             {
                 //From Address
                 var FromAddress = "imourentacar@gmail.com";
-                var FromAddressTitle = "ImouRentACar";
+                var FromAddressTitle = "imourentacar@gmail.com";
                 //To Address
                 var toCustomer = passenger.Email;
                 var ToAddressTitle = passenger.DisplayName;
@@ -137,7 +137,7 @@ namespace ImouRentACar.Services
             {
                 //From Address
                 var FromAddress = "imourentacar@gmail.com";
-                var FromAddressTitle = "ImouRentACar";
+                var FromAddressTitle = "imourentacar@gmail.com";
                 //To Address
                 var toCustomer = passenger.Email;
                 var ToAddressTitle = passenger.DisplayName;
@@ -191,7 +191,7 @@ namespace ImouRentACar.Services
             }
         }
 
-        public void CustomerRequestCarRental(string path, PassengerInformation passenger)
+        public void CustomerRequestCarRental(string path, RentACar rentACar, PassengerInformation passenger)
         {
             try
             {
@@ -225,6 +225,10 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
+                        replace = replace.Replace("RENTALTYPE", "Car Rental");
+                        replace = replace.Replace("BOOKINGNUMBER", rentACar.BookingNumber);
+                        replace = replace.Replace("PICKUPLOCATION", rentACar.PickUpLocation);
+                        replace = replace.Replace("DESTINATION", "Not given");
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
                         replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
                         replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
@@ -260,7 +264,7 @@ namespace ImouRentACar.Services
                 //To Address
                 var toCustomer = "imourentacar@gmail.com";
                 var ToAddressTitle = "imourentacar@gmail.com";
-                var Subject = "ImouRenACar (Car Rental Request).";
+                var Subject = "ImouRenACar (Two Way Trip Request).";
 
                 //Smtp Server
                 var smtpServer = new AppConfig().EmailServer;
@@ -284,7 +288,9 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
-                        //replace = replace.Replace("DESTINATION", two);
+                        replace = replace.Replace("RENTALTYPE", "Two Way Trip");
+                        replace = replace.Replace("DESTINATION", twoWayTrip.Destination);
+                        replace = replace.Replace("PICKUPLOCATION", twoWayTrip.PickUpLocation);
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
                         replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
                         replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
@@ -320,7 +326,7 @@ namespace ImouRentACar.Services
                 //To Address
                 var toCustomer = "imourentacar@gmail.com";
                 var ToAddressTitle = "imourentacar@gmail.com";
-                var Subject = "ImouRenACar (Car Rental Request).";
+                var Subject = "ImouRenACar (One Way Trip Request).";
 
                 //Smtp Server
                 var smtpServer = new AppConfig().EmailServer;
@@ -344,6 +350,7 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
+                        replace = replace.Replace("RENTALTYPE", "One Way Trip");
                         replace = replace.Replace("BOOKINGNUMBER", oneWayTrip.BookingNumber);
                         replace = replace.Replace("PICKUPLOCATION", oneWayTrip.PickUpLocation);
                         replace = replace.Replace("DESTINATION", oneWayTrip.Destination);

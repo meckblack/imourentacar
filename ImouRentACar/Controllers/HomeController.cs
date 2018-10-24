@@ -33,7 +33,7 @@ namespace ImouRentACar.Controllers
 
         public void RestOneWayTripCars()
         {
-            var _expiredOneWayTrips = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
+            var _expiredOneWayTrips = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay && e.PaymentStatus == PaymentStatus.Unpaid);
             
             foreach(var item in _expiredOneWayTrips.ToList())
             {
@@ -47,41 +47,10 @@ namespace ImouRentACar.Controllers
             
         }
 
-        public void RestTwoWayTripCars()
-        {
-            var _expiredOneWayTrips = _database.TwoWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
-            
-            foreach (var item in _expiredOneWayTrips.ToList())
-            {
-                var car = _database.Cars.Find(item.CarId);
-
-                car.CarAvaliability = Avaliability.Avaliable;
-
-                _database.Entry(car).State = EntityState.Modified;
-                _database.SaveChanges();
-            }
-
-        }
-
-        public void RestCarRentalCars()
-        {
-            var _expiredRentACars = _database.RentACars.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
-            
-            foreach (var item in _expiredRentACars.ToList())
-            {
-                var car = _database.Cars.Find(item.CarId);
-
-                car.CarAvaliability = Avaliability.Avaliable;
-
-                _database.Entry(car).State = EntityState.Modified;
-                _database.SaveChanges();
-            }
-
-        }
-
         public void ExpiredOneWayTrip()
+
         {
-            var _expiredOneWayTrip = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date);
+            var _expiredOneWayTrip = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PaymentStatus == PaymentStatus.Unpaid);
 
             foreach(var item in _expiredOneWayTrip.ToList())
             {
@@ -102,10 +71,6 @@ namespace ImouRentACar.Controllers
         {
 
             BackgroundJob.Enqueue(() => RestOneWayTripCars());
-
-            BackgroundJob.Enqueue(() => RestTwoWayTripCars());
-
-            BackgroundJob.Enqueue(() => RestCarRentalCars());
 
             BackgroundJob.Enqueue(() => ExpiredOneWayTrip());
 

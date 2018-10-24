@@ -89,7 +89,7 @@
                                     <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Booking Details</a>
                                     @if (Convert.ToString(ViewData["userrole"]) == "SuperUser")
                                     {
-                                        <a class="btn btn-info btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
+                                        <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
                                     }
                                 }
                             </td>

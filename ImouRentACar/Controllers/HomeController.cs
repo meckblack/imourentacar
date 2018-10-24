@@ -9,6 +9,9 @@ using ImouRentACar.Data;
 using System.Dynamic;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Hangfire;
+using ImouRentACar.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace ImouRentACar.Controllers
 {
@@ -28,10 +31,85 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
+        public void RestOneWayTripCars()
+        {
+            var _expiredOneWayTrips = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
+            
+            foreach(var item in _expiredOneWayTrips.ToList())
+            {
+                var car = _database.Cars.Find(item.CarId);
+
+                car.CarAvaliability = Avaliability.Avaliable;
+
+                _database.Entry(car).State = EntityState.Modified;
+                _database.SaveChanges();
+            }
+            
+        }
+
+        public void RestTwoWayTripCars()
+        {
+            var _expiredOneWayTrips = _database.TwoWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
+            
+            foreach (var item in _expiredOneWayTrips.ToList())
+            {
+                var car = _database.Cars.Find(item.CarId);
+
+                car.CarAvaliability = Avaliability.Avaliable;
+
+                _database.Entry(car).State = EntityState.Modified;
+                _database.SaveChanges();
+            }
+
+        }
+
+        public void RestCarRentalCars()
+        {
+            var _expiredRentACars = _database.RentACars.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
+            
+            foreach (var item in _expiredRentACars.ToList())
+            {
+                var car = _database.Cars.Find(item.CarId);
+
+                car.CarAvaliability = Avaliability.Avaliable;
+
+                _database.Entry(car).State = EntityState.Modified;
+                _database.SaveChanges();
+            }
+
+        }
+
+        public void ExpiredOneWayTrip()
+        {
+            var _expiredOneWayTrip = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date);
+
+            foreach(var item in _expiredOneWayTrip.ToList())
+            {
+                var onewaytrip = _database.OneWayTrips.Find(item.OneWayTripId);
+
+                onewaytrip.PaymentStatus = PaymentStatus.Expired;
+
+                _database.Entry(onewaytrip).State = EntityState.Modified;
+                _database.SaveChanges();
+            }
+        }
+
+
+
         #region Index
-        
+
         public IActionResult Index()
         {
+
+            BackgroundJob.Enqueue(() => RestOneWayTripCars());
+
+            BackgroundJob.Enqueue(() => RestTwoWayTripCars());
+
+            BackgroundJob.Enqueue(() => RestCarRentalCars());
+
+            BackgroundJob.Enqueue(() => ExpiredOneWayTrip());
+
+
             dynamic mymodel = new ExpandoObject();
             mymodel.Logos = GetLogos();
             mymodel.Headers = GetHeaders();

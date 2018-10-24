@@ -495,7 +495,7 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", _passengerInformations.Email);
 
-                        new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, oneWayTrip, passengerInformation);
+                        new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                         await _database.OneWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
@@ -590,6 +590,7 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", passenger.Email);
 
+                        new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passenger);
 
                         await _database.OneWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
@@ -659,6 +660,8 @@ namespace ImouRentACar.Controllers
 
                     _session.SetString("successrequestedcarname", getcarname.Name);
                     _session.SetString("successpassengeremail", _passengerInformation.Email);
+
+                    new Mailer().CustomerRequestOneWayTrip(new AppConfig().BookingRequestHtml, saveBooking, _passengerInformation);
 
                     return RedirectToAction("Success", "OneWayTrip");
                 }
@@ -1328,7 +1331,7 @@ namespace ImouRentACar.Controllers
 
             if (_oneWayTrip == null)
             {
-                TempData["expiredbooking"] = "Dear customer your pickup time has passed and so there your booking has expired.";
+                TempData["expiredbooking"] = "Dear customer your pickup time has passed and so therefore your booking has expired.";
                 return RedirectToAction("Index", "Error");
             }
 

@@ -34,6 +34,9 @@
                             Date Of Booking
                         </th>
                         <th>
+                            Booking Number
+                        </th>
+                        <th>
                             Amount( &#8358 )
                         </th>
                         <th>
@@ -52,10 +55,12 @@
                                 @item.DateSent
                             </td>
                             <td>
+                                @item.BookingNumber
+                            </td>
+                            <td>
                                 &#8358 @item.TotalBookingPrice
                             </td>
                             <td>
-                                <a class="btn btn-warning btn-sm" data-modal="" asp-action="SetCarAvaliable" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Set Car Avaliable</a>
                                 <a class="btn btn-danger btn-sm" data-modal="" asp-action="Delete" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Delete</a>
                                 <a class="btn btn-info btn-sm" data-modal="" asp-action="ViewBookingDetails" asp-route-id="@item.OneWayTripId"><i class="fa fa-book "></i> Details</a>
                             </td>

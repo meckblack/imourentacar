@@ -501,6 +501,8 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", _passengerInformations.Email);
 
+                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
+
                         await _database.TwoWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
@@ -596,6 +598,7 @@ namespace ImouRentACar.Controllers
                         _session.SetString("successrequestedcarname", getcarname.Name);
                         _session.SetString("successpassengeremail", passenger.Email);
 
+                        new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                         await _database.TwoWayTrips.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
@@ -659,6 +662,8 @@ namespace ImouRentACar.Controllers
                         BookingNumber = bookingNumber,
                         PaymentStatus = PaymentStatus.Processing
                     };
+
+                    new Mailer().CustomerRequestTwoWayTrip(new AppConfig().BookingRequestHtml, saveBooking, passengerInformation);
 
                     await _database.TwoWayTrips.AddAsync(saveBooking);
                     await _database.SaveChangesAsync();

@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using ImouRentACar.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Hangfire;
+using ImouRentACar.Services;
 
 namespace ImouRentACar
 {
@@ -42,6 +44,17 @@ namespace ImouRentACar
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+            services.AddHangfire(configuration =>
+            {
+                GlobalConfiguration.Configuration.UseSqlServerStorage("Server=MECK\\SQLEXPRESS;Database=ImouRentACar;Trusted_Connection=True;MultipleActiveResultSets=true");
+            });
+
+            //services.AddHangfire(configuration =>
+            //{
+            //    GlobalConfiguration.Configuration.UseSqlServerStorage(@"Server=69.167.149.247,782;Database=imourentacar_root;User Id=imourentacar_root;Password=ImouRentACar18;Trusted_Connection=False;MultipleActiveResultSets=true");
+            //});
+
             //used for session
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession(options =>
@@ -54,6 +67,10 @@ namespace ImouRentACar
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
             app.UseSession();
             if (env.IsDevelopment())
             {

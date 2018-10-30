@@ -40,6 +40,8 @@ namespace ImouRentACar.Models
 
         public PaymentStatus PaymentStatus { get; set; }
 
+        public Duration Duration { get; set; }
+
         #endregion
 
         #region ForeignKey

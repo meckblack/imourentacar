@@ -44,13 +44,8 @@
                     <li>
                         <a asp-action="ViewAllCars" asp-controller="Car"  style="font-family: montserrat; font-weight:600">CARS</a>
                     </li>
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  style="font-family: montserrat; font-weight:600">USE OUR SERVICES<span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdowncostume">
-                            <li><a asp-action="Book" asp-controller="OneWayTrip" style="font-family: montserrat; font-weight:600">ONE WAY TRIP</a></li>
-                            <li><a asp-action="Book" asp-controller="TwoWayTrip" style="font-family: montserrat; font-weight:600">TWO WAY TRIP</a></li>
-                            <li><a asp-action="Book" asp-controller="RentACar" style="font-family: montserrat; font-weight:600">RENT A CAR</a></li>
-                        </ul>
+                     <li>
+                         <a asp-action="Book" asp-controller="RentACar" style="font-family: montserrat; font-weight:600">RENT A CAR</a>
                     </li>
                     <li>
                         <a asp-action="Index" asp-controller="Contact" style="font-family: montserrat; font-weight:600">CONTACT US</a>
@@ -73,28 +68,21 @@
             </div>
             <div class="collapse navbar-collapse" id="upmenu" style="padding-left: 140px">
                 <ul class="nav navbar-nav" id="navbarontop">
-                    <li class="active"><a asp-action="Index" asp-controller="Home">HOME</a> </li>
+                    <li class="active"><a asp-action="Index" asp-controller="Home" style="font-family: montserrat; font-weight:600">HOME</a> </li>
                     <li>
-                        <a asp-action="ViewAllCars" asp-controller="Car">CARS</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rent With Us <span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdowncostume">
-                            <li><a asp-action="Book" asp-controller="OneWayTrip">One Way Trip</a></li>
-                            <li><a asp-action="Book" asp-controller="TwoWayTrip">Two Way Trip</a></li>
-                            <li><a asp-action="Book" asp-controller="RentACar">Rent A Car</a></li>
-                        </ul>
+                        <a asp-action="ViewAllCars" asp-controller="Car" style="font-family: montserrat; font-weight:600">CARS</a>
                     </li>
                     <li>
-                        <a asp-action="Index" asp-controller="Contact">Contact Us</a>
+                        <a asp-action="Book" asp-controller="RentACar" style="font-family: montserrat; font-weight:600">RENT A CAR</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Contact" style="font-family: montserrat; font-weight:600">Contact Us</a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WELCOME @TempData["customername"] <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdowncostume">
                             <li><a asp-action="ViewProfile" asp-controller="Customer">View Profile</a></li>
-                            <li><a asp-action="ViewOneWayTrips" asp-controller="Customer">View One Way Trips</a></li>
-                            <li><a asp-action="ViewTwoWayTrips" asp-controller="Customer">View Two Way Trips</a></li><li>
-                            <a asp-action="ViewCarRentals" asp-controller="Customer">View Car Rental</a></li>
+                            <li><a asp-action="ViewCarRentals" asp-controller="Customer">View Car Rentals</a></li>
                         </ul>
                     </li>
                 </ul>

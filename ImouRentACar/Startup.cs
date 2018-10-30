@@ -95,7 +95,7 @@ namespace ImouRentACar
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Signin}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

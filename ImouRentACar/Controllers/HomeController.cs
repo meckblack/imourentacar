@@ -69,10 +69,9 @@ namespace ImouRentACar.Controllers
 
         public IActionResult Index()
         {
-
-            BackgroundJob.Enqueue(() => RestOneWayTripCars());
-
-            BackgroundJob.Enqueue(() => ExpiredOneWayTrip());
+            BackgroundJob.Schedule(() => RestOneWayTripCars(), TimeSpan.FromHours(1));
+            
+            //BackgroundJob.Enqueue(() => ExpiredOneWayTrip());
 
 
             dynamic mymodel = new ExpandoObject();

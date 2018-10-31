@@ -1289,9 +1289,9 @@ namespace ImouRentACar.Controllers
                     TempData["notificationType"] = NotificationType.Success.ToString();
 
 
-                    var _twoWayTrip = await _database.TwoWayTrips.SingleOrDefaultAsync(b => b.TwoWayTripId == id);
+                    var _rentACar = await _database.RentACars.SingleOrDefaultAsync(b => b.RentACarId == id);
 
-                    var passengerId = _twoWayTrip.PassengerInformationId;
+                    var passengerId = _rentACar.PassengerInformationId;
                     var _passenger = await _database.PassengersInformation.FindAsync(passengerId);
 
                     new Mailer().RentACarPaymentEmail(new AppConfig().BookingPaymentHtml, rentACar, _passenger);

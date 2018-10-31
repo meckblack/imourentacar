@@ -1508,7 +1508,6 @@ namespace ImouRentACar.Controllers
                         Image = car.Image,
                         LastModifiedBy = Convert.ToInt32(_session.GetInt32("imouloggedinuserid")),
                         Name = car.Name,
-                        Price = car.Price,
                         RentalPrice = car.RentalPrice,
                         Speed = car.Speed
                     };

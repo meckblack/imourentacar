@@ -239,19 +239,87 @@ namespace ImouRentACar.Controllers
             {
                 try
                 {
-                    var _rentACar = new RentACar()
+                    //If duration selected is days
+                    if (rentACar.Duration == Duration.Days)
                     {
-                        PickDate = rentACar.PickDate,
-                        PickUpTime = rentACar.PickUpTime,
-                        PickUpLgaId = rentACar.PickUpLgaId,
-                        PickUpLocation = rentACar.PickUpLocation,
-                        Days = rentACar.Days,
-                        Verification = Verification.YetToReply,
-                        DateSent = DateTime.Now
-                    };
+                        var _rentACar = new RentACar()
+                        {
+                            PickDate = rentACar.PickDate,
+                            PickUpTime = rentACar.PickUpTime,
+                            PickUpLgaId = rentACar.PickUpLgaId,
+                            PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
+                            Days = rentACar.Days,
+                            Verification = Verification.YetToReply,
+                            DateSent = DateTime.Now
+                        };
 
-                    _session.SetString("bookacar", JsonConvert.SerializeObject(_rentACar));
-                    return RedirectToAction("SelectACar", "RentACar");
+                        _session.SetString("bookacar", JsonConvert.SerializeObject(_rentACar));
+                        return RedirectToAction("SelectACar", "RentACar");
+                    }
+
+                    //If duration selected is weeks
+                    if (rentACar.Duration == Duration.Weeks)
+                    {
+                        var days = new DayConverter().WeeksToDays(rentACar.Days);
+
+                        var _rentACar = new RentACar()
+                        {
+                            PickDate = rentACar.PickDate,
+                            PickUpTime = rentACar.PickUpTime,
+                            PickUpLgaId = rentACar.PickUpLgaId,
+                            PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
+                            Days = days,
+                            Verification = Verification.YetToReply,
+                            DateSent = DateTime.Now
+                        };
+
+                        _session.SetString("bookacar", JsonConvert.SerializeObject(_rentACar));
+                        return RedirectToAction("SelectACar", "RentACar");
+                    }
+
+                    //If duration selected is months
+                    if (rentACar.Duration == Duration.Months)
+                    {
+                        var days = new DayConverter().MonthsToDays(rentACar.Days);
+
+                        var _rentACar = new RentACar()
+                        {
+                            PickDate = rentACar.PickDate,
+                            PickUpTime = rentACar.PickUpTime,
+                            PickUpLgaId = rentACar.PickUpLgaId,
+                            PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
+                            Days = days,
+                            Verification = Verification.YetToReply,
+                            DateSent = DateTime.Now
+                        };
+
+                        _session.SetString("bookacar", JsonConvert.SerializeObject(_rentACar));
+                        return RedirectToAction("SelectACar", "RentACar");
+                    }
+
+                    //If duration selected is years
+                    if (rentACar.Duration == Duration.Years)
+                    {
+                        var days = new DayConverter().YearsToDays(rentACar.Days);
+
+                        var _rentACar = new RentACar()
+                        {
+                            PickDate = rentACar.PickDate,
+                            PickUpTime = rentACar.PickUpTime,
+                            PickUpLgaId = rentACar.PickUpLgaId,
+                            PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
+                            Days = days,
+                            Verification = Verification.YetToReply,
+                            DateSent = DateTime.Now
+                        };
+
+                        _session.SetString("bookacar", JsonConvert.SerializeObject(_rentACar));
+                        return RedirectToAction("SelectACar", "RentACar");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -397,6 +465,7 @@ namespace ImouRentACar.Controllers
                             PickUpTime = rentACar.PickUpTime,
                             PickUpLgaId = rentACar.PickUpLgaId,
                             PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
                             Verification = Verification.YetToReply,
                             CarId = Convert.ToInt32(id),
                             TotalBookingPrice = carPrice * rentACar.Days,
@@ -488,6 +557,7 @@ namespace ImouRentACar.Controllers
                             PickUpTime = rentACar.PickUpTime,
                             PickUpLgaId = rentACar.PickUpLgaId,
                             PickUpLocation = rentACar.PickUpLocation,
+                            Duration = rentACar.Duration,
                             Verification = Verification.YetToReply,
                             CustomerId = _customer.CustomerId,
                             CarId = Convert.ToInt32(id),
@@ -553,6 +623,7 @@ namespace ImouRentACar.Controllers
                         PickUpTime = rentACar.PickUpTime,
                         PickDate = rentACar.PickDate,
                         PickUpLgaId = rentACar.PickUpLgaId,
+                        Duration = rentACar.Duration,
                         PickUpLocation = rentACar.PickUpLocation,
                         Verification = Verification.YetToReply,
                         CarId = Convert.ToInt32(id),

@@ -48,6 +48,7 @@ namespace ImouRentACar.Controllers
             ViewData["applicationusercounter"] = _database.ApplicationUsers.Count();
             ViewData["customercounter"] = _database.Customers.Count();
             ViewData["drivercounter"] = _database.Driver.Count();
+            ViewData["policycounter"] = _database.Policies.Count();
 
 
 

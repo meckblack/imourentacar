@@ -30,7 +30,7 @@
                     </ul>
                 </li>
             }
-            @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null )
+            @if (ViewData["canmangeapplicationusers"] != null || ViewData["candoeverything"] != null)
             {
                 <li class="treeview">
                     <a>
@@ -47,43 +47,16 @@
             }
             @if (ViewData["canmangelandingdetails"] != null || ViewData["candoeverything"] != null)
             {
-                <li>
-                    <a asp-action="Index" asp-controller="Landing">
-                        <i class="fa fa-th"></i> <span>Landing Details</span>
-                    </a>
-                </li>
-            }
-            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
-            {
                 <li class="treeview">
                     <a>
-                        <i class="fa fa-bookmark"></i> <span>One Way Trips</span>
+                        <i class="fa fa-user"></i> <span>Manage Landing</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a asp-action="ProcessingOneWayTrips" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Process One Way Trips</a></li>
-                        <li><a asp-action="UnpaidOneWayTrips" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Unpaid One Way Trips</a></li>
-                        <li><a asp-action="ExpiredOneWayTrips" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Expired One Way Trips</a></li>
-                        <li><a asp-action="PaidOneWayTrips" asp-controller="OneWayTrip"><i class="fa fa-circle-o"></i>Paid One Way Trips</a></li>
-                    </ul>
-                </li>
-            }
-            @if (ViewData["canmangebookings"] != null || ViewData["candoeverything"] != null)
-            {
-                <li class="treeview">
-                    <a>
-                        <i class="fa fa-bookmark"></i> <span>Two Way Trips</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a asp-action="ProcessingTwoWayTrips" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Process Two Way Trips</a></li>
-                        <li><a asp-action="UnpaidTwoWayTrips" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Unpaid Two Way Trips</a></li>
-                        <li><a asp-action="ExpiredTwoWayTrips" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Expired Two Way Trips</a></li>
-                        <li><a asp-action="PaidTwoWayTrips" asp-controller="TwoWayTrip"><i class="fa fa-circle-o"></i>Paid Two Way Trips</a></li>
+                        <li><a asp-action="Index" asp-controller="Landing"><i class="fa fa-circle-o"></i>Landing Details</a></li>
+                        <li><a asp-action="List" asp-controller="Policy"><i class="fa fa-circle-o"></i>Policy</a></li>
                     </ul>
                 </li>
             }
@@ -109,14 +82,6 @@
                 <li>
                     <a asp-action="Index" asp-controller="Enquiry">
                         <i class="fa fa-book"></i> <span>Enquiries</span>
-                    </a>
-                </li>
-            }
-            @if (ViewData["canmangeprices"] != null || ViewData["candoeverything"] != null)
-            {
-                <li>
-                    <a asp-action="Index" asp-controller="Price">
-                        <i class="fa fa-money"></i> <span>Fixed Rates</span>
                     </a>
                 </li>
             }

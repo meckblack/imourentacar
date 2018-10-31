@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "PassengerInformation";
+    ViewData["Title"] = "Passenger Information";
     Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
 }
 
@@ -71,7 +71,7 @@
 
 <div class="footer">
     <div class="copyright" style="font-family: montserrat;">
-        &copy; Copy right 2018 | <a href="#">Privacy </a>| <a href="#">Policy</a>
+        &copy; Copy right @DateTime.Now.Year | <a asp-action="Index" asp-controller="Policy">Policy </a>
     </div>
     <div class="atisda" style="font-family: montserrat;">
         Designed by <a href="">meckblvck </a>

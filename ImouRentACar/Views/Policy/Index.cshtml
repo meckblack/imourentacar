@@ -1,4 +1,84 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ImouRentACar.Models.Policy>
+
+@{
+    ViewData["Title"] = "Imou Policies";
+    Layout = "~/Views/Shared/LandingLayout/_LandingLayout.cshtml";
+    var x = 1;
+}
+
+<style>
+    .card {
+        background-color: white;
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
+
+    .card button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .buutton {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .card button:hover {
+        opacity: 0.7;
+    }
+</style>
+
+
+<div class="allcontain" style="background-color: #473454; padding-bottom: 282px;">
+    <div class="container">
+        <div class="feturedsection">
+            <h1 style="font-size:40px; text-align: center; color: white; text-shadow: 1px 1px 2px #473454, 0 0 25px #765c6c, 0 0 5px #765c6c; font-family:montserrat;" class="text-center">&bullet; IMOU POLICIES &bullet;</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 col-md-offset-3 col-sm-offset-3 col-sm-6 col-sm-offset-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="">
+                            @foreach (var item in Model)
+                            {
+                                <h3 style="color: black; font-family:montserrat;">
+                                    @(x++). @item.Text
+                                </h3>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="copyright" style="font-family: montserrat;">
+        &copy; Copy right @DateTime.Now.Year | <a asp-action="Index" asp-controller="Policy">Policy </a>
+    </div>
+    <div class="atisda" style="font-family: montserrat;">
+        Designed by <a href="">meckblvck </a>
+    </div>
+</div>

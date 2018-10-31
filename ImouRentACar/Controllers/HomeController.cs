@@ -80,13 +80,7 @@ namespace ImouRentACar.Controllers
             mymodel.AboutUsImages = GetAboutUsImage();
             mymodel.AboutUsImageTwos = GetAboutUsImageTwo();
             mymodel.Contacts = GetContacts();
-            mymodel.Policies = GetPolicies();
-
-
-            foreach(Policy policy in mymodel.Policies)
-            {
-                ViewData["policyid"] = policy.PolicyId;
-            }
+            
 
             foreach (Header header in mymodel.Headers)
             {
@@ -184,15 +178,6 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
-
-        #region Get Policy
-
-        private List<Policy> GetPolicies()
-        {
-            var _policy = _database.Policies.ToList();
-            return _policy;
-        }
-
-        #endregion
+        
     }
 }

@@ -8,70 +8,6 @@ namespace ImouRentACar.Services
 {
     public class Mailer
     {
-        public void OneWayTripPaymentEmail(string path, OneWayTrip oneWayTrip, PassengerInformation passenger)
-        {
-            try
-            {
-                //From Address
-                var FromAddress = "imourentacar@gmail.com";
-                var FromAddressTitle = "imourentacar@gmail.com";
-                //To Address
-                var toCustomer = passenger.Email;
-                var ToAddressTitle = passenger.DisplayName;
-                var Subject = "ImouRenACar (One Way Trip Payment).";
-
-                //Smtp Server
-                var smtpServer = new AppConfig().EmailServer;
-
-                //Smtp Port Number
-                var smtpPortNumber = new AppConfig().Port;
-
-                var mimeMessageCustomer = new MimeMessage();
-                mimeMessageCustomer.From.Add(new MailboxAddress(FromAddressTitle, FromAddress));
-                mimeMessageCustomer.To.Add(new MailboxAddress(ToAddressTitle, toCustomer));
-                mimeMessageCustomer.Subject = Subject;
-
-                var bodyBuilder = new BodyBuilder();
-                using (var data = File.OpenText(path))
-                {
-                    if(data.BaseStream != null)
-                    {
-                        //MANAGE CONTENT
-
-                        bodyBuilder.HtmlBody = data.ReadToEnd();
-                        var body = bodyBuilder.HtmlBody;
-
-                        var replace = body.Replace("USER", passenger.DisplayName);
-                        replace = replace.Replace("BOOKINGNUMBER", oneWayTrip.BookingNumber);
-                        replace = replace.Replace("PICKUPLOCATION", oneWayTrip.PickUpLocation);
-                        replace = replace.Replace("DESTINATION", oneWayTrip.Destination);
-                        replace = replace.Replace("URL", "http://imourentacar.com/onewaytrip/payment?bookingNumber=" + oneWayTrip.BookingNumber);
-                        replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
-                        replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
-                        replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
-                        bodyBuilder.HtmlBody = replace;
-                        mimeMessageCustomer.Body = bodyBuilder.ToMessageBody();
-                    }
-                }
-
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
-                {
-                    client.Connect(smtpServer, smtpPortNumber);
-                    // Note: only needed if the SMTP server requires authentication
-                    // Error 5.5.1 Authentication 
-                    client.Authenticate(new AppConfig().Email, new AppConfig().Password);
-                    client.Send(mimeMessageCustomer);
-                    client.Disconnect(true);
-                }
-
-            }
-            catch (Exception e)
-            {
-                //ignore
-            }
-        }
-        
-
         public void RentACarPaymentEmail(string path, RentACar rentACar, PassengerInformation passenger)
         {
             try
@@ -194,71 +130,7 @@ namespace ImouRentACar.Services
                 //ignore
             }
         }
-
         
-        public void CustomerRequestOneWayTrip(string path, OneWayTrip oneWayTrip, PassengerInformation passenger)
-        {
-            try
-            {
-                //From Address
-                var FromAddress = "imourentacar@gmail.com";
-                var FromAddressTitle = "ImouRentACar";
-                //To Address
-                var toCustomer = "imourentacar@gmail.com";
-                var ToAddressTitle = "imourentacar@gmail.com";
-                var Subject = "ImouRenACar (One Way Trip Request).";
-
-                //Smtp Server
-                var smtpServer = new AppConfig().EmailServer;
-
-                //Smtp Port Number
-                var smtpPortNumber = new AppConfig().Port;
-
-                var mimeMessageCustomer = new MimeMessage();
-                mimeMessageCustomer.From.Add(new MailboxAddress(FromAddressTitle, FromAddress));
-                mimeMessageCustomer.To.Add(new MailboxAddress(ToAddressTitle, toCustomer));
-                mimeMessageCustomer.Subject = Subject;
-
-                var bodyBuilder = new BodyBuilder();
-                using (var data = File.OpenText(path))
-                {
-                    if (data.BaseStream != null)
-                    {
-                        //MANAGE CONTENT
-
-                        bodyBuilder.HtmlBody = data.ReadToEnd();
-                        var body = bodyBuilder.HtmlBody;
-
-                        var replace = body.Replace("USER", passenger.DisplayName);
-                        replace = replace.Replace("RENTALTYPE", "One Way Trip");
-                        replace = replace.Replace("BOOKINGNUMBER", oneWayTrip.BookingNumber);
-                        replace = replace.Replace("PICKUPLOCATION", oneWayTrip.PickUpLocation);
-                        replace = replace.Replace("DESTINATION", oneWayTrip.Destination);
-                        replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
-                        replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
-                        replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
-                        bodyBuilder.HtmlBody = replace;
-                        mimeMessageCustomer.Body = bodyBuilder.ToMessageBody();
-                    }
-                }
-
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
-                {
-                    client.Connect(smtpServer, smtpPortNumber);
-                    // Note: only needed if the SMTP server requires authentication
-                    // Error 5.5.1 Authentication 
-                    client.Authenticate(new AppConfig().Email, new AppConfig().Password);
-                    client.Send(mimeMessageCustomer);
-                    client.Disconnect(true);
-                }
-
-            }
-            catch (Exception e)
-            {
-                //ignore
-            }
-        }
-
         public void PasswordRecovery(string path, ApplicationUser user)
         {
             //From Address

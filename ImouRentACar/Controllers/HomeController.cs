@@ -31,49 +31,35 @@ namespace ImouRentACar.Controllers
 
         #endregion
 
-        //public void RestOneWayTripCars()
-        //{
-        //    var _expiredOneWayTrips = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay && e.PaymentStatus == PaymentStatus.Unpaid);
-            
-        //    foreach(var item in _expiredOneWayTrips.ToList())
-        //    {
-        //        var car = _database.Cars.Find(item.CarId);
+        public void ExpiredCarRental()
+        {
+            var _expiredCarRental = _database.RentACars.Where(e => e.PickDate < DateTime.Now.Date && e.PaymentStatus == PaymentStatus.Unpaid && e.PickUpTime.TimeOfDay < DateTime.Now.TimeOfDay);
 
-        //        car.CarAvaliability = Avaliability.Avaliable;
+            foreach (var item in _expiredCarRental.ToList())
+            {
+                var carrental = _database.RentACars.Find(item.RentACarId);
 
-        //        _database.Entry(car).State = EntityState.Modified;
-        //        _database.SaveChanges();
-        //    }
-            
-        //}
+                carrental.PaymentStatus = PaymentStatus.Expired;
 
-        //public void ExpiredOneWayTrip()
+                _database.Entry(carrental).State = EntityState.Modified;
+                _database.SaveChanges();
 
-        //{
-        //    var _expiredOneWayTrip = _database.OneWayTrips.Where(e => e.PickDate < DateTime.Now.Date && e.PaymentStatus == PaymentStatus.Unpaid);
+                var car = _database.Cars.Find(item.CarId);
 
-        //    foreach(var item in _expiredOneWayTrip.ToList())
-        //    {
-        //        var onewaytrip = _database.OneWayTrips.Find(item.OneWayTripId);
+                car.CarAvaliability = Avaliability.Avaliable;
 
-        //        onewaytrip.PaymentStatus = PaymentStatus.Expired;
-
-        //        _database.Entry(onewaytrip).State = EntityState.Modified;
-        //        _database.SaveChanges();
-        //    }
-        //}
-
-
-
+                _database.Entry(car).State = EntityState.Modified;
+                _database.SaveChanges();
+            }
+        }
+        
         #region Index
 
         public IActionResult Index()
         {
-            //BackgroundJob.Schedule(() => RestOneWayTripCars(), TimeSpan.FromHours(1));
+            BackgroundJob.Enqueue(() => ExpiredCarRental());
             
-            //BackgroundJob.Enqueue(() => ExpiredOneWayTrip());
-
-
+            
             dynamic mymodel = new ExpandoObject();
             mymodel.Logos = GetLogos();
             mymodel.Headers = GetHeaders();

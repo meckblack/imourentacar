@@ -319,21 +319,8 @@ namespace ImouRentACar.Controllers
 
             try
             {
-                var _customer = new Customer()
-                {
-                    CustomerId = customer.CustomerId,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Email = customer.Email,
-                    MobileNumber = customer.MobileNumber,
-                    Title = customer.Title,
-                    Gender = customer.Gender,
-                    MemberId = customer.MemberId,
-                    Password = customer.Password,
-                    ConfrimPassword = customer.ConfrimPassword
-                };
 
-                _database.Customers.Update(_customer);
+                _database.Customers.Update(customer);
                 await _database.SaveChangesAsync();
 
                 return Json(new { success = true });
@@ -391,28 +378,22 @@ namespace ImouRentACar.Controllers
                 return RedirectToAction("Signin", "Customer");
             }
 
+            if(id != customer.CustomerId)
+            {
+                return RedirectToAction("Signin", "Customer");
+            }
+
             try
             {
-                var _customer = new Customer()
-                {
-                    CustomerId = customer.CustomerId,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Email = customer.Email,
-                    MobileNumber = customer.MobileNumber,
-                    Title = customer.Title,
-                    Gender = customer.Gender,
-                    MemberId = customer.MemberId,
-                    Password = BCrypt.Net.BCrypt.HashPassword(customer.Password),
-                    ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword)
-                };
+                customer.Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
+                customer.ConfrimPassword = BCrypt.Net.BCrypt.HashPassword(customer.ConfrimPassword);
 
 
-                _database.Customers.Update(_customer);
+                _database.Customers.Update(customer);
                 await _database.SaveChangesAsync();
 
                 TempData["passwordcustomer"] = "You have successfully changed your password";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("SignOut", "Customer");
 
             }
             catch (Exception e)

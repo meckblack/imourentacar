@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using ImouRentACar.Data;
 using ImouRentACar.Models;
 using ImouRentACar.Models.Enums;
@@ -30,6 +31,8 @@ namespace ImouRentACar.Controllers
         }
 
         #endregion
+
+        
 
         #region Processing Two Way Trip
 
@@ -484,6 +487,8 @@ namespace ImouRentACar.Controllers
                         await _database.RentACars.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
+                        new Mailer().CustomerRequestCarRental(new AppConfig().BookingRequestHtml, saveBooking, _passengerInformations);
+
                         return RedirectToAction("Success", "RentACar");
                     }
                     else
@@ -577,6 +582,8 @@ namespace ImouRentACar.Controllers
                         await _database.RentACars.AddAsync(saveBooking);
                         await _database.SaveChangesAsync();
 
+                        new Mailer().CustomerRequestCarRental(new AppConfig().BookingRequestHtml, saveBooking, passenger);
+
                         return RedirectToAction("Success", "RentACar");
                     }
                     else
@@ -641,6 +648,8 @@ namespace ImouRentACar.Controllers
 
                     _session.SetString("successrequestedcarname", getcarname.Name);
                     _session.SetString("successpassengeremail", _passengerInformation.Email);
+
+                    new Mailer().CustomerRequestCarRental(new AppConfig().BookingRequestHtml, saveBooking, _passengerInformation);
 
                     return RedirectToAction("Success", "RentACar");
                 }

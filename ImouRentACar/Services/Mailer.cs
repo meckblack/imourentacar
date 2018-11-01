@@ -42,10 +42,10 @@ namespace ImouRentACar.Services
                         var body = bodyBuilder.HtmlBody;
 
                         var replace = body.Replace("USER", passenger.DisplayName);
-                        replace = replace.Replace("URL", "http://imourentacar.com/booking/payment?bookingNumber=" + rentACar.BookingNumber);
+                        replace = replace.Replace("URL", "http://imourentacar.com/rentacar/payment?bookingNumber=" + rentACar.BookingNumber);
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
-                        replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
-                        replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
+                        replace = replace.Replace("POLICY", "https://www.imourentacar.com/policy/index");
+                        replace = replace.Replace("TC", "https://www.imourentacar.com/policy/index");
                         bodyBuilder.HtmlBody = replace;
                         mimeMessageCustomer.Body = bodyBuilder.ToMessageBody();
                     }
@@ -107,8 +107,8 @@ namespace ImouRentACar.Services
                         replace = replace.Replace("PICKUPLOCATION", rentACar.PickUpLocation);
                         replace = replace.Replace("DESTINATION", "Not given");
                         replace = replace.Replace("LOGO", "https://www.imourentacar.com/images/logo.png");
-                        replace = replace.Replace("PRIVACY", "https://www.imourentacar.com/privacy/index");
-                        replace = replace.Replace("TC", "https://www.imourentacar.com/privacy/index");
+                        replace = replace.Replace("POLICY", "https://www.imourentacar.com/policy/index");
+                        replace = replace.Replace("TC", "https://www.imourentacar.com/policy/index");
                         bodyBuilder.HtmlBody = replace;
                         mimeMessageCustomer.Body = bodyBuilder.ToMessageBody();
                     }

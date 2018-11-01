@@ -18,7 +18,7 @@ namespace ImouRentACar.Services
         public int WeeksToDays(int weeks)
         {
             var days = weeks * 7;
-            return weeks;
+            return days;
         }
 
         //Conert Years to Days
